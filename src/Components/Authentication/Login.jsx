@@ -14,7 +14,7 @@ function gotoHeader(){
 
 export default function Login() {
 
-    const paperStyle={padding:20, height:'70vh', width:400, margin:"30px auto"}
+    const paperStyle={padding:20, height:'70vh', width:300, margin:"30px auto"}
     const avatarStyle={backgroundColor:'#377dff'}
     const buttonStyle={backgroundColor: '#377dff', color:"white", margin:"10px auto"}
     const textFieldStyle={  margin:"10px auto"  }
@@ -125,7 +125,7 @@ export default function Login() {
                                 Log in
 
                         </Button>
-                        
+
                     </FormControl>
 
                     <Typography>
