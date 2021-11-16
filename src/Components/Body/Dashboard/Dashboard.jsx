@@ -1,9 +1,16 @@
+import { Box } from "@mui/system";
 import React from "react";
+import { PageHeader } from "../../Common/CommonComponent";
 
 export default function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <Box>
+      {/*section title*/}
+      {/*section card*/}
+      {/*section graph*/}
+      {/*section posts*/}
+
+      <PageHeader label="Dashboard" pageTitle="Overview" />
+    </Box>
   );
 }

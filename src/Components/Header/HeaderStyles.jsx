@@ -20,6 +20,9 @@ export const useStyles = makeStyles((theme) => ({
 
   //wrapper of main container
   wrapper: {
+    height: "100vh",
+    background: "#f7f7f7",
+
     padding: theme.spacing(2, 2, 0, 35),
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(2, 2),
@@ -30,6 +33,9 @@ export const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: "250px",
     marginTop: "65px",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "0px",
+    },
   },
 
   navLinks: {
@@ -47,5 +53,10 @@ export const useStyles = makeStyles((theme) => ({
     "& div": {
       color: "#377dff",
     },
+  },
+
+  navButton: {
+    width: "100%",
+    textTransform: "capitalize",
   },
 }));

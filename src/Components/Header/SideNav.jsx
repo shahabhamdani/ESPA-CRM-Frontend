@@ -3,7 +3,11 @@ import React from "react";
 import { useStyles } from "./HeaderStyles";
 import SideNavData from "./SideNavData";
 
-export default function SideNav({ mobileOpen, handleDrawerOpen }) {
+export default function SideNav({
+  mobileOpen,
+  handleDrawerOpen,
+  handleDrawerClose,
+}) {
   const classes = useStyles();
 
   return (
@@ -22,7 +26,7 @@ export default function SideNav({ mobileOpen, handleDrawerOpen }) {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          <SideNavData />
+          <SideNavData handleDrawerClose={handleDrawerClose} />
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
@@ -33,7 +37,7 @@ export default function SideNav({ mobileOpen, handleDrawerOpen }) {
           variant="permanent"
           open
         >
-          <SideNavData />
+          <SideNavData handleDrawerClose={handleDrawerClose} />
         </Drawer>
       </Hidden>
     </nav>

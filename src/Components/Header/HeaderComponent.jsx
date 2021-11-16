@@ -22,10 +22,18 @@ export default function HeaderComponent() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleDrawerClose = () => {
+    setMobileOpen(false);
+  };
+
   return (
     <div>
       <Navbar handleDrawerOpen={handleDrawerOpen} />
-      <SideNav mobileOpen={mobileOpen} handleDrawerOpen={handleDrawerOpen} />
+      <SideNav
+        mobileOpen={mobileOpen}
+        handleDrawerOpen={handleDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+      />
 
       <Box className={classes.wrapper}>
         <Switch>
