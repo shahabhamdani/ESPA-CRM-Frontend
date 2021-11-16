@@ -8,7 +8,7 @@ import Notification from "./Navtabs/notification";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "./HeaderStyles";
 
-export default function Navbar({ mobileOpen, handleDrawerOpen }) {
+export default function Navbar({ handleDrawerOpen }) {
   const classes = useStyles();
 
   return (

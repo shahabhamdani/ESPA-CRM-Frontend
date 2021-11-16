@@ -1,4 +1,10 @@
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from "@material-ui/core";
 import React from "react";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BusinessIcon from "@material-ui/icons/Business";
@@ -10,7 +16,7 @@ import NotificationIcon from "@material-ui/icons/Notifications";
 import { NavLink } from "react-router-dom";
 import { useStyles } from "./HeaderStyles";
 
-export default function SideNavData() {
+export default function SideNavData({ handleDrawerClose }) {
   const classes = useStyles();
   const listItemData = [
     { label: "Dashboard", link: "/", icon: <DashboardIcon /> },
@@ -30,17 +36,23 @@ export default function SideNavData() {
   return (
     <List>
       {listItemData.map((item, i) => (
-        <ListItem
-          exact
-          component={NavLink}
-          to={item.link}
-          className={classes.navLinks}
-          activeClassName={classes.activeNavLinks}
-          key={i}
+        <Button
+          size="small"
+          className={classes.navButton}
+          onClick={handleDrawerClose}
         >
-          <ListItemIcon>{item.icon}</ListItemIcon>
-          <ListItemText> {item.label}</ListItemText>
-        </ListItem>
+          <ListItem
+            exact
+            component={NavLink}
+            to={item.link}
+            className={classes.navLinks}
+            activeClassName={classes.activeNavLinks}
+            key={i}
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText> {item.label}</ListItemText>
+          </ListItem>
+        </Button>
       ))}
     </List>
   );
