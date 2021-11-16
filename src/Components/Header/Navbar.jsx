@@ -1,60 +1,36 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Menu from '@material-ui/core/Menu'
-import Typography from '@material-ui/core/Typography';
-import { Box, makeStyles, Button, MenuItem } from '@material-ui/core';
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { Box, Hidden, IconButton } from "@material-ui/core";
+import Profile from "./Navtabs/Profile";
+import Notification from "./Navtabs/notification";
+import MenuIcon from "@material-ui/icons/Menu";
+import { useStyles } from "./HeaderStyles";
 
-const useStyles = makeStyles((theme) => ({
+export default function Navbar({ mobileOpen, handleDrawerOpen }) {
+  const classes = useStyles();
 
-    logo: {
-        color: "white",
-        backgroundColor: "#377dff",
-    },
+  return (
+    <AppBar position="static" className={classes.logo}>
+      <Toolbar className={classes.Toolbar}>
+        <Typography variant="h6" className={classes.logo}>
+          {"ESPA ERP"}
+        </Typography>
 
-}));
+        <Hidden smDown>
+          <Box style={{ display: "flex" }}>
+            <Profile />
+            <Notification />
+          </Box>
+        </Hidden>
 
-export default function Navbar() {
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const handleClick = (event) => {
-        
-        setAnchorEl(event.currentTarget);
-        
-    };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
-    const classes = useStyles();
-
-    return (
-
-        <AppBar position="static" className={classes.logo}>
-        <Toolbar>
-            <Typography variant='h6' className={classes.logo}>
-                 {"ESPA ERP"}
-            </Typography>
-
-        <Box>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                 Open Menu
-            </Button>
-<Menu
-  id="simple-menu"
-  anchorEl={anchorEl}
-  keepMounted
-  open={Boolean(anchorEl)}
-  onClose={handleClose}
->
-  <MenuItem onClick={handleClose}>Profile</MenuItem>
-  <MenuItem onClick={handleClose}>My account</MenuItem>
-  <MenuItem onClick={handleClose}>Logout</MenuItem>
-</Menu></Box>
-  </Toolbar>
-</AppBar>
-  
+        <Hidden mdUp>
+          <IconButton color="inherit" onClick={handleDrawerOpen}>
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
+      </Toolbar>
+    </AppBar>
   );
 }
