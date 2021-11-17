@@ -17,4 +17,6 @@ export const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
     textTransform: "uppercase",
   },
+
+  table: { padding: "20px" },
 }));

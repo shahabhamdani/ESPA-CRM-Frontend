@@ -4,9 +4,14 @@ import { PageHeader } from "../../Common/CommonComponent";
 import { Paper, TableBody, TableCell, TableRow } from "@material-ui/core";
 import useTable from "../../Common/useTable";
 
-export default function Company() {
-  const TableContainer = useTable();
+const headCells = [
+  { id: "id", label: "Company ID" },
+  { id: "companyName", label: "Company Name" },
+  { id: "companyLogo", label: "Company Logo" },
+  { id: "active", label: "Active" },
+];
 
+export default function Company() {
   const [companies, setCompany] = useState([]);
 
   useEffect(() => {
@@ -18,22 +23,26 @@ export default function Company() {
     setCompany(result.data);
   };
 
+  const { tblContainer, tblHead } = useTable(companies, headCells);
+
   return (
     <>
       <PageHeader label="Company" pageTitle="Manage" />
 
-      <Paper variant="outlined">
-        <TableContainer>
+      <Paper>
+        <tblContainer>
+          <tblHead />
           <TableBody>
             {companies.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
                 <TableCell>{item.CompanyName}</TableCell>
                 <TableCell>{item.CompanyLogo}</TableCell>
                 <TableCell>{item.Active}</TableCell>
               </TableRow>
             ))}
           </TableBody>
-        </TableContainer>
+        </tblContainer>
       </Paper>
     </>
   );
