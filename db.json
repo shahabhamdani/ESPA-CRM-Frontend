@@ -1,9 +1,139 @@
 {
     "company": [
-      { "id": 1, "title": "ESPA", "logo": "url" }
+
+      { "id": 1, "CompanyName": "ESPA Builders", "CompanyLogo": "companyLogo1.png" , "Active":"Y"},
+      { "id": 2, "CompanyName": "ESPA Builders", "CompanyLogo": "companyLogo1.png" , "Active":"Y"},
+      { "id": 3, "CompanyName": "ESPA Builders", "CompanyLogo": "companyLogo1.png" , "Active":"Y"},
+      { "id": 4, "CompanyName": "ESPA Builders", "CompanyLogo": "companyLogo1.png" , "Active":"Y"},
+      { "id": 5, "CompanyName": "ESPA Builders", "CompanyLogo": "companyLogo1.png" , "Active":"Y"}
+
     ],
+
+
+    "users": [
+
+      { 
+        "id": 1, 
+        "UserName": "Admin", 
+        "Password": "Admin", 
+        "UserRole":"admin",
+        "Active":"Y",
+        "EnteredBy":"Shahab",
+        "EnteredOn":"10/10/2021",
+        "CompanyID":"1",
+        "BranchID":"1"
+      },
+      { 
+        "id": 2, 
+        "UserName": "CSR", 
+        "Password": "CSR", 
+        "UserRole":"csr",
+        "Active":"Y",
+        "EnteredBy":"Shahab",
+        "EnteredOn":"10/10/2021",
+        "CompanyID":"1",
+        "BranchID":"1"
+      }
+    ],
+
     "branches": [
-      { "id": 1, "body": "some comment", "postId": 1 }
+      { 
+        
+        "id": 1,
+        "Type": 1,
+        "CompanyID": 1,
+        "CityID": 1,
+        "BranchName": "Evershine Property Bahria",
+        "BranchAddress": "Bahria town phase 8, Rawalpindi ",
+        "BranchEmail": "info@espabuilders.com",
+        "LandLineNumber": "03001122334",
+        "CustomerSupport": "03001122334",
+        "WhatsappNumber": "03001122334",
+        "GeoLocation": "LAT,LONG",
+        "CountryID": "1",
+        "ProvenceID": "1",
+        "Active": "Y"
+
+      },
+      { 
+        
+        "id": 2,
+        "Type": 1,
+        "CompanyID": 1,
+        "CityID": 2,
+        "BranchName": "Evershine Property Islamabad",
+        "BranchAddress": "Blue Area, Islamabad ",
+        "BranchEmail": "info@espabuilders.com",
+        "LandLineNumber": "03001122334",
+        "CustomerSupport": "03001122334",
+        "WhatsappNumber": "03001122334",
+        "GeoLocation": "LAT,LONG",
+        "CountryID": "1",
+        "ProvenceID": "1",
+        "Active": "Y"
+
+      }
     ],
-    "employee": { "name": "typicode" }
-  }
+
+
+
+    "employee": [
+      
+    { 
+      "id": 1,
+      "FirstName": "Shahab",
+      "LastName": "Hamdani",
+      "Email": "shahabhamdani@hotmail.com",
+      "PhoneNumber": "03065949602",
+      "CompanyID": "1",
+      "UserID": "1",
+      "EnteredBy": "Shahab",
+      "EnteredOn": "10/10/2021",
+      "Address": "Janjua town rawalpindi",
+      "BranchID": "1",
+      "GuardianRelation": "Father",
+      "GuardianName": "Imam Shah",
+      "DateOfBirth": "18/08/1996",
+      "Gender": "Male",
+      "MobileNumber": "03065949602",
+      "CNIC Number": "3720370237433",
+      "EmployeeImage": "shahab-image.png",
+      "EmployeeCode": "055",
+      "EmployeeNTN": "etc",
+      "BankAccountTitle": "Shahabal Shah",
+      "BankAccountNumber": "0098378937288232",
+      "BankName": "HBL",
+      "Active": "Y"
+
+    },
+
+    { 
+      "id": 2,
+      "FirstName": "Qasim",
+      "LastName": "Sheikh",
+      "Email": "qasim@hotmail.com",
+      "PhoneNumber": "03065949602",
+      "CompanyID": "1",
+      "UserID": "1",
+      "EnteredBy": "Shahab",
+      "EnteredOn": "10/10/2021",
+      "Address": "Janjua town rawalpindi",
+      "BranchID": "1",
+      "GuardianRelation": "Father",
+      "GuardianName": "Aslam Sheikh",
+      "DateOfBirth": "18/08/1996",
+      "Gender": "Male",
+      "MobileNumber": "03065949602",
+      "CNIC Number": "3720370237433",
+      "EmployeeImage": "qasim-image.png",
+      "EmployeeCode": "055",
+      "EmployeeNTN": "etc",
+      "BankAccountTitle": "Qasim Sheikh",
+      "BankAccountNumber": "0098378937288232",
+      "BankName": "HBL",
+      "Active": "Y"
+
+    }
+      
+  ]
+}
