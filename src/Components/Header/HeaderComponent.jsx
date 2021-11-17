@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import SideNav from "./SideNav";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "../Body/Dashboard/Dashboard";
-import Company from "../Body/Company";
+import Company from "../Body/Company/Company";
 import Employee from "../Body/Employee";
 import Link3 from "../Body/Link3";
 import Link4 from "../Body/Link4";

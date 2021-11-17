@@ -1,0 +1,9 @@
+{
+    "company": [
+      { "id": 1, "title": "ESPA", "logo": "url" }
+    ],
+    "branches": [
+      { "id": 1, "body": "some comment", "postId": 1 }
+    ],
+    "employee": { "name": "typicode" }
+  }

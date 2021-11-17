@@ -1,9 +1,11 @@
+import { Box } from "@mui/system";
 import React from "react";
+import { PageHeader } from "../Common/CommonComponent";
 
 export default function Branches() {
   return (
-    <div>
-      <h1>Company Branches</h1>
-    </div>
+    <Box>
+      <PageHeader label="Branches" pageTitle="Overview" />
+    </Box>
   );
 }
