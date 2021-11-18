@@ -1,49 +1,55 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PageHeader } from "../../Common/CommonComponent";
-import { Paper, TableBody, TableCell, TableRow } from "@material-ui/core";
-import useTable from "../../Common/useTable";
+import Table from "material-table";
+import Button from "@mui/material/Button";
+import { useStyles } from "../BodyStyles";
+import { Box } from "@mui/system";
+import CompanyTable from "./CompanyTable";
+import { Modal, Paper } from "@material-ui/core";
+import CompanyForm from "./CompanyForm";
 
-const headCells = [
-  { id: "id", label: "Company ID" },
-  { id: "companyName", label: "Company Name" },
-  { id: "companyLogo", label: "Company Logo" },
-  { id: "active", label: "Active" },
-];
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 900,
+  border: "2px solid #000",
+  bgcolor: "white",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Company() {
-  const [companies, setCompany] = useState([]);
+  const classes = useStyles();
 
-  useEffect(() => {
-    loadCompanies();
-  }, []);
-
-  const loadCompanies = async () => {
-    const result = await axios.get("http://localhost:3003/company");
-    setCompany(result.data);
-  };
-
-  const { tblContainer, tblHead } = useTable(companies, headCells);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
       <PageHeader label="Company" pageTitle="Manage" />
 
-      <Paper>
-        <tblContainer>
-          <tblHead />
-          <TableBody>
-            {companies.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.CompanyName}</TableCell>
-                <TableCell>{item.CompanyLogo}</TableCell>
-                <TableCell>{item.Active}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </tblContainer>
-      </Paper>
+      <div className={classes.crudGrid}>
+        <Box>
+          <Button variant="contained" onClick={handleOpen}>
+            Add Company
+          </Button>
+        </Box>
+      </div>
+
+      <CompanyTable />
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>{<CompanyForm />}</Box>
+      </Modal>
     </>
   );
 }

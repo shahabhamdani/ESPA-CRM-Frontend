@@ -13,6 +13,7 @@ import Logout from "../Body/logout";
 import Branches from "../Body/Branches";
 import { Box } from "@material-ui/core";
 import { useStyles } from "./HeaderStyles";
+import CompanyForm from "../Body/Company/CompanyForm";
 
 export default function HeaderComponent() {
   const classes = useStyles();
@@ -38,6 +39,7 @@ export default function HeaderComponent() {
       <Box className={classes.wrapper}>
         <Switch>
           <Route exact path="/company" render={() => <Company />} />
+          <Route exact path="/company-form" render={() => <CompanyForm />} />
           <Route exact path="/employee" render={() => <Employee />} />
           <Route exact path="/link3" render={() => <Link3 />} />
           <Route exact path="/link4" render={() => <Link4 />} />

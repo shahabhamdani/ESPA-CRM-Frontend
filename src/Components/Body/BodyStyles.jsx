@@ -1,4 +1,4 @@
-import { blueGrey } from "@material-ui/core/colors";
+import { blue, blueGrey, purple, red } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   section: {
@@ -18,5 +18,43 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
   },
 
-  table: { padding: "20px" },
+  tblButtonEdit: {
+    width: "45%",
+    margin: "1px",
+    textTransform: "capitalize",
+    color: "#377dff",
+  },
+
+  tableLayout: {
+    padding: "20px",
+  },
+
+  tblButtonDelete: {
+    width: "45%",
+    textTransform: "capitalize",
+    margin: "1px",
+    color: "#ff3737",
+  },
+
+  editDeleteButtonsDiv: {
+    display: "inline-flex",
+  },
+
+  formStye: {
+    "& .MuiFormControl-root": {
+      width: "80%",
+      margin: theme.spacing(1),
+    },
+  },
+
+  pageContent: {
+    margin: theme.spacing(1),
+    padding: theme.spacing(3),
+  },
+
+  crudGrid: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "end",
+  },
 }));

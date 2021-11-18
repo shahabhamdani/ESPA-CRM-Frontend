@@ -59,4 +59,12 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     textTransform: "capitalize",
   },
+
+  button: {
+    width: "50%",
+    textTransform: "capitalize",
+    color: "#377dff",
+    display: "flex",
+    flexFlow: "row wrap",
+  },
 }));
