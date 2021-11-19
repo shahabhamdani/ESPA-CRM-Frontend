@@ -12,7 +12,7 @@ export default function Navbar({ handleDrawerOpen }) {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" className={classes.logo}>
+    <AppBar position="fixed" className={classes.logo}>
       <Toolbar className={classes.Toolbar}>
         <Typography variant="h6" className={classes.logo}>
           {"ESPA ERP"}

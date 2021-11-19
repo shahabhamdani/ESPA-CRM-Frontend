@@ -8,25 +8,9 @@ import { Box } from "@mui/system";
 import CompanyForm from "./CompanyForm";
 import api from "../../Api/Api";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 900,
-  border: "2px solid #000",
-  bgcolor: "white",
-  boxShadow: 24,
-  p: 4,
-};
-
 export default function CompanyTable() {
   const tableRef = React.createRef();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const columns = [
     { title: "ID", field: "id" },
     { title: "CompanyName", field: "CompanyName" },
@@ -92,15 +76,6 @@ export default function CompanyTable() {
           }}
         />
       </Box>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>{<CompanyForm />}</Box>
-      </Modal>
     </div>
   );
 }

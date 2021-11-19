@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "space-between",
+    position: "static",
   },
 
   logo: {
@@ -20,10 +21,9 @@ export const useStyles = makeStyles((theme) => ({
 
   //wrapper of main container
   wrapper: {
-    height: "100vh",
     background: "#f7f7f7",
 
-    padding: theme.spacing(2, 2, 0, 35),
+    padding: theme.spacing(10, 2, 0, 35),
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(2, 2),
     },
@@ -58,13 +58,5 @@ export const useStyles = makeStyles((theme) => ({
   navButton: {
     width: "100%",
     textTransform: "capitalize",
-  },
-
-  button: {
-    width: "50%",
-    textTransform: "capitalize",
-    color: "#377dff",
-    display: "flex",
-    flexFlow: "row wrap",
   },
 }));
