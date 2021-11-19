@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  FormControl,
-  FormLabel,
-  Grid,
-  TextField,
-  Paper,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-} from "@material-ui/core";
+
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
 import { PageHeader } from "../../Common/CommonComponent";
@@ -16,34 +7,35 @@ import Table from "material-table";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import { Box } from "@mui/system";
-import CompanyTable from "./CompanyTable";
 import { Modal } from "@material-ui/core";
 import api from "../../Api/Api";
-import CreateCompany from "./CreateCompany";
+import BranchesTable from "./BranchesTable";
 
-export default function Company() {
+export default function Branches() {
   const classes = useStyles();
 
   let history = useHistory();
-  const openAddCompanyForm = () => history.push("/company/create");
+  const openCreateBranchForm = () => history.push("/branches/create");
 
-  const loadCompany = async (id) => {
-    const response = await api.get("/company/" + { id });
+  const loadBranches = async (id) => {
+    const response = await api.get("/branches/" + { id });
   };
 
   return (
     <>
-      <PageHeader label="Company" pageTitle="Manage" />
+      <Box>
+        <PageHeader label="Branches" pageTitle="Overview" />
+      </Box>
 
       <div className={classes.crudGrid}>
         <Box>
-          <Button variant="contained" onClick={openAddCompanyForm}>
-            Add Company
+          <Button variant="contained" onClick={openCreateBranchForm}>
+            Add Branch
           </Button>
         </Box>
-      </div>
 
-      <CompanyTable />
+        <BranchesTable />
+      </div>
     </>
   );
 }

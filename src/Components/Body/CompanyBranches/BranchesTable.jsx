@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PageHeader } from "../../Common/CommonComponent";
 import Table from "material-table";
-import { Button, Modal, Typography } from "@material-ui/core";
+import { Button, Modal, Paper, Typography } from "@material-ui/core";
 import { useStyles } from "../BodyStyles";
 import { Box } from "@mui/system";
 import api from "../../Api/Api";
 import { useHistory } from "react-router";
-import UpdateCompany from "./UpdateCompany";
-
-export default function CompanyTable() {
+export default function BranchesTable() {
   let history = useHistory();
   const tableRef = React.createRef();
   const classes = useStyles();
+
   const columns = [
     { title: "ID", field: "id" },
-    { title: "CompanyName", field: "CompanyName" },
-    { title: "CompanyLogo", field: "CompanyLogo" },
+    { title: "BranchName", field: "BranchName" },
+    { title: "BranchEmail", field: "BranchEmail" },
+    { title: "LandLineNumber", field: "LandLineNumber" },
     { title: "Active", field: "Active" },
     {
       title: "",
@@ -25,53 +25,52 @@ export default function CompanyTable() {
     },
   ];
 
-  const [companies, setCompany] = useState([]);
+  const [branches, setBranches] = useState([]);
 
   useEffect(() => {
-    loadCompanies();
+    loadBranches();
   }, []);
 
-  const loadCompanies = async () => {
-    const result = await api.get("/company");
-    setCompany(result.data);
+  const loadBranches = async () => {
+    const result = await api.get("/branches");
+    setBranches(result.data);
   };
 
-  const deleteCompany = async (id) => {
-    const result = await api.delete("/company/" + id);
-    loadCompanies();
+  const deleteBranch = async (id) => {
+    const result = await api.delete("/branch/" + id);
+    loadBranches();
   };
-
   return (
     <div>
       <Box className={classes.tableLayout}>
         <Table
-          title="Company"
-          data={companies}
+          title="Branches"
+          data={branches}
           columns={columns}
           tableRef={tableRef}
           actions={[
             {
               icon: "delete",
 
-              tooltip: "Delete Company",
+              tooltip: "Delete Branch",
               onClick: (event, rowData) => {
-                deleteCompany(rowData.id);
+                deleteBranch(rowData.id);
               },
             },
 
             {
               icon: "edit",
-              tooltip: "Edit Company",
+              tooltip: "Edit Branch",
 
               onClick: (event, rowData) => {
-                history.push("/company/update/" + rowData.id);
+                history.push("/branches/update/" + rowData.id);
               },
             },
             {
               icon: "visibility",
-              tooltip: "View Company",
+              tooltip: "View Branch",
               onClick: (event, rowData) => {
-                history.push("/company/view/" + rowData.id);
+                history.push("/branches/view/" + rowData.id);
               },
             },
           ]}

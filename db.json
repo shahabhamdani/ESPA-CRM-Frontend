@@ -2,51 +2,15 @@
   "company": [
     {
       "id": 1,
-      "CompanyName": "ESPA Builders",
-      "CompanyLogo": "companyLogo1.png",
+      "CompanyName": "dddd",
+      "CompanyLogo": "",
       "Active": "Y"
     },
     {
       "id": 2,
-      "CompanyName": "ESPA Builders",
-      "CompanyLogo": "companyLogo1.png",
-      "Active": "Y"
-    },
-    {
-      "id": 3,
-      "CompanyName": "ESPA Builders",
-      "CompanyLogo": "companyLogo1.png",
-      "Active": "Y"
-    },
-    {
-      "id": 4,
-      "CompanyName": "ESPA Builders",
-      "CompanyLogo": "companyLogo1.png",
-      "Active": "Y"
-    },
-    {
-      "id": 5,
-      "CompanyName": "One",
-      "CompanyLogo": "",
-      "Active": "Y"
-    },
-    {
-      "id": 6,
-      "CompanyName": "One",
-      "CompanyLogo": "",
-      "Active": "Y"
-    },
-    {
-      "id": 7,
-      "CompanyName": "ESPA",
+      "CompanyName": "jjjjjj",
       "CompanyLogo": "",
       "Active": "N"
-    },
-    {
-      "id": 8,
-      "CompanyName": "New",
-      "CompanyLogo": "",
-      "Active": "Y"
     }
   ],
   "users": [

@@ -25,6 +25,12 @@ export const useStyles = makeStyles((theme) => ({
     color: "#377dff",
   },
 
+  tblButtonView: {
+    width: "45%",
+    margin: "1px",
+    textTransform: "capitalize",
+    color: "#ffd037",
+  },
   tableLayout: {
     padding: "20px",
   },
@@ -53,8 +59,8 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   crudGrid: {
-    display: "flex",
     flexFlow: "row wrap",
+    padding: "20px",
     justifyContent: "end",
   },
 }));

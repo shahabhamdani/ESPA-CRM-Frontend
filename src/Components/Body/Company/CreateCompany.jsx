@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -8,22 +9,24 @@ import {
   Radio,
   FormControlLabel,
 } from "@material-ui/core";
-import Button from "@mui/material/Button";
-import api from "../../Api/Api";
+import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
-import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
+import api from "../../Api/Api";
 
-export default function CompanyForm() {
+export default function CreateCompany() {
+  const classes = useStyles();
+
+  let history = useHistory();
+
   const initialFValues = {
     id: "",
     CompanyName: "",
     CompanyLogo: "",
-    Active: false,
+    Active: "N",
   };
-
   const [values, setValues] = useState(initialFValues);
-  const classes = useStyles();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +42,8 @@ export default function CompanyForm() {
 
   const addCompany = async () => {
     const response = await api.post("/company", request);
-    console.log(response.data);
+    alert("" + response.statusText);
+    history.push("/company");
   };
 
   return (
