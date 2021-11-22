@@ -2,15 +2,9 @@
   "company": [
     {
       "id": 1,
-      "CompanyName": "dddd",
+      "CompanyName": "Espa Builders",
       "CompanyLogo": "",
       "Active": "Y"
-    },
-    {
-      "id": 2,
-      "CompanyName": "jjjjjj",
-      "CompanyLogo": "",
-      "Active": "N"
     }
   ],
   "users": [

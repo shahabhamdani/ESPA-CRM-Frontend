@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   FormControl,
   FormLabel,
@@ -8,6 +9,7 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  Avatar,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
@@ -26,6 +28,7 @@ export default function CreateCompany() {
     CompanyLogo: "",
     Active: "N",
   };
+
   const [values, setValues] = useState(initialFValues);
 
   const handleInputChange = (e) => {
@@ -40,10 +43,18 @@ export default function CreateCompany() {
     ...values,
   };
 
-  const addCompany = async () => {
+  const createCompany = async () => {
     const response = await api.post("/company", request);
     alert("" + response.statusText);
     history.push("/company");
+  };
+
+  const [imgRef, setImageRef] = useState();
+
+  const oneImageUpload = (e) => {
+    const file = e.target.files[0];
+
+    setImageRef(URL.createObjectURL(file));
   };
 
   return (
@@ -74,12 +85,40 @@ export default function CreateCompany() {
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
 
-                <Button variant="contained" onClick={addCompany}>
-                  Submit
+                <Button variant="contained" onClick={createCompany}>
+                  Create
                 </Button>
               </FormControl>
             </Grid>
-            <Grid item xs={6}></Grid>
+
+            <Grid item xs={6}>
+              <input
+                accept="image/*"
+                className={classes.uploadImage}
+                id="contained-button-file"
+                type="file"
+                onChange={oneImageUpload}
+              />
+
+              <div className={classes.imageUploadDiv}>
+                <img
+                  alt=""
+                  src={imgRef}
+                  className={classes.companyCreateImage}
+                ></img>
+
+                <label htmlFor="contained-button-file">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                    component="span"
+                  >
+                    Upload
+                  </Button>
+                </label>
+              </div>
+            </Grid>
           </Grid>
         </form>
       </Paper>

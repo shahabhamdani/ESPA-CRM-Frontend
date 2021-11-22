@@ -25,6 +25,22 @@ export const useStyles = makeStyles((theme) => ({
     color: "#377dff",
   },
 
+  uploadImage: {
+    display: "none",
+  },
+
+  imageUploadDiv: {
+    display: "grid",
+    textAlign: "center",
+    width: "fit-content",
+  },
+
+  companyCreateImage: {
+    width: theme.spacing(15),
+    height: theme.spacing(15),
+    padding: "5px",
+  },
+
   tblButtonView: {
     width: "45%",
     margin: "1px",
