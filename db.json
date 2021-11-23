@@ -5,6 +5,12 @@
       "CompanyName": "Espa Builders",
       "CompanyLogo": "",
       "Active": "Y"
+    },
+    {
+      "id": 2,
+      "CompanyName": "ii",
+      "CompanyLogo": "",
+      "Active": "N"
     }
   ],
   "users": [
@@ -63,6 +69,49 @@
       "CountryID": "1",
       "ProvenceID": "1",
       "Active": "Y"
+    },
+    {
+      "id": 3,
+      "Type": "",
+      "CompanyID": "",
+      "CityID": "",
+      "BranchName": "",
+      "LandLineNumber": "",
+      "CustomerSupport": "",
+      "WhatsappNumber": "",
+      "GeoLocation": "",
+      "CountryID": "",
+      "ProvenceID": "",
+      "Active": ""
+    },
+    {
+      "id": 4,
+      "Type": 1,
+      "CompanyID": 1,
+      "CityID": "1",
+      "BranchName": "Bahria Phase 8 ",
+      "LandLineNumber": "1111111111",
+      "CustomerSupport": "1111111111",
+      "WhatsappNumber": "1111111111",
+      "GeoLocation": "",
+      "CountryID": "1",
+      "ProvenceID": "1",
+      "Active": "Y"
+    },
+    {
+      "id": 5,
+      "Type": 1,
+      "CompanyID": 1,
+      "CityID": "1",
+      "BranchName": "Bahria Phase 8 ",
+      "BranchEmail": "Espa@gmail.com",
+      "LandLineNumber": "8888888888",
+      "CustomerSupport": "8888888888",
+      "WhatsappNumber": "8888888888",
+      "GeoLocation": "",
+      "CountryID": "1",
+      "ProvenceID": "1",
+      "Active": "Y"
     }
   ],
   "employee": [
@@ -117,6 +166,40 @@
       "BankAccountNumber": "0098378937288232",
       "BankName": "HBL",
       "Active": "Y"
+    }
+  ],
+  "cities": [
+    {
+      "id": "1",
+      "CityName": "Rawalpindi"
+    },
+    {
+      "id": "2",
+      "CityName": "Islamabad"
+    },
+    {
+      "id": "3",
+      "CityName": "Peshawar"
+    }
+  ],
+  "provence": [
+    {
+      "id": "1",
+      "ProvenceName": "Punjab"
+    },
+    {
+      "id": "2",
+      "ProvenceName": "Sindh"
+    },
+    {
+      "id": "3",
+      "ProvenceName": "KPK"
+    }
+  ],
+  "countries": [
+    {
+      "id": "1",
+      "CountryName": "Pakistan"
     }
   ]
 }
