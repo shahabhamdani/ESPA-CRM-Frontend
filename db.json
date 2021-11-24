@@ -5,6 +5,18 @@
       "CompanyName": "Espa Builders",
       "CompanyLogo": "",
       "Active": "Y"
+    },
+    {
+      "id": 2,
+      "CompanyName": "Espa",
+      "CompanyLogo": "",
+      "Active": "Y"
+    },
+    {
+      "id": 3,
+      "CompanyName": "Touts",
+      "CompanyLogo": "",
+      "Active": "Y"
     }
   ],
   "users": [
@@ -33,48 +45,37 @@
   ],
   "branches": [
     {
-      "id": 1,
+      "id": 2,
       "Type": 1,
       "CompanyID": 1,
-      "CityID": "1",
-      "BranchName": "Phase 8 Branch",
+      "CityID": "2",
+      "BranchName": "Phase8",
       "BranchEmail": "test@gmail.com",
-      "LandLineNumber": "9999999999",
-      "CustomerSupport": "2222222222",
-      "WhatsappNumber": "9999999999",
-      "GeoLocation": "19379132192, 120182018291",
+      "LandLineNumber": "",
+      "CustomerSupport": "",
+      "WhatsappNumber": "",
+      "GeoLocation": "",
       "CountryID": "1",
       "ProvenceID": "1",
+      "Active": "Y"
+    },
+    {
+      "id": 3,
+      "Type": 1,
+      "CompanyID": 3,
+      "CityID": "2",
+      "BranchName": "Phase8",
+      "BranchEmail": "test@gmail.com",
+      "LandLineNumber": "",
+      "CustomerSupport": "",
+      "WhatsappNumber": "",
+      "GeoLocation": "",
+      "CountryID": "1",
+      "ProvenceID": "3",
       "Active": "Y"
     }
   ],
   "employee": [
-    {
-      "id": 1,
-      "FirstName": "Shahab",
-      "LastName": "Hamdani",
-      "Email": "shahabhamdani@hotmail.com",
-      "PhoneNumber": "03065949602",
-      "CompanyID": "1",
-      "UserID": "1",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/10/2021",
-      "Address": "Janjua town rawalpindi",
-      "BranchID": "1",
-      "GuardianRelation": "Father",
-      "GuardianName": "Imam Shah",
-      "DateOfBirth": "18/08/1996",
-      "Gender": "Male",
-      "MobileNumber": "03065949602",
-      "CNIC Number": "3720370237433",
-      "EmployeeImage": "shahab-image.png",
-      "EmployeeCode": "055",
-      "EmployeeNTN": "etc",
-      "BankAccountTitle": "Shahabal Shah",
-      "BankAccountNumber": "0098378937288232",
-      "BankName": "HBL",
-      "Active": "Y"
-    },
     {
       "id": 2,
       "FirstName": "Qasim",
@@ -92,7 +93,7 @@
       "DateOfBirth": "18/08/1996",
       "Gender": "Male",
       "MobileNumber": "03065949602",
-      "CNIC Number": "3720370237433",
+      "CNICNumber": "3720370237433",
       "EmployeeImage": "qasim-image.png",
       "EmployeeCode": "055",
       "EmployeeNTN": "etc",
