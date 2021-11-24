@@ -4,7 +4,7 @@ import SideNav from "./SideNav";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "../Body/Dashboard/Dashboard";
 import Company from "../Body/Company/Company";
-import Employee from "../Body/Employee";
+import Employee from "../Body/Employees/Employee";
 import Link3 from "../Body/Link3";
 import Link4 from "../Body/Link4";
 import Link5 from "../Body/Link5";
@@ -17,6 +17,11 @@ import CreateCompany from "../Body/Company/CreateCompany";
 import UpdateCompany from "../Body/Company/UpdateCompany";
 import ViewCompany from "../Body/Company/ViewCompany";
 import CreateBranchForm from "../Body/CompanyBranches/CreateBranchForm";
+import UpdateBranches from "../Body/CompanyBranches/UpdateBranches";
+import ViewBranches from "../Body/CompanyBranches/ViewBranches";
+import ViewEmployee from "../Body/Employees/ViewEmployee";
+import UpdateEmployee from "../Body/Employees/UpdateEmployee";
+import CreateEmployeeForm from "../Body/Employees/CreateEmployeeForm";
 
 export default function HeaderComponent() {
   const classes = useStyles();
@@ -50,6 +55,7 @@ export default function HeaderComponent() {
           <Route exact path="/branches" render={() => <Branches />} />
           <Route exact path="/logout" render={() => <Logout />} />
           <Route exact path="/" render={() => <Dashboard />} />
+
           <Route
             exact
             path="/branches/create"
@@ -58,9 +64,16 @@ export default function HeaderComponent() {
 
           <Route
             exact
-            path="/company/update/:id"
-            render={() => <UpdateCompany />}
+            path="/branches/view/:id"
+            render={() => <ViewBranches />}
           />
+
+          <Route
+            exact
+            path="/branches/update/:id"
+            render={() => <UpdateBranches />}
+          />
+
           <Route
             exact
             path="/company/view/:id"
@@ -68,8 +81,29 @@ export default function HeaderComponent() {
           />
           <Route
             exact
+            path="/company/update/:id"
+            render={() => <UpdateCompany />}
+          />
+          <Route
+            exact
             path="/company/create"
             render={() => <CreateCompany />}
+          />
+
+          <Route
+            exact
+            path="/employee/view/:id"
+            render={() => <ViewEmployee />}
+          />
+          <Route
+            exact
+            path="/employee/update/:id"
+            render={() => <UpdateEmployee />}
+          />
+          <Route
+            exact
+            path="/employee/create"
+            render={() => <CreateEmployeeForm />}
           />
         </Switch>
       </Box>

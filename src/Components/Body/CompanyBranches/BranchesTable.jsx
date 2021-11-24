@@ -37,7 +37,7 @@ export default function BranchesTable() {
   };
 
   const deleteBranch = async (id) => {
-    const result = await api.delete("/branch/" + id);
+    const result = await api.delete("/branches/" + id);
     loadBranches();
   };
   return (
