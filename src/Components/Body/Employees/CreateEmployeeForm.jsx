@@ -23,17 +23,20 @@ export default function CreateEmployeeForm() {
   const classes = useStyles();
   let history = useHistory();
 
+  const date = new Date().toLocaleDateString() + "";
+
   const initialFValues = {
     id: "",
     FirstName: "",
     LastName: "",
     Email: "",
     Address: "",
+    EmployeeImage: "",
     GuardianName: "",
     GuardianRelation: "",
     Gender: "",
     CNICNumber: "",
-    DateOfBirth: "0000-00-00",
+    DateOfBirth: "",
     PhoneNumber: "",
     EmployeeCode: "",
     EmployeeNTN: "",
@@ -45,8 +48,11 @@ export default function CreateEmployeeForm() {
     Active: "",
     EmployeeImage: "",
     EnteredBy: "",
-    EnteredOn: "",
+    EnteredOn: "" + date,
   };
+
+  const [name, setName] = useState("");
+  const [image, setImage] = useState();
 
   const [values, setValues] = useState(initialFValues);
   const [companies, setCompany] = useState([]);
@@ -74,6 +80,14 @@ export default function CreateEmployeeForm() {
     ...values,
   };
 
+  const [imgRef, setImageRef] = useState();
+
+  const oneImageUpload = (e) => {
+    const file = e.target.files[0];
+    setImageRef(URL.createObjectURL(file));
+    setImage(file);
+  };
+
   const createEmployee = async () => {
     const response = await api.post("/employee", request);
     alert("" + response.statusText);
@@ -88,10 +102,36 @@ export default function CreateEmployeeForm() {
   return (
     <div>
       <PageHeader label="Employee" pageTitle="Add Employee" />
+      <div Style="padding:10px;">
+        <input
+          accept="image/*"
+          className={classes.uploadImage}
+          id="contained-button-file"
+          type="file"
+          value={name}
+          onChange={oneImageUpload}
+        />
+
+        <div className={classes.imageUploadDiv}>
+          <img alt="" src={imgRef} className={classes.companyCreateImage}></img>
+
+          <label htmlFor="contained-button-file">
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              component="span"
+            >
+              Upload
+            </Button>
+          </label>
+        </div>
+      </div>
 
       <Paper className={classes.pageContent}>
         <form className={classes.formStye}>
           <Grid container>
+            <Grid item xs={12}></Grid>
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -126,6 +166,8 @@ export default function CreateEmployeeForm() {
                 name="Address"
                 onChange={handleInputChange}
                 size="small"
+                multiline
+                rows={4}
                 value={values.Address}
               ></TextField>
 
@@ -135,7 +177,7 @@ export default function CreateEmployeeForm() {
                 name="GuardianName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.GuardianRelation}
+                value={values.GuardianName}
               ></TextField>
 
               <FormControl
@@ -162,79 +204,41 @@ export default function CreateEmployeeForm() {
                 </Select>
               </FormControl>
 
-              <FormControl>
-                <InputLabel id="Gender">Gender</InputLabel>
+              <TextField
+                id="date"
+                label="DateOfBirth"
+                size="small"
+                variant="outlined"
+                type="date"
+                name="DateOfBirth"
+                defaultValue={values.DateOfBirth}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
 
+              <FormControl>
+                <FormLabel>Gender</FormLabel>
                 <RadioGroup
+                  size="small"
                   row
                   name="Gender"
                   onChange={handleInputChange}
                   value={values.Gender}
                 >
                   <FormControlLabel
-                    value="Male"
+                    value="male"
                     control={<Radio />}
                     label="Male"
+                    Active
                   />
                   <FormControlLabel
-                    value="Female"
+                    value="female"
                     control={<Radio />}
                     label="Female"
                   />
                 </RadioGroup>
               </FormControl>
-
-              <TextField
-                id="DateOfBirth"
-                label="DateOfBirth"
-                variant="outlined"
-                name="DateOfBirth"
-                type="date"
-                value={values.DateOfBirth}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-              <TextField
-                variant="outlined"
-                label="CNIC Number"
-                name="CNICNumber"
-                size="small"
-                inputProps={{ maxLength: 13 }}
-                onChange={handleInputChange}
-                value={values.CNICNumber}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="Phone Number"
-                name="PhoneNumber"
-                size="small"
-                inputProps={{ maxLength: 11 }}
-                onChange={handleInputChange}
-                value={values.PhoneNumber}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="Employee Code"
-                name="EmployeeCode"
-                size="small"
-                inputProps={{ maxLength: 100 }}
-                onChange={handleInputChange}
-                value={values.EmployeeCode}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="Employee NTN"
-                name="EmployeeNTN"
-                size="small"
-                inputProps={{ maxLength: 100 }}
-                onChange={handleInputChange}
-                value={values.EmployeeNTN}
-              ></TextField>
 
               <FormControl
                 size="small"
@@ -268,7 +272,7 @@ export default function CreateEmployeeForm() {
                 variant="outlined"
                 className={classes.formControl}
               >
-                <InputLabel id="BranchID">BranchID</InputLabel>
+                <InputLabel id="BranchID">Branch</InputLabel>
                 <Select
                   name="BranchID"
                   value={values.BranchID}
@@ -288,38 +292,11 @@ export default function CreateEmployeeForm() {
                 </Select>
               </FormControl>
 
-              <TextField
-                variant="outlined"
-                label="BankAccountTitle"
-                name="BankAccountTitle"
-                onChange={handleInputChange}
-                size="small"
-                value={values.BankAccountTitle}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="BankAccountNumber"
-                name="BankAccountNumber"
-                size="small"
-                inputProps={{ maxLength: 100 }}
-                onChange={handleInputChange}
-                value={values.BankAccountNumber}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="BankName"
-                name="BankName"
-                size="small"
-                onChange={handleInputChange}
-                value={values.BankName}
-              ></TextField>
-
               <FormControl>
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
+                  size="small"
                   name="Active"
                   onChange={handleInputChange}
                   value={values.Active}
@@ -374,6 +351,85 @@ export default function CreateEmployeeForm() {
                 size="small"
                 value={values.GeoLocation}
               ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="CNIC Number"
+                name="CNICNumber"
+                size="small"
+                inputProps={{ maxLength: 13 }}
+                onChange={handleInputChange}
+                value={values.CNICNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Phone Number"
+                name="PhoneNumber"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.PhoneNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Employee Code"
+                name="EmployeeCode"
+                size="small"
+                inputProps={{ maxLength: 100 }}
+                onChange={handleInputChange}
+                value={values.EmployeeCode}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Employee NTN"
+                name="EmployeeNTN"
+                size="small"
+                inputProps={{ maxLength: 100 }}
+                onChange={handleInputChange}
+                value={values.EmployeeNTN}
+              ></TextField>
+              <TextField
+                variant="outlined"
+                label="BankAccountTitle"
+                name="BankAccountTitle"
+                onChange={handleInputChange}
+                size="small"
+                value={values.BankAccountTitle}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="BankAccountNumber"
+                name="BankAccountNumber"
+                size="small"
+                inputProps={{ maxLength: 100 }}
+                onChange={handleInputChange}
+                value={values.BankAccountNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="BankName"
+                name="BankName"
+                size="small"
+                onChange={handleInputChange}
+                value={values.BankName}
+              ></TextField>
+
+              <TextField
+                disabled
+                label="EnteredOn"
+                size="small"
+                variant="outlined"
+                name="EnteredOn"
+                value={values.EnteredOn}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
 
               <TextField
                 variant="outlined"

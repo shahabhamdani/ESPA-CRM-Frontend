@@ -77,64 +77,146 @@
   ],
   "employee": [
     {
-      "id": 2,
-      "FirstName": "Qasim",
-      "LastName": "Sheikh",
-      "Email": "qasim@hotmail.com",
-      "PhoneNumber": "03065949602",
-      "CompanyID": "1",
-      "UserID": "1",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/10/2021",
-      "Address": "Janjua town rawalpindi",
-      "BranchID": "1",
+      "id": 3,
+      "FirstName": "Syed Shahabal Shah",
+      "LastName": "Hamdani",
+      "Email": "shahabhamdani@hotmail.com",
+      "Address": "KH1238, Street 6, Janjua town, Rawalpindi",
+      "GuardianName": "Imam Shah",
       "GuardianRelation": "Father",
-      "GuardianName": "Aslam Sheikh",
-      "DateOfBirth": "18/08/1996",
-      "Gender": "Male",
-      "MobileNumber": "03065949602",
+      "Gender": "male",
       "CNICNumber": "3720370237433",
-      "EmployeeImage": "qasim-image.png",
-      "EmployeeCode": "055",
-      "EmployeeNTN": "etc",
-      "BankAccountTitle": "Qasim Sheikh",
-      "BankAccountNumber": "0098378937288232",
-      "BankName": "HBL",
-      "Active": "Y"
+      "DateOfBirth": "2017-05-24",
+      "PhoneNumber": "03065949602",
+      "EmployeeCode": "050",
+      "EmployeeNTN": "94JI",
+      "CompanyID": 1,
+      "BranchID": 3,
+      "BankAccountNumber": "2092823893992837",
+      "BankAccountTitle": "Syed Shahabal Shah",
+      "BankName": "Bank Alfalah",
+      "Active": "N",
+      "EmployeeImage": "",
+      "EnteredBy": "Shahab",
+      "EnteredOn": "",
+      "LandLineNumber": "9999999999",
+      "CustomerSupport": "9999999999",
+      "WhatsappNumber": "9999999999",
+      "GeoLocation": "19379132192, 120182018291"
+    },
+    {
+      "id": 4,
+      "FirstName": "Syed Shahabal Shah",
+      "LastName": "Hamdani",
+      "Email": "shahabhamdani@hotmail.com",
+      "Address": "kkjhk",
+      "GuardianName": "Imam Shah",
+      "GuardianRelation": "Father",
+      "Gender": "male",
+      "CNICNumber": "3720370237433",
+      "DateOfBirth": "",
+      "PhoneNumber": "03065949602",
+      "EmployeeCode": "050",
+      "EmployeeNTN": "94JI",
+      "CompanyID": 1,
+      "BranchID": 2,
+      "BankAccountNumber": "2092823893992837",
+      "BankAccountTitle": "Syed Shahabal Shah",
+      "BankName": "Bank Alfalah",
+      "Active": "N",
+      "EmployeeImage": "",
+      "EnteredBy": "Shahab",
+      "EnteredOn": "",
+      "GeoLocation": "19379132192, 120182018291",
+      "WhatsappNumber": "9999999999",
+      "CustomerSupport": "2222222222",
+      "LandLineNumber": "9999999999"
     }
   ],
   "cities": [
     {
-      "id": "1",
+      "id": 1,
       "CityName": "Rawalpindi"
     },
     {
-      "id": "2",
+      "id": 2,
       "CityName": "Islamabad"
     },
     {
-      "id": "3",
+      "id": 3,
       "CityName": "Peshawar"
     }
   ],
   "provence": [
     {
-      "id": "1",
+      "id": 4,
       "ProvenceName": "Punjab"
     },
     {
-      "id": "2",
+      "id": 5,
       "ProvenceName": "Sindh"
     },
     {
-      "id": "3",
+      "id": 6,
       "ProvenceName": "KPK"
     }
   ],
   "countries": [
     {
-      "id": "1",
+      "id": 1,
       "CountryName": "Pakistan"
     }
+  ],
+
+  "department": [
+    {
+      "id": 1,
+      "DepartmentName": "IT",
+      "Description": "Information Technology Department",
+      "BranchID":1,
+      "CompanyID":1,
+      "EnteredBy": "Shahab",      
+      "EnteredOn": "10/10/2021"
+    },
+
+    {
+      "id": 2,
+      "DepartmentName": "Marketing",
+      "Description": "asjakjsdjkoijkjdnfkjshdfkjhsdjkfhkjsdhfjskdn",
+      "BranchID":1,
+      "CompanyID":1,
+      "EnteredBy": "Shahab",      
+      "EnteredOn": "10/01/2021"
+    }
+  ],
+
+  
+  "jobInfo": [
+    {
+      "id": 1,
+      "JoiningDate": "IT",
+      "Salary": "Information Technology Department",
+      "JobType":1,
+      "ExpiryDate":1,
+      "EnteredOn": "10/10/2021",      
+      "EnteredBy": "Shahab",
+      "EmployeeID": 1,
+      "DesignationID": 1,
+      "DepartmentID": 1,
+      "CompanyID": 1,
+      "BranchID": 1,
+      "Active": "Y"
+    }
+  ],
+    
+  "designation": [
+    {
+      "id": 1,
+      "BranchID": 1,
+      "CompanyID": 1,
+      "DesignationName":"Web Developer",
+      "Active":"Y"
+    }
   ]
+
 }

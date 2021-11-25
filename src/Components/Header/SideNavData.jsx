@@ -23,15 +23,19 @@ export default function SideNavData({ handleDrawerClose }) {
     { label: "Company", link: "/company", icon: <BusinessIcon /> },
     {
       label: "CompanyBranches",
-      link: "branches",
+      link: "/branches",
       icon: <LocationCityIcon />,
     },
-    { label: "Employee", link: "employee", icon: <PersonAddIcon /> },
-    { label: "Link 3", link: "link3", icon: <PostAddIcon /> },
-    { label: "Link 4", link: "link4", icon: <PostAddIcon /> },
-    { label: "Link 5", link: "link5", icon: <PostAddIcon /> },
-    { label: "Notification", link: "notification", icon: <NotificationIcon /> },
-    { label: "Logout", link: "logout", icon: <ExitToAppIcon /> },
+    { label: "Employee", link: "/employee", icon: <PersonAddIcon /> },
+    { label: "Link 3", link: "/link3", icon: <PostAddIcon /> },
+    { label: "Link 4", link: "/link4", icon: <PostAddIcon /> },
+    { label: "Link 5", link: "/link5", icon: <PostAddIcon /> },
+    {
+      label: "Notification",
+      link: "/notification",
+      icon: <NotificationIcon />,
+    },
+    { label: "Logout", link: "/logout", icon: <ExitToAppIcon /> },
   ];
   return (
     <List>

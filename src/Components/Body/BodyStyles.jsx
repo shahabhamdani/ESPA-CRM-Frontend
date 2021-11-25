@@ -48,7 +48,7 @@ export const useStyles = makeStyles((theme) => ({
     color: "#ffd037",
   },
   tableLayout: {
-    padding: "20px",
+    padding: "10px",
   },
 
   tblButtonDelete: {
@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme) => ({
 
   crudGrid: {
     flexFlow: "row wrap",
-    padding: "20px",
+    padding: "10px",
     justifyContent: "end",
   },
 }));
