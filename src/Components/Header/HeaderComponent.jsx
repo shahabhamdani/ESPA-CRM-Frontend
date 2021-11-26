@@ -22,6 +22,9 @@ import ViewBranches from "../Body/CompanyBranches/ViewBranches";
 import ViewEmployee from "../Body/Employees/ViewEmployee";
 import UpdateEmployee from "../Body/Employees/UpdateEmployee";
 import CreateEmployeeForm from "../Body/Employees/CreateEmployeeForm";
+import CreateUser from "../Body/Users/CreateUser";
+import JobDetails from "../Body/JobInfo/JobInfo";
+import JobInfo from "../Body/JobInfo/JobInfo";
 
 export default function HeaderComponent() {
   const classes = useStyles();
@@ -102,9 +105,16 @@ export default function HeaderComponent() {
           />
           <Route
             exact
+            path="/employee/jobInfo/:id"
+            render={() => <JobInfo />}
+          />
+          <Route
+            exact
             path="/employee/create"
             render={() => <CreateEmployeeForm />}
           />
+
+          <Route exact path="/user/create/:id" render={() => <CreateUser />} />
         </Switch>
       </Box>
     </div>

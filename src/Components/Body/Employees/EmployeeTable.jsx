@@ -44,6 +44,7 @@ export default function EmployeeTable() {
 
   const columns = [
     {
+      title: "User",
       field: "internal_action",
       editable: false,
       render: (rowData) =>
@@ -53,20 +54,10 @@ export default function EmployeeTable() {
               fontSize="small"
               color="inherit"
               onClick={() => {
-                alert("clicked");
+                history.push("/user/create/" + rowData.id);
               }}
             >
               <VpnKeyIcon />
-            </IconButton>
-
-            <IconButton
-              fontSize="small"
-              color="inherit"
-              onClick={() => {
-                alert("clicked");
-              }}
-            >
-              <WorkIcon />
             </IconButton>
           </div>
         ),
@@ -92,7 +83,9 @@ export default function EmployeeTable() {
     loadEmployee();
   };
 
-  const addUser = async (id) => {};
+  const addJobInfo = async (id) => {
+    history.push("/employee/JobInfo/" + id);
+  };
 
   useEffect(() => {
     loadEmployee();
@@ -133,11 +126,11 @@ export default function EmployeeTable() {
             },
 
             {
-              icon: "key",
+              icon: "work",
 
-              tooltip: "Add User",
+              tooltip: "Job info",
               onClick: (event, rowData) => {
-                addUser(rowData.id);
+                addJobInfo(rowData.id);
               },
             },
           ]}

@@ -22,9 +22,8 @@
   "users": [
     {
       "id": 1,
-      "UserName": "Admin",
-      "Password": "Admin",
-      "UserRole": "admin",
+      "UserName": "admin",
+      "Password": "admin",
       "Active": "Y",
       "EnteredBy": "Shahab",
       "EnteredOn": "10/10/2021",
@@ -33,14 +32,35 @@
     },
     {
       "id": 2,
-      "UserName": "CSR",
-      "Password": "CSR",
-      "UserRole": "csr",
+      "UserName": "csr",
+      "Password": "csr",
       "Active": "Y",
       "EnteredBy": "Shahab",
       "EnteredOn": "10/10/2021",
       "CompanyID": "1",
       "BranchID": "1"
+    },
+    {
+      "id": 3,
+      "UserName": "admin",
+      "Password": "admin",
+      "BranchID": 2,
+      "CompanyID": 1,
+      "UserRolesID": 1,
+      "EnteredBy": "Shahab",
+      "EnteredOn": "11/26/2021",
+      "Active": ""
+    },
+    {
+      "id": 4,
+      "UserName": "admin",
+      "Password": "admin",
+      "BranchID": 2,
+      "CompanyID": 1,
+      "UserRolesID": 1,
+      "EnteredBy": "Shahab",
+      "EnteredOn": "11/26/2021",
+      "Active": "Y"
     }
   ],
   "branches": [
@@ -167,56 +187,65 @@
       "CountryName": "Pakistan"
     }
   ],
-
   "department": [
     {
       "id": 1,
       "DepartmentName": "IT",
       "Description": "Information Technology Department",
-      "BranchID":1,
-      "CompanyID":1,
-      "EnteredBy": "Shahab",      
+      "BranchID": 1,
+      "CompanyID": 1,
+      "EnteredBy": "Shahab",
       "EnteredOn": "10/10/2021"
     },
-
     {
       "id": 2,
       "DepartmentName": "Marketing",
       "Description": "asjakjsdjkoijkjdnfkjshdfkjhsdjkfhkjsdhfjskdn",
-      "BranchID":1,
-      "CompanyID":1,
-      "EnteredBy": "Shahab",      
+      "BranchID": 1,
+      "CompanyID": 1,
+      "EnteredBy": "Shahab",
       "EnteredOn": "10/01/2021"
     }
   ],
-
-  
   "jobInfo": [
     {
       "id": 1,
-      "JoiningDate": "IT",
-      "Salary": "Information Technology Department",
-      "JobType":1,
-      "ExpiryDate":1,
-      "EnteredOn": "10/10/2021",      
+      "JoiningDate": "2021-11-27",
+      "Salary": "50000",
+      "JobType": "PartTime",
+      "ExpiryDate": "",
       "EnteredBy": "Shahab",
-      "EmployeeID": 1,
+      "EnteredOn": "11/26/2021",
+      "Active": "Y",
       "DesignationID": 1,
-      "DepartmentID": 1,
+      "DepartmentID": 2,
       "CompanyID": 1,
-      "BranchID": 1,
-      "Active": "Y"
+      "BranchID": 2,
+      "EmployeeID": "3"
     }
   ],
-    
   "designation": [
     {
       "id": 1,
       "BranchID": 1,
+      "DesignationName": "Web Developer",
+      "Active": "Y"
+    }
+  ],
+  "userRoles": [
+    {
+      "id": 1,
+      "UserRole": "Admin",
+      "BranchID": 1,
       "CompanyID": 1,
-      "DesignationName":"Web Developer",
-      "Active":"Y"
+      "Active": "Y"
+    },
+    {
+      "id": 2,
+      "UserRole": "CSR",
+      "BranchID": 1,
+      "CompanyID": 1,
+      "Active": "Y"
     }
   ]
-
 }
