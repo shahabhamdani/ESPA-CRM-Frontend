@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import {
   FormControl,
   FormLabel,
   Grid,
+  
   InputLabel,
   TextField,
   Paper,
@@ -13,42 +13,48 @@ import {
   Radio,
   FormControlLabel,
 } from "@material-ui/core";
+
+
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
+import * as moment  from 'moment';
 
 export default function CreateEmployeeForm() {
   const classes = useStyles();
   let history = useHistory();
 
-  const date = new Date().toLocaleDateString() + "";
+  const temp = new Date().toLocaleDateString();
+
+  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
+  
+  
 
   const initialFValues = {
-    id: "",
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Address: "",
-    EmployeeImage: "",
-    GuardianName: "",
-    GuardianRelation: "",
-    Gender: "",
-    CNICNumber: "",
-    DateOfBirth: "",
-    PhoneNumber: "",
-    EmployeeCode: "",
-    EmployeeNTN: "",
-    CompanyID: "",
-    BranchID: "",
-    BankAccountNumber: "",
-    BankAccountTitle: "",
-    BankName: "",
-    Active: "",
-    EmployeeImage: "",
-    EnteredBy: "",
-    EnteredOn: "" + date,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    companyId: 1,
+    branchId:1,
+    enteredBy: "",
+    enteredOn: date ,
+    address: "",
+    guardianRelation: "",
+    guardianName: "",
+    dateOfBirth: "",
+    gender: "",
+    mobileNumber:"",
+    cnicnumber: "",
+    employeeImage: "",
+    employeeCode: "",
+    employeeNtn:"",
+    bankAccountNumber: "",
+    bankAccountTitle: "",
+    bankName: "",
+    active: "",
   };
 
   const [name, setName] = useState("");
@@ -89,10 +95,20 @@ export default function CreateEmployeeForm() {
   };
 
   const createEmployee = async () => {
-    const response = await api.post("/employee", request);
-    alert("" + response.statusText);
-    history.push("/employee");
-  };
+    request.dateOfBirth =  moment(request.dateOfBirth.BeginDate_1).format('YYYY-MM-DD')
+    const response = await api.post("/employee", request)
+    
+    .then(response => { 
+      console.log(response)
+    })
+    .catch(error => {
+        console.log(error.response)
+    });
+
+
+    
+    
+    history.push("/employee");};
 
   useEffect(() => {
     loadCompanies();
@@ -108,7 +124,7 @@ export default function CreateEmployeeForm() {
           className={classes.uploadImage}
           id="contained-button-file"
           type="file"
-          value={name}
+          value={image}
           onChange={oneImageUpload}
         />
 
@@ -136,48 +152,48 @@ export default function CreateEmployeeForm() {
               <TextField
                 variant="outlined"
                 label="Fist Name"
-                name="FirstName"
+                name="firstName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.FirstName}
+                value={values.firstName}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Last Name"
-                name="LastName"
+                name="lastName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.LastName}
+                value={values.lastName}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Email"
-                name="Email"
+                name="email"
                 onChange={handleInputChange}
                 size="small"
-                value={values.Email}
+                value={values.email}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Address"
-                name="Address"
+                name="address"
                 onChange={handleInputChange}
                 size="small"
                 multiline
                 rows={4}
-                value={values.Address}
+                value={values.address}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="GuardianName"
-                name="GuardianName"
+                name="guardianName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.GuardianName}
+                value={values.guardianName}
               ></TextField>
 
               <FormControl
@@ -187,8 +203,8 @@ export default function CreateEmployeeForm() {
               >
                 <InputLabel id="GuardianRelation">Guardian Relation</InputLabel>
                 <Select
-                  name="GuardianRelation"
-                  value={values.GuardianRelation}
+                  name="guardianRelation"
+                  value={values.guardianRelation}
                   onChange={handleInputChange}
                   size="small"
                   label="Guardian Relation"
@@ -210,8 +226,11 @@ export default function CreateEmployeeForm() {
                 size="small"
                 variant="outlined"
                 type="date"
-                name="DateOfBirth"
-                defaultValue={values.DateOfBirth}
+                inputFormat="yyyy-MM-dd"
+
+                name="dateOfBirth"
+                format="YYYY-MM-DD"
+                defaultValue={values.dateOfBirth}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -222,9 +241,9 @@ export default function CreateEmployeeForm() {
                 <RadioGroup
                   size="small"
                   row
-                  name="Gender"
+                  name="gender"
                   onChange={handleInputChange}
-                  value={values.Gender}
+                  value={values.gender}
                 >
                   <FormControlLabel
                     value="male"
@@ -240,6 +259,8 @@ export default function CreateEmployeeForm() {
                 </RadioGroup>
               </FormControl>
 
+
+
               <FormControl
                 size="small"
                 variant="outlined"
@@ -247,8 +268,8 @@ export default function CreateEmployeeForm() {
               >
                 <InputLabel id="CompanyID">Company</InputLabel>
                 <Select
-                  name="CompanyID"
-                  value={values.CompanyID}
+                  name="companyId"
+                  value={values.companyId}
                   size="small"
                   onChange={handleInputChange}
                   label="Company"
@@ -259,13 +280,14 @@ export default function CreateEmployeeForm() {
 
                   {companies.map((company) => {
                     return (
-                      <MenuItem value={company.id}>
-                        {company.CompanyName}
+                      <MenuItem value={company.companyId}>
+                        {company.companyName}
                       </MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
+
 
               <FormControl
                 size="small"
@@ -274,8 +296,8 @@ export default function CreateEmployeeForm() {
               >
                 <InputLabel id="BranchID">Branch</InputLabel>
                 <Select
-                  name="BranchID"
-                  value={values.BranchID}
+                  name="branchId"
+                  value={values.branchId}
                   size="small"
                   onChange={handleInputChange}
                   label="Branch"
@@ -286,20 +308,22 @@ export default function CreateEmployeeForm() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.id}>{branch.BranchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
+
+                                          
 
               <FormControl>
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
                   size="small"
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
@@ -309,114 +333,78 @@ export default function CreateEmployeeForm() {
                   Create
                 </Button>
               </FormControl>
+              
             </Grid>
 
+            
+
             <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                label="LandLine Number"
-                name="LandLineNumber"
-                size="small"
-                inputProps={{ maxLength: 10 }}
-                onChange={handleInputChange}
-                value={values.LandLineNumber}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="Customer Support"
-                name="CustomerSupport"
-                size="small"
-                inputProps={{ maxLength: 10 }}
-                onChange={handleInputChange}
-                value={values.CustomerSupport}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="Whatsapp Number"
-                name="WhatsappNumber"
-                size="small"
-                inputProps={{ maxLength: 10 }}
-                onChange={handleInputChange}
-                value={values.WhatsappNumber}
-              ></TextField>
-
-              <TextField
-                variant="outlined"
-                label="GeoLocation"
-                name="GeoLocation"
-                type="email"
-                onChange={handleInputChange}
-                size="small"
-                value={values.GeoLocation}
-              ></TextField>
 
               <TextField
                 variant="outlined"
                 label="CNIC Number"
-                name="CNICNumber"
+                name="cnicnumber"
                 size="small"
                 inputProps={{ maxLength: 13 }}
                 onChange={handleInputChange}
-                value={values.CNICNumber}
+                value={values.cnicnumber}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Phone Number"
-                name="PhoneNumber"
+                name="phoneNumber"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
-                value={values.PhoneNumber}
+                value={values.phoneNumber}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Employee Code"
-                name="EmployeeCode"
+                name="employeeCode"
                 size="small"
                 inputProps={{ maxLength: 100 }}
                 onChange={handleInputChange}
-                value={values.EmployeeCode}
+                value={values.employeeCode}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="Employee NTN"
-                name="EmployeeNTN"
+                name="employeeNtn"
                 size="small"
                 inputProps={{ maxLength: 100 }}
                 onChange={handleInputChange}
-                value={values.EmployeeNTN}
+                value={values.employeeNtn}
               ></TextField>
               <TextField
                 variant="outlined"
                 label="BankAccountTitle"
-                name="BankAccountTitle"
+                name="bankAccountTitle"
                 onChange={handleInputChange}
                 size="small"
-                value={values.BankAccountTitle}
+                value={values.bankAccountTitle}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="BankAccountNumber"
-                name="BankAccountNumber"
+                name="bankAccountNumber"
                 size="small"
                 inputProps={{ maxLength: 100 }}
                 onChange={handleInputChange}
-                value={values.BankAccountNumber}
+                value={values.bankAccountNumber}
               ></TextField>
 
               <TextField
                 variant="outlined"
                 label="BankName"
-                name="BankName"
+                name="bankName"
                 size="small"
                 onChange={handleInputChange}
-                value={values.BankName}
+                value={values.bankName}
               ></TextField>
 
               <TextField
@@ -424,8 +412,9 @@ export default function CreateEmployeeForm() {
                 label="EnteredOn"
                 size="small"
                 variant="outlined"
-                name="EnteredOn"
-                value={values.EnteredOn}
+                inputFormat="yyyy-MM-dd"
+                name="enteredOn"
+                value={values.enteredOn}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -434,10 +423,10 @@ export default function CreateEmployeeForm() {
               <TextField
                 variant="outlined"
                 label="EnteredBy"
-                name="EnteredBy"
+                name="enteredBy"
                 size="small"
                 onChange={handleInputChange}
-                value={values.EnteredBy}
+                value={values.enteredBy}
               ></TextField>
             </Grid>
           </Grid>

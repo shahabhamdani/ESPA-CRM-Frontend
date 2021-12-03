@@ -54,7 +54,7 @@ export default function EmployeeTable() {
               fontSize="small"
               color="inherit"
               onClick={() => {
-                history.push("/user/create/" + rowData.id);
+                history.push("/user/create/" + rowData.employeeId);
               }}
             >
               <VpnKeyIcon />
@@ -62,13 +62,13 @@ export default function EmployeeTable() {
           </div>
         ),
     },
-    { title: "ID", field: "id" },
+    { title: "ID", field: "employeeId" },
 
-    { title: "FirstName", field: "FirstName" },
-    { title: "LastName", field: "LastName" },
-    { title: "Email", field: "Email" },
+    { title: "FirstName", field: "firstName" },
+    { title: "LastName", field: "lastName" },
+    { title: "Email", field: "email" },
 
-    { title: "EmployeeCode", field: "EmployeeCode" },
+    { title: "EmployeeCode", field: "employeeCode" },
   ];
 
   const [employee, setEmployee] = useState([]);
@@ -112,7 +112,7 @@ export default function EmployeeTable() {
               icon: "visibility ",
               tooltip: "View Employee",
               onClick: (event, rowData) => {
-                history.push("/employee/view/" + rowData.id);
+                history.push("/employee/view/" + rowData.employeeId);
               },
             },
 
@@ -121,7 +121,7 @@ export default function EmployeeTable() {
               tooltip: "Edit Employee",
 
               onClick: (event, rowData) => {
-                history.push("/employee/update/" + rowData.id);
+                history.push("/employee/update/" + rowData.employeeId);
               },
             },
 
@@ -130,7 +130,7 @@ export default function EmployeeTable() {
 
               tooltip: "Job info",
               onClick: (event, rowData) => {
-                addJobInfo(rowData.id);
+                addJobInfo(rowData.employeeId);
               },
             },
           ]}

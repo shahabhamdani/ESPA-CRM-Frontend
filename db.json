@@ -1,251 +1,140 @@
 {
   "company": [
     {
-      "id": 1,
-      "CompanyName": "Espa Builders",
-      "CompanyLogo": "",
-      "Active": "Y"
-    },
-    {
-      "id": 2,
-      "CompanyName": "Espa",
-      "CompanyLogo": "",
-      "Active": "Y"
-    },
-    {
       "id": 3,
-      "CompanyName": "Touts",
-      "CompanyLogo": "",
-      "Active": "Y"
+      "companyName": "Espa",
+      "companyLogo": "",
+      "active": "Y"
     }
   ],
-  "users": [
-    {
-      "id": 1,
-      "UserName": "admin",
-      "Password": "admin",
-      "Active": "Y",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/10/2021",
-      "CompanyID": "1",
-      "BranchID": "1"
-    },
-    {
-      "id": 2,
-      "UserName": "csr",
-      "Password": "csr",
-      "Active": "Y",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/10/2021",
-      "CompanyID": "1",
-      "BranchID": "1"
-    },
-    {
-      "id": 3,
-      "UserName": "admin",
-      "Password": "admin",
-      "BranchID": 2,
-      "CompanyID": 1,
-      "UserRolesID": 1,
-      "EnteredBy": "Shahab",
-      "EnteredOn": "11/26/2021",
-      "Active": ""
-    },
-    {
-      "id": 4,
-      "UserName": "admin",
-      "Password": "admin",
-      "BranchID": 2,
-      "CompanyID": 1,
-      "UserRolesID": 1,
-      "EnteredBy": "Shahab",
-      "EnteredOn": "11/26/2021",
-      "Active": "Y"
-    }
-  ],
+  "users": [],
   "branches": [
     {
-      "id": 2,
-      "Type": 1,
-      "CompanyID": 1,
-      "CityID": "2",
-      "BranchName": "Phase8",
-      "BranchEmail": "test@gmail.com",
-      "LandLineNumber": "",
-      "CustomerSupport": "",
-      "WhatsappNumber": "",
-      "GeoLocation": "",
-      "CountryID": "1",
-      "ProvenceID": "1",
-      "Active": "Y"
-    },
-    {
-      "id": 3,
-      "Type": 1,
-      "CompanyID": 3,
-      "CityID": "2",
-      "BranchName": "Phase8",
-      "BranchEmail": "test@gmail.com",
-      "LandLineNumber": "",
-      "CustomerSupport": "",
-      "WhatsappNumber": "",
-      "GeoLocation": "",
-      "CountryID": "1",
-      "ProvenceID": "3",
-      "Active": "Y"
+      "id": 1,
+      "type": 1,
+      "companyId": 1,
+      "cityId": 1,
+      "branchName": "Espa",
+      "branchEmail": "new",
+      "landLineNumber": "111",
+      "customerSupport": "1",
+      "whatsappNumber": "1",
+      "geoLocation": "1",
+      "countryId": 1,
+      "provenceId": 4,
+      "active": "Y"
     }
   ],
   "employee": [
     {
-      "id": 3,
-      "FirstName": "Syed Shahabal Shah",
-      "LastName": "Hamdani",
-      "Email": "shahabhamdani@hotmail.com",
-      "Address": "KH1238, Street 6, Janjua town, Rawalpindi",
-      "GuardianName": "Imam Shah",
-      "GuardianRelation": "Father",
-      "Gender": "male",
-      "CNICNumber": "3720370237433",
-      "DateOfBirth": "2017-05-24",
-      "PhoneNumber": "03065949602",
-      "EmployeeCode": "050",
-      "EmployeeNTN": "94JI",
-      "CompanyID": 1,
-      "BranchID": 3,
-      "BankAccountNumber": "2092823893992837",
-      "BankAccountTitle": "Syed Shahabal Shah",
-      "BankName": "Bank Alfalah",
-      "Active": "N",
-      "EmployeeImage": "",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "",
-      "LandLineNumber": "9999999999",
-      "CustomerSupport": "9999999999",
-      "WhatsappNumber": "9999999999",
-      "GeoLocation": "19379132192, 120182018291"
-    },
-    {
-      "id": 4,
-      "FirstName": "Syed Shahabal Shah",
-      "LastName": "Hamdani",
-      "Email": "shahabhamdani@hotmail.com",
-      "Address": "kkjhk",
-      "GuardianName": "Imam Shah",
-      "GuardianRelation": "Father",
-      "Gender": "male",
-      "CNICNumber": "3720370237433",
-      "DateOfBirth": "",
-      "PhoneNumber": "03065949602",
-      "EmployeeCode": "050",
-      "EmployeeNTN": "94JI",
-      "CompanyID": 1,
-      "BranchID": 2,
-      "BankAccountNumber": "2092823893992837",
-      "BankAccountTitle": "Syed Shahabal Shah",
-      "BankName": "Bank Alfalah",
-      "Active": "N",
-      "EmployeeImage": "",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "",
-      "GeoLocation": "19379132192, 120182018291",
-      "WhatsappNumber": "9999999999",
-      "CustomerSupport": "2222222222",
-      "LandLineNumber": "9999999999"
+      "id": 1,
+      "firstName": "no",
+      "lastName": "Test",
+      "email": "Test",
+      "address": "Test",
+      "employeeImage": "",
+      "guardianName": "Test",
+      "guardianRelation": "Father",
+      "gender": "male",
+      "cnicnumber": "11111",
+      "geoLocation": "11111",
+      "dateOfBirth": "",
+      "phoneNumber": "11111",
+      "employeeCode": "1111111111",
+      "companyId": 1,
+      "branchId": 1,
+      "bankAccountNumber": "11111",
+      "customerSupport": "11111",
+      "landLineNumber": "11111",
+      "employeeNtn": "11111",
+      "whatsappNumber": "11111",
+      "bankAccountTitle": "11111",
+      "bankName": "11111",
+      "active": "Y",
+      "enteredBy": "shahab",
+      "enteredOn": "12/1/2021"
     }
   ],
-  "cities": [
+  "city": [
     {
       "id": 1,
-      "CityName": "Rawalpindi"
-    },
-    {
-      "id": 2,
-      "CityName": "Islamabad"
-    },
-    {
-      "id": 3,
-      "CityName": "Peshawar"
+      "cityId": 1,
+      "cityName": "Rawalpindi"
     }
   ],
   "provence": [
     {
       "id": 4,
-      "ProvenceName": "Punjab"
-    },
-    {
-      "id": 5,
-      "ProvenceName": "Sindh"
-    },
-    {
-      "id": 6,
-      "ProvenceName": "KPK"
+      "provenceId": 1,
+      "provenceName": "Punjab"
     }
   ],
-  "countries": [
+  "country": [
     {
       "id": 1,
-      "CountryName": "Pakistan"
+      "countryId": 1,
+      "countryName": "Pakistan"
     }
   ],
   "department": [
     {
       "id": 1,
-      "DepartmentName": "IT",
-      "Description": "Information Technology Department",
-      "BranchID": 1,
-      "CompanyID": 1,
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/10/2021"
-    },
-    {
-      "id": 2,
-      "DepartmentName": "Marketing",
-      "Description": "asjakjsdjkoijkjdnfkjshdfkjhsdjkfhkjsdhfjskdn",
-      "BranchID": 1,
-      "CompanyID": 1,
-      "EnteredBy": "Shahab",
-      "EnteredOn": "10/01/2021"
+      "departmentName": "IT",
+      "description": "Information Technology",
+      "enteredBy": "Shahab Hamdnai",
+      "enteredOn": "2021-12-01T00:00:00",
+      "branchId": 1,
+      "active": "Y",
+      "companyId": 1,
+      "branch": null,
+      "company": null,
+      "jobInfo": []
     }
   ],
   "jobInfo": [
     {
       "id": 1,
-      "JoiningDate": "2021-11-27",
-      "Salary": "50000",
-      "JobType": "PartTime",
-      "ExpiryDate": "",
-      "EnteredBy": "Shahab",
-      "EnteredOn": "11/26/2021",
-      "Active": "Y",
-      "DesignationID": 1,
-      "DepartmentID": 2,
-      "CompanyID": 1,
-      "BranchID": 2,
-      "EmployeeID": "3"
+      "joiningDate": "2021-12-21",
+      "salary": "40000",
+      "jobType": "FullTime",
+      "expiryDate": "",
+      "enteredBy": "shahab",
+      "enteredOn": "12/1/2021",
+      "active": "Y",
+      "designationId": 1,
+      "departmentId": 1,
+      "companyId": 1,
+      "branchId": 1,
+      "employeeId": "1"
     }
   ],
   "designation": [
     {
       "id": 1,
-      "BranchID": 1,
-      "DesignationName": "Web Developer",
-      "Active": "Y"
+      "designationId": 1,
+      "designationName": "Web-Developer",
+      "branchId": 1,
+      "active": "Y",
+      "branch": null,
+      "jobInfo": []
     }
   ],
-  "userRoles": [
+  "roles": [
     {
       "id": 1,
-      "UserRole": "Admin",
-      "BranchID": 1,
-      "CompanyID": 1,
-      "Active": "Y"
+      "userRolesId": 1,
+      "userRole": "Admin",
+      "branchId": 1,
+      "active": "Y",
+      "companyId": 1
     },
     {
       "id": 2,
-      "UserRole": "CSR",
-      "BranchID": 1,
-      "CompanyID": 1,
-      "Active": "Y"
+      "userRolesId": 2,
+      "userRole": "CSR",
+      "branchId": 1,
+      "active": "Y",
+      "companyId": 1
     }
   ]
 }

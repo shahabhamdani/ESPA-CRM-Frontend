@@ -24,9 +24,9 @@ export default function CreateCompany() {
 
   const initialFValues = {
     id: "",
-    CompanyName: "",
-    CompanyLogo: "",
-    Active: "N",
+    companyName: "",
+    companyLogo: "",
+    active: "N",
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -68,18 +68,18 @@ export default function CreateCompany() {
               <TextField
                 variant="outlined"
                 label="Company Name"
-                name="CompanyName"
+                name="companyName"
                 onChange={handleInputChange}
-                value={values.CompanyName}
+                value={values.companyName}
               ></TextField>
 
               <FormControl>
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />

@@ -14,10 +14,10 @@ export default function CompanyTable() {
   const tableRef = React.createRef();
   const classes = useStyles();
   const columns = [
-    { title: "ID", field: "id" },
-    { title: "CompanyName", field: "CompanyName" },
-    { title: "CompanyLogo", field: "CompanyLogo" },
-    { title: "Active", field: "Active" },
+    { title: "ID", field: "companyId" },
+    { title: "CompanyName", field: "companyName" },
+    { title: "CompanyLogo", field: "companyLogo" },
+    { title: "Active", field: "active" },
     {
       title: "",
       field: "internal_action",
@@ -55,7 +55,7 @@ export default function CompanyTable() {
 
               tooltip: "Delete Company",
               onClick: (event, rowData) => {
-                deleteCompany(rowData.id);
+                deleteCompany(rowData.companyId);
               },
             },
 
@@ -64,14 +64,14 @@ export default function CompanyTable() {
               tooltip: "Edit Company",
 
               onClick: (event, rowData) => {
-                history.push("/company/update/" + rowData.id);
+                history.push("/company/update/" + rowData.companyId);
               },
             },
             {
               icon: "visibility",
               tooltip: "View Company",
               onClick: (event, rowData) => {
-                history.push("/company/view/" + rowData.id);
+                  history.push("/company/view/" + rowData.companyId);
               },
             },
           ]}

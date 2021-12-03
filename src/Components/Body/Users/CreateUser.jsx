@@ -18,24 +18,24 @@ import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
+import * as moment  from 'moment';
+
 export default function CreateUser() {
   const classes = useStyles();
   let history = useHistory();
 
-  const date = new Date().toLocaleDateString() + "";
+  const temp = new Date().toLocaleDateString() + "";
+  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
 
   const initialFValues = {
-    id: "",
-    UserName: "",
-    Password: "",
-
-    BranchID: "",
-    CompanyID: "",
-    UserRolesID: "",
-
-    EnteredBy: "",
-    EnteredOn: "" + date,
-    Active: "",
+    userName: "",
+    password: "",
+    branchId: 0,
+    companyId: 0,
+    userRolesId: 0,
+    enteredBy: "",
+    enteredOn: date,
+    active: "",
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -54,7 +54,7 @@ export default function CreateUser() {
   };
 
   const loadUserRoles = async () => {
-    const result = await api.get("/userRoles");
+    const result = await api.get("/roles");
     setUserRoles(result.data);
   };
 
@@ -71,6 +71,7 @@ export default function CreateUser() {
   };
 
   const createUser = async () => {
+
     const response = await api.post("/users", request);
     alert("" + response.statusText);
     history.push("/employee");
@@ -93,29 +94,31 @@ export default function CreateUser() {
               <TextField
                 variant="outlined"
                 label="User Name"
-                name="UserName"
+                name="userName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.UserName}
+                value={values.userName}
               ></TextField>
               <TextField
                 variant="outlined"
                 label="Password"
-                name="Password"
+                name="password"
                 onChange={handleInputChange}
                 size="small"
-                value={values.Password}
+                value={values.password}
               ></TextField>
 
-              <FormControl
+    
+
+             <FormControl
                 size="small"
                 variant="outlined"
                 className={classes.formControl}
               >
-                <InputLabel id="UserRolesID">Role</InputLabel>
+                <InputLabel id="userRolesId">Role</InputLabel>
                 <Select
-                  name="UserRolesID"
-                  value={values.UserRolesID}
+                  name="userRolesId"
+                  value={values.userRolesId}
                   size="small"
                   onChange={handleInputChange}
                   label="Role"
@@ -125,19 +128,20 @@ export default function CreateUser() {
                   </MenuItem>
 
                   {userRoles.map((role) => {
-                    return <MenuItem value={role.id}>{role.UserRole}</MenuItem>;
+                    return <MenuItem value={role.userRolesId}>{role.userRole}</MenuItem>;
                   })}
                 </Select>
               </FormControl>
+
 
               <FormControl>
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
                   size="small"
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
@@ -160,8 +164,8 @@ export default function CreateUser() {
               >
                 <InputLabel id="CompanyID">Company</InputLabel>
                 <Select
-                  name="CompanyID"
-                  value={values.CompanyID}
+                  name="companyId"
+                  value={values.companyId}
                   size="small"
                   onChange={handleInputChange}
                   label="Company"
@@ -172,8 +176,8 @@ export default function CreateUser() {
 
                   {companies.map((company) => {
                     return (
-                      <MenuItem value={company.id}>
-                        {company.CompanyName}
+                      <MenuItem value={company.companyId}>
+                        {company.companyName}
                       </MenuItem>
                     );
                   })}
@@ -185,10 +189,10 @@ export default function CreateUser() {
                 variant="outlined"
                 className={classes.formControl}
               >
-                <InputLabel id="BranchID">Branch</InputLabel>
+                <InputLabel id="branchId">Branch</InputLabel>
                 <Select
-                  name="BranchID"
-                  value={values.BranchID}
+                  name="branchId"
+                  value={values.branchId}
                   size="small"
                   onChange={handleInputChange}
                   label="Branch"
@@ -199,7 +203,7 @@ export default function CreateUser() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.id}>{branch.BranchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
                     );
                   })}
                 </Select>
@@ -210,8 +214,8 @@ export default function CreateUser() {
                 label="EnteredOn"
                 size="small"
                 variant="outlined"
-                name="EnteredOn"
-                value={values.EnteredOn}
+                name="enteredOn"
+                value={values.enteredOn}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -220,10 +224,10 @@ export default function CreateUser() {
               <TextField
                 variant="outlined"
                 label="EnteredBy"
-                name="EnteredBy"
+                name="enteredBy"
                 size="small"
                 onChange={handleInputChange}
-                value={values.EnteredBy}
+                value={values.enteredBy}
               ></TextField>
             </Grid>
           </Grid>

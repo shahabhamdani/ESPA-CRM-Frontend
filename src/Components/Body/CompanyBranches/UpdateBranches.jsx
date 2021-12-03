@@ -26,22 +26,24 @@ import api from "../../Api/Api";
 export default function UpdateBranches() {
   const classes = useStyles();
 
+  const { id } = useParams();
+
   let history = useHistory();
 
   const initialFValues = {
-    id: "",
-    Type: "",
-    CompanyID: "",
-    CityID: "",
-    BranchName: "",
-    BranchEmail: "",
-    LandLineNumber: "",
-    CustomerSupport: "",
-    WhatsappNumber: "",
-    GeoLocation: "",
-    CountryID: "",
-    ProvenceID: "",
-    Active: "",
+    branchId: ""+{id},
+    type: "",
+    companyId: "",
+    cityId: "",
+    branchName: "",
+    branchEmail: "",
+    landLineNumber: "",
+    customerSupport: "",
+    whatsappNumber: "",
+    geoLocation: "",
+    countryId: "",
+    provenceId: "",
+    active: "",
   };
   const [values, setValues] = useState(initialFValues);
 
@@ -56,7 +58,7 @@ export default function UpdateBranches() {
   };
 
   const loadCities = async () => {
-    const cityResult = await api.get("/cities");
+    const cityResult = await api.get("/city");
     setCities(cityResult.data);
   };
 
@@ -66,7 +68,7 @@ export default function UpdateBranches() {
   };
 
   const loadCountries = async () => {
-    const countryResult = await api.get("/countries");
+    const countryResult = await api.get("/country");
     setCountries(countryResult.data);
   };
 
@@ -82,10 +84,9 @@ export default function UpdateBranches() {
     ...values,
   };
 
-  const { id } = useParams();
 
   const updateBranch = async () => {
-    const response = await api.put("/branches/" + id, request);
+    const response = await api.put("/branches/", request);
     alert("" + response.statusText);
     history.push("/branches");
   };
@@ -111,6 +112,7 @@ export default function UpdateBranches() {
       </IconButton>
       <PageHeader label="Branches" pageTitle="Update Branch" />
 
+
       <Paper className={classes.pageContent}>
         <form className={classes.formStye}>
           <Grid container>
@@ -118,34 +120,31 @@ export default function UpdateBranches() {
               <TextField
                 variant="outlined"
                 label="Branch Name"
-                name="BranchName"
+                name="branchName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.BranchName}
+                value={values.branchName}
               ></TextField>
-              <TextField
+               <TextField
                 variant="outlined"
                 label="Branch Email"
-                name="BranchEmail"
+                name="branchEmail"
                 type="email"
                 onChange={handleInputChange}
                 size="small"
-                value={values.BranchEmail}
+                value={values.branchEmail}
               ></TextField>
-
-              <FormControl
-                size="small"
-                variant="outlined"
-                className={classes.formControl}
-              >
+             
+              <FormControl size="small" variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">
                   Branch Type
                 </InputLabel>
                 <Select
-                  name="Type"
-                  value={values.Type}
+                  name="type"
+                  value={values.type}
                   onChange={handleInputChange}
                   size="small"
+
                   label="Branch Type"
                 >
                   <MenuItem value="">
@@ -156,16 +155,15 @@ export default function UpdateBranches() {
                 </Select>
               </FormControl>
 
-              <FormControl
-                size="small"
-                variant="outlined"
-                className={classes.formControl}
-              >
-                <InputLabel id="CompanyID">Company</InputLabel>
+              <FormControl size="small" variant="outlined" className={classes.formControl}>
+                <InputLabel id="companyId">
+                  Company
+                </InputLabel>
                 <Select
-                  name="CompanyID"
-                  value={values.CompanyID}
+                  name="companyId"
+                  value={values.companyId}
                   size="small"
+
                   onChange={handleInputChange}
                   label="Company"
                 >
@@ -175,23 +173,22 @@ export default function UpdateBranches() {
 
                   {companies.map((company) => {
                     return (
-                      <MenuItem value={company.id}>
-                        {company.CompanyName}
+                      <MenuItem value={company.companyId}>
+                        {company.companyName}
                       </MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
 
-              <FormControl
-                variant="outlined"
-                size="small"
-                className={classes.formControl}
-              >
-                <InputLabel id="CityID">City</InputLabel>
+
+              <FormControl variant="outlined" size="small" className={classes.formControl}>
+                <InputLabel id="cityId">
+                  City
+                </InputLabel>
                 <Select
-                  name="CityID"
-                  value={values.CityID}
+                  name="cityId"
+                  value={values.cityId}
                   onChange={handleInputChange}
                   label="City"
                 >
@@ -200,20 +197,23 @@ export default function UpdateBranches() {
                   </MenuItem>
 
                   {cities.map((city) => {
-                    return <MenuItem value={city.id}>{city.CityName}</MenuItem>;
+                    return (
+                      <MenuItem value={city.cityId}>
+                        {city.cityName}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
-              </FormControl>
+              </FormControl> 
 
-              <FormControl
-                size="small"
-                variant="outlined"
-                className={classes.formControl}
-              >
-                <InputLabel id="CountryID">Country</InputLabel>
+
+              <FormControl size="small" variant="outlined" className={classes.formControl}>
+                <InputLabel id="countryId">
+                  Country
+                </InputLabel>
                 <Select
-                  name="CountryID"
-                  value={values.CountryID}
+                  name="countryId"
+                  value={values.countryId}
                   onChange={handleInputChange}
                   label="Country"
                 >
@@ -223,23 +223,22 @@ export default function UpdateBranches() {
 
                   {countries.map((country) => {
                     return (
-                      <MenuItem value={country.id}>
-                        {country.CountryName}
+                      <MenuItem value={country.countryId}>
+                        {country.countryName}
                       </MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
 
-              <FormControl
-                size="small"
-                variant="outlined"
-                className={classes.formControl}
-              >
-                <InputLabel id="ProvenceID">Provence</InputLabel>
+
+              <FormControl  size="small" variant="outlined" className={classes.formControl}>
+                <InputLabel id="provenceId">
+                  Provence
+                </InputLabel>
                 <Select
-                  name="ProvenceID"
-                  value={values.ProvenceID}
+                  name="provenceId"
+                  value={values.provenceId}
                   onChange={handleInputChange}
                   label="ProvencE"
                 >
@@ -249,8 +248,8 @@ export default function UpdateBranches() {
 
                   {provences.map((provence) => {
                     return (
-                      <MenuItem value={provence.id}>
-                        {provence.ProvenceName}
+                      <MenuItem value={provence.provenceId}>
+                        {provence.provenceName}
                       </MenuItem>
                     );
                   })}
@@ -261,59 +260,66 @@ export default function UpdateBranches() {
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
 
                 <Button variant="contained" onClick={updateBranch}>
-                  Create
+                  Update
                 </Button>
               </FormControl>
-            </Grid>
+
+              </Grid>
             <Grid item xs={6}>
-              <TextField
+
+              
+            <TextField
                 variant="outlined"
                 label="LandLine Number"
-                name="LandLineNumber"
+                name="landLineNumber"
                 size="small"
-                inputProps={{ maxLength: 10 }}
+                inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.LandLineNumber}
+                value={values.landLineNumber}
               ></TextField>
 
+              
               <TextField
                 variant="outlined"
                 label="Customer Support"
-                name="CustomerSupport"
+                name="customerSupport"
                 size="small"
-                inputProps={{ maxLength: 10 }}
+                inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.CustomerSupport}
+                value={values.customerSupport}
               ></TextField>
 
+              
               <TextField
                 variant="outlined"
                 label="Whatsapp Number"
-                name="WhatsappNumber"
+                name="whatsappNumber"
                 size="small"
-                inputProps={{ maxLength: 10 }}
+                inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.WhatsappNumber}
+                value={values.whatsappNumber}
               ></TextField>
 
-              <TextField
+<TextField
                 variant="outlined"
                 label="GeoLocation"
-                name="GeoLocation"
+                name="geoLocation"
                 type="email"
                 onChange={handleInputChange}
                 size="small"
-                value={values.GeoLocation}
+                value={values.geoLocation}
               ></TextField>
+
+
             </Grid>
           </Grid>
         </form>

@@ -8,29 +8,32 @@ import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 
 const initialFValues = {
-  id: "",
-  FirstName: "",
-  LastName: "",
-  Email: "",
-  Address: "",
-  EmployeeImage: "",
-  GuardianName: "",
-  GuardianRelation: "",
-  Gender: "",
-  CNICNumber: "",
-  DateOfBirth: "",
-  PhoneNumber: "",
-  EmployeeCode: "",
-  EmployeeNTN: "",
-  CompanyID: "",
-  BranchID: "",
-  BankAccountNumber: "",
-  BankAccountTitle: "",
-  BankName: "",
-  Active: "",
-  EmployeeImage: "",
-  EnteredBy: "",
-  EnteredOn: "",
+  employeeId: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  address: "",
+  employeeImage: "",
+  guardianName: "",
+  guardianRelation: "",
+  gender: "",
+  cnicnumber: "",
+  geoLocation:"",
+  dateOfBirth: "",
+  phoneNumber: "",
+  employeeCode: "",
+  companyId: "",
+  branchId: "",
+  bankAccountNumber: "",
+  customerSupport:"",
+  landLineNumber:"",
+  employeeNtn:"",
+  whatsappNumber:"",
+  bankAccountTitle: "",
+  bankName: "",
+  active: "",
+  enteredBy: "",
+  enteredOn: "" 
 };
 
 export default function ViewEmployee() {
@@ -52,52 +55,52 @@ export default function ViewEmployee() {
         <IconButton onClick={() => history.push("/employee")}>
           <ArrowBackIosIcon fontSize="small" />{" "}
         </IconButton>
-        <h1>Employee ID: {values.id}</h1>
+        <h1>Employee ID: {values.employeeId}</h1>
         <List>
-          <ListItem divider="true"> FirstName: {values.FirstName}</ListItem>
-          <ListItem divider="true"> LastName : {values.LastName}</ListItem>
-          <ListItem divider="true"> Email : {values.Email}</ListItem>
-          <ListItem divider="true"> Address : {values.Address}</ListItem>
+          <ListItem divider="true"> FirstName: {values.firstName}</ListItem>
+          <ListItem divider="true"> LastName : {values.lastName}</ListItem>
+          <ListItem divider="true"> Email : {values.email}</ListItem>
+          <ListItem divider="true"> Address : {values.address}</ListItem>
           <ListItem divider="true">
             {" "}
-            GuardianName : {values.GuardianName}
+            GuardianName : {values.guardianName}
           </ListItem>
           <ListItem divider="true">
             {" "}
-            GuardianRelation : {values.GuardianRelation}
+            GuardianRelation : {values.guardianRelation}
           </ListItem>
-          <ListItem divider="true"> Gender : {values.Gender}</ListItem>
-          <ListItem divider="true"> CNICNumber : {values.CNICNumber}</ListItem>
+          <ListItem divider="true"> Gender : {values.gender}</ListItem>
+          <ListItem divider="true"> CNICNumber : {values.cnicnumber}</ListItem>
           <ListItem divider="true">
             {" "}
-            DateOfBirth : {values.DateOfBirth}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            PhoneNumber : {values.PhoneNumber}
+            DateOfBirth : {values.dateOfBirth}
           </ListItem>
           <ListItem divider="true">
             {" "}
-            EmployeeCode : {values.EmployeeCode}
+            PhoneNumber : {values.phoneNumber}
           </ListItem>
           <ListItem divider="true">
             {" "}
-            EmployeeNTN : {values.EmployeeNTN}
-          </ListItem>
-          <ListItem divider="true"> CompanyID : {values.CompanyID}</ListItem>
-          <ListItem divider="true"> BranchID : {values.BranchID}</ListItem>
-          <ListItem divider="true">
-            {" "}
-            BankAccountNumber: {values.BankAccountNumber}
+            EmployeeCode : {values.employeeCode}
           </ListItem>
           <ListItem divider="true">
             {" "}
-            BankAccountTitle: {values.BankAccountTitle}
+            EmployeeNTN : {values.employeeNtn}
           </ListItem>
-          <ListItem divider="true"> BankName: {values.BankName}</ListItem>
-          <ListItem divider="true"> Active: {values.Active}</ListItem>
-          <ListItem divider="true"> EnteredBy: {values.EnteredBy}</ListItem>
-          <ListItem divider="true">EnteredOn: {values.EnteredOn}</ListItem>
+          <ListItem divider="true"> CompanyID : {values.companyId}</ListItem>
+          <ListItem divider="true"> BranchID : {values.branchId}</ListItem>
+          <ListItem divider="true">
+            {" "}
+            BankAccountNumber: {values.bankAccountNumber}
+          </ListItem>
+          <ListItem divider="true">
+            {" "}
+            BankAccountTitle: {values.bankAccountTitle}
+          </ListItem>
+          <ListItem divider="true"> BankName: {values.bankName}</ListItem>
+          <ListItem divider="true"> Active: {values.active}</ListItem>
+          <ListItem divider="true"> EnteredBy: {values.enteredBy}</ListItem>
+          <ListItem divider="true">EnteredOn: {values.enteredOn}</ListItem>
         </List>
       </div>{" "}
     </div>

@@ -10,14 +10,15 @@ import api from "../../Api/Api";
 
 export default function UpdateCompany() {
   const classes = useStyles();
+  const { id } = useParams();
 
   let history = useHistory();
 
   const initialFValues = {
-    id: "",
-    CompanyName: "",
-    CompanyLogo: "",
-    Active: "N",
+    companyId: ""+{id},
+    companyName: "",
+    companyLogo: "",
+    active: "N",
   };
   const [values, setValues] = useState(initialFValues);
 
@@ -33,10 +34,9 @@ export default function UpdateCompany() {
     ...values,
   };
 
-  const { id } = useParams();
 
   const updateCompany = async () => {
-    const response = await api.put("/company/" + id, request);
+    const response = await api.put("/company/", request);
     alert("" + response.statusText);
     history.push("/company");
   };
@@ -63,18 +63,18 @@ export default function UpdateCompany() {
                 <TextField
                   variant="outlined"
                   label="Company Name"
-                  name="CompanyName"
+                  name="companyName"
                   onChange={handleInputChange}
-                  value={values.CompanyName}
+                  value={values.companyName}
                 ></TextField>
 
                 <FormControl>
                   <FormLabel>Active</FormLabel>
                   <RadioGroup
                     row
-                    name="Active"
+                    name="active"
                     onChange={handleInputChange}
-                    value={values.Active}
+                    value={values.active}
                   >
                     <FormControlLabel
                       value="Y"

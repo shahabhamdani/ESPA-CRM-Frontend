@@ -21,47 +21,52 @@ import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
+import * as moment  from 'moment';
+
 
 export default function JobInfo() {
   const classes = useStyles();
   let history = useHistory();
 
   const tableRef = React.createRef();
+  
 
-  const date = new Date().toLocaleDateString() + "";
+  const temp = new Date().toLocaleDateString() + "";
+  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
+
 
   const { id } = useParams();
 
   const columns = [
-    { title: "ID", field: "id" },
-    { title: "JoiningDate", field: "JoiningDate" },
-    { title: "Salary", field: "Salary" },
-    { title: "JobType", field: "JobType" },
-    { title: "ExpiryDate", field: "ExpiryDate" },
-    { title: "EnteredBy", field: "EnteredBy" },
-    { title: "EnteredOn", field: "EnteredOn" },
-    { title: "Active", field: "Active" },
-    { title: "DesignationID", field: "DesignationID" },
-    { title: "DepartmentID", field: "DepartmentID" },
-    { title: "CompanyID", field: "CompanyID" },
-    { title: "BranchID", field: "BranchID" },
-    { title: "EmployeeID", field: "EmployeeID" },
+    { title: "ID", field: "jodInfoId" },
+    { title: "JoiningDate", field: "joiningDate" },
+    { title: "Salary", field: "salary" },
+    { title: "JobType", field: "jobType" },
+    { title: "ExpiryDate", field: "expiryDate" },
+    { title: "EnteredBy", field: "enteredBy" },
+    { title: "EnteredOn", field: "enteredOn" },
+    { title: "Active", field: "active" },
+    { title: "DesignationID", field: "designationId" },
+    { title: "DepartmentID", field: "departmentId" },
+    { title: "CompanyID", field: "companyId" },
+    { title: "BranchID", field: "branchId" },
+    { title: "EmployeeID", field: "employeeId" },
   ];
 
   const initialFValues = {
-    id: "",
-    JoiningDate: "",
-    Salary: "",
-    JobType: "",
-    ExpiryDate: "",
-    EnteredBy: "",
-    EnteredOn: "" + date,
-    Active: "",
-    DesignationID: "",
-    DepartmentID: "",
-    CompanyID: "",
-    BranchID: "",
-    EmployeeID: "" + id,
+    jodInfoId:0,
+    joiningDate: "",
+    salary: 0,
+    jobType: "",
+    expiryDate: "0000-00-00",
+    enteredBy: "",
+    enteredOn:  date,
+    active: "",
+    designationId: 0,
+    departmentId: 0,
+    companyId: 0,
+    branchId: 0,
+    employeeId:  id,
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -76,6 +81,11 @@ export default function JobInfo() {
   const loadJobInfo = async () => {
     const result = await api.get("/jobInfo");
     setJobInfo(result.data);
+  };
+
+  const loadSingleJobInfo = async (id) => {
+    const result = await api.get("/jobInfo/"+id);
+    setValues(result.data);
   };
 
   const loadCompanies = async () => {
@@ -116,9 +126,21 @@ export default function JobInfo() {
   };
 
   const createJobInfo = async () => {
+    request.joiningDate =  moment(request.joiningDate.BeginDate_1).format('YYYY-MM-DD');
+    request.expiryDate =  moment(request.expiryDate.BeginDate_1).format('YYYY-MM-DD');
+    request.enteredOn =  moment(request.enteredOn.BeginDate_1).format('YYYY-MM-DD');
+    request.salary = parseInt(request.salary);
+    request.employeeId = parseInt(request.employeeId);
     const response = await api.post("/jobInfo", request);
     alert("" + response.statusText);
     history.push("/employee");
+  };
+
+  const updateJobInfo = async () => {
+    const response = await api.put("/jobInfo/", request);
+    setValues(initialFValues);
+    loadJobInfo();
+
   };
 
   useEffect(() => {
@@ -142,9 +164,9 @@ export default function JobInfo() {
                 size="small"
                 type="date"
                 variant="outlined"
-                name="JoiningDate"
+                name="joiningDate"
                 onChange={handleInputChange}
-                value={values.JoiningDate}
+                value={values.joiningDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -154,10 +176,10 @@ export default function JobInfo() {
                 variant="outlined"
                 label="salary"
                 type="number"
-                name="Salary"
+                name="salary"
                 onChange={handleInputChange}
                 size="small"
-                value={values.Salary}
+                value={values.salary}
               ></TextField>
 
               <FormControl
@@ -167,8 +189,8 @@ export default function JobInfo() {
               >
                 <InputLabel id="DepartmentID">Department</InputLabel>
                 <Select
-                  name="DepartmentID"
-                  value={values.DepartmentID}
+                  name="departmentId"
+                  value={values.departmentId}
                   size="small"
                   onChange={handleInputChange}
                   label="Department"
@@ -179,8 +201,8 @@ export default function JobInfo() {
 
                   {departments.map((department) => {
                     return (
-                      <MenuItem value={department.id}>
-                        {department.DepartmentName}
+                      <MenuItem value={department.departmentId}>
+                        {department.departmentName}
                       </MenuItem>
                     );
                   })}
@@ -192,10 +214,10 @@ export default function JobInfo() {
                 variant="outlined"
                 className={classes.formControl}
               >
-                <InputLabel id="DesignationID">Designation</InputLabel>
+                <InputLabel id="designationId">Designation</InputLabel>
                 <Select
-                  name="DesignationID"
-                  value={values.DesignationID}
+                  name="designationId"
+                  value={values.designationId}
                   size="small"
                   onChange={handleInputChange}
                   label="Designation"
@@ -206,8 +228,8 @@ export default function JobInfo() {
 
                   {designations.map((designation) => {
                     return (
-                      <MenuItem value={designation.id}>
-                        {designation.DesignationName}
+                      <MenuItem value={designation.designationId}>
+                        {designation.designationName}
                       </MenuItem>
                     );
                   })}
@@ -221,8 +243,8 @@ export default function JobInfo() {
               >
                 <InputLabel id="JobType">JobType</InputLabel>
                 <Select
-                  name="JobType"
-                  value={values.JobType}
+                  name="jobType"
+                  value={values.jobType}
                   size="small"
                   onChange={handleInputChange}
                   label="Job Type"
@@ -243,20 +265,33 @@ export default function JobInfo() {
                 <RadioGroup
                   row
                   size="small"
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
+
+                <div>
                 <Button
-                  Style="margin-top:30px;"
+                  Style=" width:150px; margin-top:30px; margin:5px;"
                   variant="contained"
                   onClick={createJobInfo}
                 >
                   Create
+                  </Button>
+
+                  <Button
+                  Style=" color:white; background-color:green; width:150px; margin-top:30px; margin:5px;"
+                  variant="outlined"
+                  onClick={updateJobInfo}
+                >
+                  Update
                 </Button>
+                </div>
+
+       
               </FormControl>
             </Grid>
 
@@ -268,8 +303,8 @@ export default function JobInfo() {
               >
                 <InputLabel id="CompanyID">Company</InputLabel>
                 <Select
-                  name="CompanyID"
-                  value={values.CompanyID}
+                  name="companyId"
+                  value={values.companyId}
                   size="small"
                   onChange={handleInputChange}
                   label="Company"
@@ -280,8 +315,8 @@ export default function JobInfo() {
 
                   {companies.map((company) => {
                     return (
-                      <MenuItem value={company.id}>
-                        {company.CompanyName}
+                      <MenuItem value={company.companyId}>
+                        {company.companyName}
                       </MenuItem>
                     );
                   })}
@@ -295,8 +330,8 @@ export default function JobInfo() {
               >
                 <InputLabel id="BranchID">Branch</InputLabel>
                 <Select
-                  name="BranchID"
-                  value={values.BranchID}
+                  name="branchId"
+                  value={values.branchId}
                   size="small"
                   onChange={handleInputChange}
                   label="Branch"
@@ -307,7 +342,7 @@ export default function JobInfo() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.id}>{branch.BranchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
                     );
                   })}
                 </Select>
@@ -318,8 +353,8 @@ export default function JobInfo() {
                 label="EnteredOn"
                 size="small"
                 variant="outlined"
-                name="EnteredOn"
-                value={values.EnteredOn}
+                name="enteredOn"
+                value={values.enteredOn}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -328,11 +363,13 @@ export default function JobInfo() {
               <TextField
                 variant="outlined"
                 label="EnteredBy"
-                name="EnteredBy"
+                name="enteredBy"
                 size="small"
                 onChange={handleInputChange}
-                value={values.EnteredBy}
+                value={values.enteredBy}
               ></TextField>
+
+                
             </Grid>
           </Grid>
         </form>
@@ -350,7 +387,7 @@ export default function JobInfo() {
 
               tooltip: "Delete Jobinfo",
               onClick: (event, rowData) => {
-                deleteJobInfo(rowData.id);
+                deleteJobInfo(rowData.jodInfoId);
               },
             },
 
@@ -358,7 +395,7 @@ export default function JobInfo() {
               icon: "edit",
               tooltip: "Edit Company",
 
-              onClick: (event, rowData) => {},
+              onClick: (event, rowData) => {loadSingleJobInfo(rowData.jodInfoId)},
             },
           ]}
           options={{

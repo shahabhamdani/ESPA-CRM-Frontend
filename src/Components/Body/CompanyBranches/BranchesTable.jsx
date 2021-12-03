@@ -13,11 +13,11 @@ export default function BranchesTable() {
   const classes = useStyles();
 
   const columns = [
-    { title: "ID", field: "id" },
-    { title: "BranchName", field: "BranchName" },
-    { title: "BranchEmail", field: "BranchEmail" },
-    { title: "LandLineNumber", field: "LandLineNumber" },
-    { title: "Active", field: "Active" },
+    { title: "ID", field: "branchId" },
+    { title: "BranchName", field: "branchName" },
+    { title: "BranchEmail", field: "branchEmail" },
+    { title: "LandLineNumber", field: "landLineNumber" },
+    { title: "Active", field: "active" },
     {
       title: "",
       field: "internal_action",
@@ -54,7 +54,7 @@ export default function BranchesTable() {
 
               tooltip: "Delete Branch",
               onClick: (event, rowData) => {
-                deleteBranch(rowData.id);
+                deleteBranch(rowData.branchId);
               },
             },
 
@@ -63,14 +63,14 @@ export default function BranchesTable() {
               tooltip: "Edit Branch",
 
               onClick: (event, rowData) => {
-                history.push("/branches/update/" + rowData.id);
+                history.push("/branches/update/" + rowData.branchId);
               },
             },
             {
               icon: "visibility",
               tooltip: "View Branch",
               onClick: (event, rowData) => {
-                history.push("/branches/view/" + rowData.id);
+                history.push("/branches/view/" + rowData.branchId);
               },
             },
           ]}

@@ -23,19 +23,18 @@ export default function CreateBranchForm() {
   let history = useHistory();
 
   const initialFValues = {
-    id: "",
-    Type: "",
-    CompanyID: "",
-    CityID: "",
-    BranchName: "",
-    BranchEmail: "",
-    LandLineNumber: "",
-    CustomerSupport: "",
-    WhatsappNumber: "",
-    GeoLocation: "",
-    CountryID: "",
-    ProvenceID: "",
-    Active: "",
+    type: "",
+    companyId: 0,
+    cityId: 0 ,
+    branchName: "",
+    branchEmail: "",
+    landLineNumber: "",
+    customerSupport: "",
+    whatsappNumber: "",
+    geoLocation: "",
+    countryId: 0,
+    provenceId: 0,
+    active: "",
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -54,7 +53,7 @@ export default function CreateBranchForm() {
   };
   
   const loadCities = async () => {
-    const cityResult = await api.get("/cities");
+    const cityResult = await api.get("/city");
     setCities(cityResult.data);
   };
 
@@ -64,7 +63,7 @@ export default function CreateBranchForm() {
   };
 
   const loadCountries = async () => {
-    const countryResult = await api.get("/countries");
+    const countryResult = await api.get("/country");
     setCountries(countryResult.data);
   };
 
@@ -106,19 +105,19 @@ export default function CreateBranchForm() {
               <TextField
                 variant="outlined"
                 label="Branch Name"
-                name="BranchName"
+                name="branchName"
                 onChange={handleInputChange}
                 size="small"
-                value={values.BranchName}
+                value={values.branchName}
               ></TextField>
                <TextField
                 variant="outlined"
                 label="Branch Email"
-                name="BranchEmail"
+                name="branchEmail"
                 type="email"
                 onChange={handleInputChange}
                 size="small"
-                value={values.BranchEmail}
+                value={values.branchEmail}
               ></TextField>
              
               <FormControl size="small" variant="outlined" className={classes.formControl}>
@@ -126,8 +125,8 @@ export default function CreateBranchForm() {
                   Branch Type
                 </InputLabel>
                 <Select
-                  name="Type"
-                  value={values.Type}
+                  name="type"
+                  value={values.type}
                   onChange={handleInputChange}
                   size="small"
 
@@ -142,12 +141,12 @@ export default function CreateBranchForm() {
               </FormControl>
 
               <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="CompanyID">
+                <InputLabel id="companyId">
                   Company
                 </InputLabel>
                 <Select
-                  name="CompanyID"
-                  value={values.CompanyID}
+                  name="companyId"
+                  value={values.companyId}
                   size="small"
 
                   onChange={handleInputChange}
@@ -159,8 +158,8 @@ export default function CreateBranchForm() {
 
                   {companies.map((company) => {
                     return (
-                      <MenuItem value={company.id}>
-                        {company.CompanyName}
+                      <MenuItem value={company.companyId}>
+                        {company.companyName}
                       </MenuItem>
                     );
                   })}
@@ -169,12 +168,12 @@ export default function CreateBranchForm() {
 
 
               <FormControl variant="outlined" size="small" className={classes.formControl}>
-                <InputLabel id="CityID">
+                <InputLabel id="cityId">
                   City
                 </InputLabel>
                 <Select
-                  name="CityID"
-                  value={values.CityID}
+                  name="cityId"
+                  value={values.cityId}
                   onChange={handleInputChange}
                   label="City"
                 >
@@ -184,8 +183,8 @@ export default function CreateBranchForm() {
 
                   {cities.map((city) => {
                     return (
-                      <MenuItem value={city.id}>
-                        {city.CityName}
+                      <MenuItem value={city.cityId}>
+                        {city.cityName}
                       </MenuItem>
                     );
                   })}
@@ -194,12 +193,12 @@ export default function CreateBranchForm() {
 
 
               <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="CountryID">
+                <InputLabel id="countryId">
                   Country
                 </InputLabel>
                 <Select
-                  name="CountryID"
-                  value={values.CountryID}
+                  name="countryId"
+                  value={values.countryId}
                   onChange={handleInputChange}
                   label="Country"
                 >
@@ -209,8 +208,8 @@ export default function CreateBranchForm() {
 
                   {countries.map((country) => {
                     return (
-                      <MenuItem value={country.id}>
-                        {country.CountryName}
+                      <MenuItem value={country.countryId}>
+                        {country.countryName}
                       </MenuItem>
                     );
                   })}
@@ -219,12 +218,12 @@ export default function CreateBranchForm() {
 
 
               <FormControl  size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="ProvenceID">
+                <InputLabel id="provenceId">
                   Provence
                 </InputLabel>
                 <Select
-                  name="ProvenceID"
-                  value={values.ProvenceID}
+                  name="provenceId"
+                  value={values.provenceId}
                   onChange={handleInputChange}
                   label="ProvencE"
                 >
@@ -234,8 +233,8 @@ export default function CreateBranchForm() {
 
                   {provences.map((provence) => {
                     return (
-                      <MenuItem value={provence.id}>
-                        {provence.ProvenceName}
+                      <MenuItem value={provence.provenceId}>
+                        {provence.provenceName}
                       </MenuItem>
                     );
                   })}
@@ -246,9 +245,9 @@ export default function CreateBranchForm() {
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
                   row
-                  name="Active"
+                  name="active"
                   onChange={handleInputChange}
-                  value={values.Active}
+                  value={values.active}
                 >
                   <FormControlLabel value="Y" control={<Radio />} label="Yes" />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
@@ -266,43 +265,43 @@ export default function CreateBranchForm() {
             <TextField
                 variant="outlined"
                 label="LandLine Number"
-                name="LandLineNumber"
+                name="landLineNumber"
                 size="small"
                 inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.LandLineNumber}
+                value={values.landLineNumber}
               ></TextField>
 
               
               <TextField
                 variant="outlined"
                 label="Customer Support"
-                name="CustomerSupport"
+                name="customerSupport"
                 size="small"
                 inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.CustomerSupport}
+                value={values.customerSupport}
               ></TextField>
 
               
               <TextField
                 variant="outlined"
                 label="Whatsapp Number"
-                name="WhatsappNumber"
+                name="whatsappNumber"
                 size="small"
                 inputProps={{ maxLength: 10 }} 
                 onChange={handleInputChange}
-                value={values.WhatsappNumber}
+                value={values.whatsappNumber}
               ></TextField>
 
 <TextField
                 variant="outlined"
                 label="GeoLocation"
-                name="GeoLocation"
+                name="geoLocation"
                 type="email"
                 onChange={handleInputChange}
                 size="small"
-                value={values.GeoLocation}
+                value={values.geoLocation}
               ></TextField>
 
 

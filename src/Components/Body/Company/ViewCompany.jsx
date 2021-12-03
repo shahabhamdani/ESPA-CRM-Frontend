@@ -9,9 +9,9 @@ import { PageHeader } from "../../Common/CommonComponent";
 
 const initialFValues = {
   id: "",
-  CompanyName: "",
-  CompanyLogo: "",
-  Active: "N",
+  companyName: "",
+  companyLogo: "",
+  active: "Y",
 };
 
 export default function ViewCompany() {
@@ -33,9 +33,9 @@ export default function ViewCompany() {
       </IconButton>
       <h1>Company ID: {values.id}</h1>
       <List>
-        <ListItem>Company Name: {values.CompanyName}</ListItem>
-        <ListItem>Company Logo: {values.CompanyLogo}</ListItem>{" "}
-        <ListItem>Active: {values.Active}</ListItem>
+        <ListItem>Company Name: {values.companyName}</ListItem>
+        <ListItem>Company Logo: {values.companyLogo}</ListItem>{" "}
+        <ListItem>Active: {values.active}</ListItem>
       </List>
     </div>
   );

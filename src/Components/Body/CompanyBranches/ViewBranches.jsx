@@ -7,31 +7,33 @@ import { IconButton, List, ListItem } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 
-const initialFValues = {
-  id: "",
-  Type: "",
-  CompanyID: "",
-  CityID: "",
-  BranchName: "",
-  BranchEmail: "",
-  LandLineNumber: "",
-  CustomerSupport: "",
-  WhatsappNumber: "",
-  GeoLocation: "",
-  CountryID: "",
-  ProvenceID: "",
-  Active: "",
-};
 
 export default function ViewBranches() {
   let history = useHistory();
+  const { id } = useParams();
+
+  const initialFValues = {
+    branchId: ""+{id},
+    type: "",
+    companyId: "",
+    cityId: "",
+    branchName: "",
+    branchEmail: "",
+    landLineNumber: "",
+    customerSupport: "",
+    whatsappNumber: "",
+    geoLocation: "",
+    countryId: "",
+    provenceId: "",
+    active: "",
+  };
   const [values, setValues] = useState(initialFValues);
 
+  
   const loadBranch = async () => {
     const result = await api.get("/branches/" + id);
     setValues(result.data);
   };
-  const { id } = useParams();
   useEffect(() => {
     loadBranch();
   }, []);
@@ -43,18 +45,18 @@ export default function ViewBranches() {
       </IconButton>
       <h1>Branch ID: {values.id}</h1>
       <List>
-        <ListItem>Branch Name: {values.BranchName}</ListItem>
-        <ListItem>Branch Type: {values.Type}</ListItem>
-        <ListItem>Company ID: {values.CompanyID}</ListItem>
-        <ListItem>City ID: {values.CityID}</ListItem>
-        <ListItem>Branch Email: {values.BranchEmail}</ListItem>
-        <ListItem>LandLineNumber: {values.LandLineNumber}</ListItem>
-        <ListItem>Customer Support: {values.CustomerSupport}</ListItem>
-        <ListItem>Whatsapp Number: {values.WhatsappNumber}</ListItem>
-        <ListItem>Geo Location: {values.GeoLocation}</ListItem>{" "}
-        <ListItem>CountryID: {values.CountryID}</ListItem>
-        <ListItem>ProvenceID: {values.ProvenceID}</ListItem>
-        <ListItem>Active: {values.Active}</ListItem>
+        <ListItem>Branch Name: {values.branchName}</ListItem>
+        <ListItem>Branch Type: {values.type}</ListItem>
+        <ListItem>Company ID: {values.companyId}</ListItem>
+        <ListItem>City ID: {values.cityId}</ListItem>
+        <ListItem>Branch Email: {values.branchEmail}</ListItem>
+        <ListItem>LandLineNumber: {values.landLineNumber}</ListItem>
+        <ListItem>Customer Support: {values.customerSupport}</ListItem>
+        <ListItem>Whatsapp Number: {values.whatsappNumber}</ListItem>
+        <ListItem>Geo Location: {values.geoLocation}</ListItem>{" "}
+        <ListItem>CountryID: {values.countryId}</ListItem>
+        <ListItem>ProvenceID: {values.provenceId}</ListItem>
+        <ListItem>Active: {values.active}</ListItem>
       </List>
     </div>
   );
