@@ -1,3 +1,5 @@
+import HeaderComponent from "../Header/HeaderComponent";
+
 import {
   Grid,
   makeStyles,
@@ -13,10 +15,16 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import { useHistory, useParams } from "react-router";
+import auth from "../../auth";
+
+import React, { useEffect } from "react";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import api from "../Api/Api";
+import { BrowserRouter } from "react-router-dom";
+import reactDom from "react-dom";
 
 export default function Login() {
   const paperStyle = {
@@ -34,6 +42,19 @@ export default function Login() {
   const textFieldStyle = { margin: "10px auto" };
   const forgotPassStyle = { color: "#377dff", align: "right" };
 
+  let history = useHistory();
+
+  const login = () => {
+    alert("Login Success");
+    auth.isAuthenticated(true);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("user-info")) {
+      login();
+    }
+  }, []);
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -47,9 +68,29 @@ export default function Login() {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
+    username: "",
     password: "",
     showPassword: false,
   });
+
+  const request = {
+    username: values.username,
+    password: values.password,
+  };
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  const getUser = async () => {
+    const result = await api.post("/login", request);
+
+    if (result.status == "200") {
+      localStorage.setItem("user-info", JSON.stringify(result.data[0]));
+      login();
+      refreshPage();
+    }
+  };
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -80,6 +121,8 @@ export default function Login() {
             id="username"
             label="Username"
             defaultValue=""
+            value={values.username}
+            onChange={handleChange("username")}
             variant="outlined"
             fullWidth
             style={textFieldStyle}
@@ -115,6 +158,7 @@ export default function Login() {
               variant="contained"
               style={buttonStyle}
               fullWidth
+              onClick={getUser}
             >
               Log in
             </Button>
