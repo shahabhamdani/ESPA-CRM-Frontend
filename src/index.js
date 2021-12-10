@@ -4,8 +4,8 @@ import './index.css';
 import HR from './HR/App';
 import Admin from './App';
 import CSR from './CSR/App';
+import Login from '../src/Components/Authentication/App'
 
-import Login from "../src/Components/Authentication/Login"
 import {useState} from "react"
 import HRModule from './HR/App';
 import CSRModule from './CSR/App';
