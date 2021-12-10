@@ -7,15 +7,21 @@ import { useHistory, useParams } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
+import base64 from "base-64";
 
 export default function UpdateCompany() {
   const classes = useStyles();
   const { id } = useParams();
 
+  const [file, setFile] = useState([]);
+
+  const [imgRef, setImageRef] = useState();
+  const [source, setSource] = useState();
+
   let history = useHistory();
 
   const initialFValues = {
-    companyId: ""+{id},
+    companyId: "" + { id },
     companyName: "",
     companyLogo: "",
     active: "N",
@@ -30,25 +36,59 @@ export default function UpdateCompany() {
     });
   };
 
+  const oneImageUpload = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    setImageRef(URL.createObjectURL(file));
+  };
+
+  const [image, setImage] = useState([]);
+
   const request = {
     ...values,
   };
 
-
   const updateCompany = async () => {
+    var formData = new FormData();
+    var imageFile = file;
+
+    request.companyLogo = "" + imageFile.name;
+
+    formData.append("files", imageFile);
+    formData.append("id", "" + "");
+
+    api.post("/imageupload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     const response = await api.put("/company/", request);
     alert("" + response.statusText);
     history.push("/company");
   };
 
-  const loadCpompanies = async () => {
+  const loadCompany = async () => {
     const result = await api.get("/company/" + id);
-    console.log(result.data);
+    loadImage(result.data.companyLogo);
     setValues(result.data);
   };
 
+  const loadImage = (img) => {
+    api
+      .get("/imageupload/" + img, { responseType: "blob" })
+      .then(function (response) {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = function () {
+          var imageDataUrl = reader.result;
+          setImageRef(imageDataUrl);
+        };
+      });
+  };
+
   useEffect(() => {
-    loadCpompanies();
+    loadCompany();
   }, []);
 
   return (
@@ -93,7 +133,35 @@ export default function UpdateCompany() {
                   </Button>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}></Grid>
+
+              <Grid item xs={6}>
+                <input
+                  accept="image/*"
+                  className={classes.uploadImage}
+                  id="contained-button-file"
+                  type="file"
+                  onChange={oneImageUpload}
+                />
+
+                <div className={classes.imageUploadDiv}>
+                  <img
+                    alt=""
+                    src={imgRef}
+                    className={classes.companyCreateImage}
+                  ></img>
+
+                  <label htmlFor="contained-button-file">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                      component="span"
+                    >
+                      Upload
+                    </Button>
+                  </label>
+                </div>
+              </Grid>
             </Grid>
           </form>
         </Paper>

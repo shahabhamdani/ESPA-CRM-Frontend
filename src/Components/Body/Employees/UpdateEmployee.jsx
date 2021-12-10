@@ -24,11 +24,10 @@ export default function UpdateEmployee() {
   let history = useHistory();
   const { id } = useParams();
 
-
   const date = new Date().toLocaleDateString() + "";
 
   const initialFValues = {
-    employeeId: ""+{id},
+    employeeId: "" + { id },
     firstName: "",
     lastName: "",
     email: "",
@@ -38,17 +37,17 @@ export default function UpdateEmployee() {
     guardianRelation: "",
     gender: "",
     cnicnumber: "",
-    geoLocation:"",
+    geoLocation: "",
     dateOfBirth: "",
     phoneNumber: "",
     employeeCode: "",
     companyId: "",
     branchId: "",
     bankAccountNumber: "",
-    customerSupport:"",
-    landLineNumber:"",
-    employeeNtn:"",
-    whatsappNumber:"",
+    customerSupport: "",
+    landLineNumber: "",
+    employeeNtn: "",
+    whatsappNumber: "",
     bankAccountTitle: "",
     bankName: "",
     active: "",
@@ -62,6 +61,19 @@ export default function UpdateEmployee() {
   const [values, setValues] = useState(initialFValues);
   const [companies, setCompany] = useState([]);
   const [branches, setBranches] = useState([]);
+
+  const loadImage = (img) => {
+    api
+      .get("/imageupload/" + img, { responseType: "blob" })
+      .then(function (response) {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = function () {
+          var imageDataUrl = reader.result;
+          setImageRef(imageDataUrl);
+        };
+      });
+  };
 
   const loadCompanies = async () => {
     const result = await api.get("/company");
@@ -89,12 +101,26 @@ export default function UpdateEmployee() {
 
   const oneImageUpload = (e) => {
     const file = e.target.files[0];
-    setImageRef(URL.createObjectURL(file));
     setImage(file);
+    setImageRef(URL.createObjectURL(file));
   };
 
-
   const updateEmployee = async () => {
+    var formData = new FormData();
+    var imagefile = image;
+
+    request.employeeImage = "" + values.cnicnumber + imagefile.name;
+    alert(imagefile.name);
+
+    formData.append("files", imagefile);
+    formData.append("id", "" + values.cnicnumber);
+
+    api.post("/imageupload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     const response = await api.put("/employee/", request);
     alert("" + response.statusText);
     history.push("/employee");
@@ -102,7 +128,7 @@ export default function UpdateEmployee() {
 
   const loadEmployee = async () => {
     const result = await api.get("/employee/" + id);
-    console.log(result.data);
+    loadImage(result.data.employeeImage);
     setValues(result.data);
   };
 
@@ -121,7 +147,7 @@ export default function UpdateEmployee() {
           className={classes.uploadImage}
           id="contained-button-file"
           type="file"
-          value={image}
+          //value={image}
           onChange={oneImageUpload}
         />
 
@@ -299,7 +325,9 @@ export default function UpdateEmployee() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>
+                        {branch.branchName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
@@ -325,8 +353,6 @@ export default function UpdateEmployee() {
             </Grid>
 
             <Grid item xs={6}>
-           
-
               <TextField
                 variant="outlined"
                 label="CNIC Number"

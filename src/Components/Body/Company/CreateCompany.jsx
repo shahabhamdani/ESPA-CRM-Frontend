@@ -29,6 +29,8 @@ export default function CreateCompany() {
     active: "N",
   };
 
+  const [file, setFile] = useState([]);
+
   const [values, setValues] = useState(initialFValues);
 
   const handleInputChange = (e) => {
@@ -44,6 +46,20 @@ export default function CreateCompany() {
   };
 
   const createCompany = async () => {
+    var formData = new FormData();
+    var imageFile = file;
+
+    request.companyLogo = "" + imageFile.name;
+
+    formData.append("files", imageFile);
+    formData.append("id", "" + "");
+
+    api.post("/imageupload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     const response = await api.post("/company", request);
     alert("" + response.statusText);
     history.push("/company");
@@ -53,7 +69,7 @@ export default function CreateCompany() {
 
   const oneImageUpload = (e) => {
     const file = e.target.files[0];
-
+    setFile(file);
     setImageRef(URL.createObjectURL(file));
   };
 

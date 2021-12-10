@@ -3,7 +3,6 @@ import {
   FormControl,
   FormLabel,
   Grid,
-  
   InputLabel,
   TextField,
   Paper,
@@ -14,13 +13,12 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 
-
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
-import * as moment  from 'moment';
+import * as moment from "moment";
 
 export default function CreateEmployeeForm() {
   const classes = useStyles();
@@ -28,9 +26,7 @@ export default function CreateEmployeeForm() {
 
   const temp = new Date().toLocaleDateString();
 
-  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
-  
-  
+  const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
 
   const initialFValues = {
     firstName: "",
@@ -38,27 +34,26 @@ export default function CreateEmployeeForm() {
     email: "",
     phoneNumber: "",
     companyId: 1,
-    branchId:1,
+    branchId: 1,
     enteredBy: "",
-    enteredOn: date ,
+    enteredOn: date,
     address: "",
     guardianRelation: "",
     guardianName: "",
     dateOfBirth: "",
     gender: "",
-    mobileNumber:"",
+    mobileNumber: "",
     cnicnumber: "",
     employeeImage: "",
     employeeCode: "",
-    employeeNtn:"",
+    employeeNtn: "",
     bankAccountNumber: "",
     bankAccountTitle: "",
     bankName: "",
     active: "",
   };
 
-  const [name, setName] = useState("");
-  const [image, setImage] = useState();
+  const [file, setFile] = useState([]);
 
   const [values, setValues] = useState(initialFValues);
   const [companies, setCompany] = useState([]);
@@ -90,25 +85,41 @@ export default function CreateEmployeeForm() {
 
   const oneImageUpload = (e) => {
     const file = e.target.files[0];
+    setFile(file);
     setImageRef(URL.createObjectURL(file));
-    setImage(file);
   };
 
   const createEmployee = async () => {
-    request.dateOfBirth =  moment(request.dateOfBirth.BeginDate_1).format('YYYY-MM-DD')
-    const response = await api.post("/employee", request)
-    
-    .then(response => { 
-      console.log(response)
-    })
-    .catch(error => {
-        console.log(error.response)
+    var formData = new FormData();
+    var imagefile = file;
+
+    request.employeeImage = "" + values.cnicnumber + imagefile.name;
+    alert(imagefile.name);
+
+    formData.append("files", imagefile);
+    formData.append("id", "" + values.cnicnumber);
+
+    api.post("/imageupload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
 
+    request.dateOfBirth = moment(request.dateOfBirth.BeginDate_1).format(
+      "YYYY-MM-DD"
+    );
+    const response = await api
+      .post("/employee", request)
 
-    
-    
-    history.push("/employee");};
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+
+    history.push("/employee");
+  };
 
   useEffect(() => {
     loadCompanies();
@@ -124,7 +135,7 @@ export default function CreateEmployeeForm() {
           className={classes.uploadImage}
           id="contained-button-file"
           type="file"
-          value={image}
+          //value={image}
           onChange={oneImageUpload}
         />
 
@@ -227,7 +238,6 @@ export default function CreateEmployeeForm() {
                 variant="outlined"
                 type="date"
                 inputFormat="yyyy-MM-dd"
-
                 name="dateOfBirth"
                 format="YYYY-MM-DD"
                 defaultValue={values.dateOfBirth}
@@ -259,8 +269,6 @@ export default function CreateEmployeeForm() {
                 </RadioGroup>
               </FormControl>
 
-
-
               <FormControl
                 size="small"
                 variant="outlined"
@@ -288,7 +296,6 @@ export default function CreateEmployeeForm() {
                 </Select>
               </FormControl>
 
-
               <FormControl
                 size="small"
                 variant="outlined"
@@ -308,13 +315,13 @@ export default function CreateEmployeeForm() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>
+                        {branch.branchName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
-
-                                          
 
               <FormControl>
                 <FormLabel>Active</FormLabel>
@@ -333,13 +340,9 @@ export default function CreateEmployeeForm() {
                   Create
                 </Button>
               </FormControl>
-              
             </Grid>
 
-            
-
             <Grid item xs={6}>
-
               <TextField
                 variant="outlined"
                 label="CNIC Number"

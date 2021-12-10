@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   FormControl,
@@ -18,18 +19,21 @@ import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
-import * as moment  from 'moment';
+import * as moment from "moment";
 
 export default function CreateUser() {
   const classes = useStyles();
   let history = useHistory();
 
   const temp = new Date().toLocaleDateString() + "";
-  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
+  const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
+
+  const { id } = useParams();
 
   const initialFValues = {
     userName: "",
     password: "",
+    employeeId: id,
     branchId: 0,
     companyId: 0,
     userRolesId: 0,
@@ -71,7 +75,6 @@ export default function CreateUser() {
   };
 
   const createUser = async () => {
-
     const response = await api.post("/users", request);
     alert("" + response.statusText);
     history.push("/employee");
@@ -108,9 +111,7 @@ export default function CreateUser() {
                 value={values.password}
               ></TextField>
 
-    
-
-             <FormControl
+              <FormControl
                 size="small"
                 variant="outlined"
                 className={classes.formControl}
@@ -128,11 +129,14 @@ export default function CreateUser() {
                   </MenuItem>
 
                   {userRoles.map((role) => {
-                    return <MenuItem value={role.userRolesId}>{role.userRole}</MenuItem>;
+                    return (
+                      <MenuItem value={role.userRolesId}>
+                        {role.userRole}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>
-
 
               <FormControl>
                 <FormLabel>Active</FormLabel>
@@ -203,7 +207,9 @@ export default function CreateUser() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>
+                        {branch.branchName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
