@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import HR from './HR/App';
 import Admin from './App';
+import App from './App';
+
 import CSR from './CSR/App';
 import Login from '../src/Components/Authentication/App'
 
@@ -10,6 +12,10 @@ import {useState} from "react"
 import HRModule from './HR/App';
 import CSRModule from './CSR/App';
 
+ReactDOM.render(
+  <App/>,
+document.getElementById('root'));
+/*
 if(localStorage.getItem("user-info")){
   
   var userData = JSON.parse(localStorage.getItem('user-info'));
@@ -39,4 +45,4 @@ if(localStorage.getItem("user-info")){
   ReactDOM.render(
     <Login/>,
   document.getElementById('root'));
-}
+}*/
