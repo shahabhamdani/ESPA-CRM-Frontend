@@ -25,8 +25,16 @@ import CreateEmployeeForm from "../Body/Employees/CreateEmployeeForm";
 import CreateUser from "../Body/Users/CreateUser";
 import JobDetails from "../Body/JobInfo/JobInfo";
 import JobInfo from "../Body/JobInfo/JobInfo";
+import { useHistory } from "react-router";
 
 export default function HeaderComponent() {
+  let history = useHistory();
+
+  function logout() {
+    localStorage.clear();
+    history.push("/");
+    window.location.reload(false);
+  }
   const classes = useStyles();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,7 +65,7 @@ export default function HeaderComponent() {
           <Route exact path="/link5" render={() => <Link5 />} />
           <Route exact path="/notification" render={() => <Notification />} />
           <Route exact path="/branches" render={() => <Branches />} />
-          <Route exact path="/logout" render={() => <Dashboard />} />
+          <Route exact path="/logout" render={() => logout()} />
           <Route exact path="/" render={() => <Dashboard />} />
 
           <Route
