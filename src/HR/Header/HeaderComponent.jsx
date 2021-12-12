@@ -6,7 +6,7 @@ import Dashboard from "../Body/Dashboard/Dashboard";
 import Employee from "../Body/Employees/Employee";
 import Link3 from "../Body/Link3";
 import Link4 from "../Body/Link4";
-import Logout from "../Body/Logout";
+//import Logout from "../Body/Logout";
 import { Box } from "@material-ui/core";
 import { useStyles } from "./HeaderStyles";
 import ViewEmployee from "../Body/Employees/ViewEmployee";
@@ -42,7 +42,7 @@ export default function HeaderComponent() {
           <Route exact path="/employee" render={() => <Employee />} />
           <Route exact path="/link3" render={() => <Link3 />} />
           <Route exact path="/link4" render={() => <Link4 />} />
-          <Route exact path="/logout" render={() => <Logout />} />
+          <Route exact path="/logout" render={() => <Dashboard />} />
           <Route exact path="/" render={() => <Dashboard />} />
 
           <Route

@@ -9,7 +9,7 @@ import Link3 from "../Body/Link3";
 import Link4 from "../Body/Link4";
 import Link5 from "../Body/Link5";
 import Notification from "../Body/Notification";
-import Logout from "../Body/Logout";
+//import Logout from "../Body/Logout";
 import Branches from "../Body/CompanyBranches/Branches";
 import { Box } from "@material-ui/core";
 import { useStyles } from "./HeaderStyles";
@@ -57,7 +57,7 @@ export default function HeaderComponent() {
           <Route exact path="/link5" render={() => <Link5 />} />
           <Route exact path="/notification" render={() => <Notification />} />
           <Route exact path="/branches" render={() => <Branches />} />
-          <Route exact path="/logout" render={() => <Logout />} />
+          <Route exact path="/logout" render={() => <Dashboard />} />
           <Route exact path="/" render={() => <Dashboard />} />
 
           <Route
