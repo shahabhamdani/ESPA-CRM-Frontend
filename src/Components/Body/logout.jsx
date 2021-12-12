@@ -6,7 +6,6 @@ export default function Logout() {
 
   function refreshPage() {
     history.push("/");
-
     window.location.reload(false);
   }
 
