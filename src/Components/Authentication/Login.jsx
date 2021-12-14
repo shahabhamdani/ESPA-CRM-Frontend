@@ -83,7 +83,7 @@ export default function Login() {
   }
 
   const getUser = async () => {
-    const result = await api.post("/login", request);
+    const result = await api.post("/login/", request);
 
     if (result.status == "200") {
       localStorage.setItem("user-info", JSON.stringify(result.data[0]));
