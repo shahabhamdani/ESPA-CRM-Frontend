@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import {
   FormControl,
   FormLabel,
@@ -90,20 +92,36 @@ export default function CreateEmployeeForm() {
   };
 
   const createEmployee = async () => {
-    var formData = new FormData();
+    //var formData = new FormData();
     var imagefile = file;
 
-    request.employeeImage = "" + values.cnicnumber + imagefile.name;
-    alert(imagefile.name);
+    request.employeeImage = "dp_" + values.cnicnumber;
 
-    formData.append("files", imagefile);
-    formData.append("id", "" + values.cnicnumber);
-
+    // formData.append("files", imagefile);
+    //formData.append("id", "" + values.cnicnumber);
+    /*
     api.post("/imageupload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    });
+    });*/
+
+    axios({
+      method: "put",
+      url:
+        "https://0nnfo3mxbf.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+        values.cnicnumber,
+      data: imagefile,
+      headers: { "Content-Type": "multipart/binary" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
 
     request.dateOfBirth = moment(request.dateOfBirth.BeginDate_1).format(
       "YYYY-MM-DD"
