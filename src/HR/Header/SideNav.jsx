@@ -1,6 +1,6 @@
 import { Drawer, Hidden, Paper, Typography } from "@material-ui/core";
 import React from "react";
-import { useStyles } from "./HeaderStyles";
+import { useStyles } from "../../Components/Header/HeaderStyles";
 import SideNavData from "./SideNavData";
 
 export default function SideNav({

@@ -69,7 +69,7 @@ export default function UpdateEmployee() {
         img,
       {
         headers: {
-          "Content-Type": "image/jpeg",
+          "Content-Type": "image/*",
         },
       }
     )
@@ -124,7 +124,7 @@ export default function UpdateEmployee() {
   };
 
   const updateEmployee = async () => {
-    var formData = new FormData();
+    /*var formData = new FormData();
     var imagefile = image;
 
     request.employeeImage = "" + values.cnicnumber + imagefile.name;
@@ -138,6 +138,30 @@ export default function UpdateEmployee() {
         "Content-Type": "multipart/form-data",
       },
     });
+
+    */
+    var imagefile = image;
+
+    request.employeeImage = "dp_" + values.cnicnumber;
+
+    axios({
+      method: "put",
+      url:
+        "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+        values.cnicnumber,
+      data: imagefile,
+      headers: {
+        "Content-Type": "image/*",
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
 
     const response = await api.put("/employee/", request);
     alert("" + response.statusText);

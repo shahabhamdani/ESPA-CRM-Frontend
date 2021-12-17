@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import Btn from "@material-ui/core/Button";
 
 import {
   FormControl,
@@ -13,6 +15,8 @@ import {
   MenuItem,
   Radio,
   FormControlLabel,
+  IconButton,
+  Icon,
 } from "@material-ui/core";
 
 import { useHistory } from "react-router";
@@ -53,6 +57,9 @@ export default function CreateEmployeeForm() {
     bankAccountTitle: "",
     bankName: "",
     active: "",
+    cnicFile: "",
+    employmentLetterFile: "",
+    securityChequeFile: "",
   };
 
   const [file, setFile] = useState([]);
@@ -69,6 +76,31 @@ export default function CreateEmployeeForm() {
   const loadBranches = async () => {
     const result = await api.get("/branches");
     setBranches(result.data);
+  };
+
+  const [empLetter, setEmpLetter] = useState();
+  const [SecCheque, setSecCheque] = useState();
+  const [cnic, setCnic] = useState();
+
+  const [SecChequeColor, setSecChequeColor] = useState("inherit");
+  const [empLetterColor, setEmpLetterColor] = useState("inherit");
+  const [cnicColor, setCnicColor] = useState("inherit");
+
+  const [fileName, setFileName] = useState("");
+
+  const securityChequeChangeHandler = (event) => {
+    setSecCheque(event.target.files[0]);
+    setSecChequeColor("primary");
+  };
+
+  const empLetterChangeHandler = (event) => {
+    setEmpLetter(event.target.files[0]);
+    setEmpLetterColor("primary");
+  };
+
+  const cnicChangeHandler = (event) => {
+    setCnic(event.target.files[0]);
+    setCnicColor("primary");
   };
 
   const handleInputChange = (e) => {
@@ -96,6 +128,9 @@ export default function CreateEmployeeForm() {
     var imagefile = file;
 
     request.employeeImage = "dp_" + values.cnicnumber;
+    request.cnicFile = cnic.name + values.cnicnumber;
+    request.employmentLetterFile = empLetter.name + values.cnicnumber;
+    request.securityChequeFile = SecCheque.name + values.cnicnumber;
 
     // formData.append("files", imagefile);
     //formData.append("id", "" + values.cnicnumber);
@@ -105,6 +140,44 @@ export default function CreateEmployeeForm() {
         "Content-Type": "multipart/form-data",
       },
     });*/
+
+    putMultipleFiles(
+      {
+        f: cnic,
+      },
+      {
+        f: empLetter,
+      },
+      {
+        f: SecCheque,
+      }
+    );
+
+    async function putMultipleFiles(...objectsToGet) {
+      await Promise.all(
+        objectsToGet.map((obj) =>
+          axios({
+            method: "put",
+            url:
+              "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+              obj.f.name +
+              values.cnicnumber,
+            data: obj.f,
+            headers: {
+              "Content-Type": "image/*",
+            },
+          })
+            .then(function (response) {
+              //handle success
+              console.log(response);
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            })
+        )
+      );
+    }
 
     axios({
       method: "put",
@@ -158,6 +231,29 @@ export default function CreateEmployeeForm() {
           //value={image}
           onChange={oneImageUpload}
         />
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="securityChequeBtn"
+          type="file"
+          onChange={securityChequeChangeHandler}
+        />
+
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="cnic"
+          type="file"
+          onChange={cnicChangeHandler}
+        />
+
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="empLetter"
+          type="file"
+          onChange={empLetterChangeHandler}
+        />
 
         <div className={classes.imageUploadDiv}>
           <img alt="" src={imgRef} className={classes.companyCreateImage}></img>
@@ -168,11 +264,48 @@ export default function CreateEmployeeForm() {
               size="small"
               color="primary"
               component="span"
+              startIcon={<CloudUploadIcon />}
             >
-              Upload
+              image
             </Button>
           </label>
         </div>
+
+        <label htmlFor="securityChequeBtn">
+          <Button
+            variant="contained"
+            size="small"
+            color={SecChequeColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Security Cheque
+          </Button>
+        </label>
+
+        <label htmlFor="empLetter">
+          <Button
+            variant="contained"
+            size="small"
+            color={empLetterColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Employment Letter
+          </Button>
+        </label>
+
+        <label htmlFor="cnic">
+          <Button
+            variant="contained"
+            size="small"
+            color={cnicColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Cnic
+          </Button>
+        </label>
       </div>
 
       <Paper className={classes.pageContent}>

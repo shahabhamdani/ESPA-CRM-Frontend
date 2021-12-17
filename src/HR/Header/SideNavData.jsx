@@ -11,7 +11,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import { NavLink } from "react-router-dom";
-import { useStyles } from "./HeaderStyles";
+import { useStyles } from "../../Components/Header/HeaderStyles";
 
 export default function SideNavData({ handleDrawerClose }) {
   const classes = useStyles();

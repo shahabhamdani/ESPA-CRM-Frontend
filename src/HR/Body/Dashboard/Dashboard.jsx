@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
 import React from "react";
-import { PageHeader } from "../../Common/CommonComponent";
+import { PageHeader } from "../../../Components/Common/CommonComponent";
 
 export default function Dashboard() {
   return (

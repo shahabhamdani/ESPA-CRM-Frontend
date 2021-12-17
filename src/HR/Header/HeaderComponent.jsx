@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../../Components/Header/Navbar";
 import SideNav from "./SideNav";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "../Body/Dashboard/Dashboard";
-import Employee from "../Body/Employees/Employee";
+import Employee from "../../Components/Body/Employees/Employee";
 import Link3 from "../Body/Link3";
 import Link4 from "../Body/Link4";
 //import Logout from "../Body/Logout";
 import { useHistory } from "react-router";
 
 import { Box } from "@material-ui/core";
-import { useStyles } from "./HeaderStyles";
-import ViewEmployee from "../Body/Employees/ViewEmployee";
-import UpdateEmployee from "../Body/Employees/UpdateEmployee";
-import CreateEmployeeForm from "../Body/Employees/CreateEmployeeForm";
-import CreateUser from "../Body/Users/CreateUser";
-import JobInfo from "../Body/JobInfo/JobInfo";
+import { useStyles } from "../../Components/Header/HeaderStyles";
+import ViewEmployee from "../../Components/Body/Employees/ViewEmployee";
+import UpdateEmployee from "../../Components/Body/Employees/UpdateEmployee";
+import CreateEmployeeForm from "../../Components/Body/Employees/CreateEmployeeForm";
+import CreateUser from "../../Components/Body/Users/CreateUser";
+import JobInfo from "../../Components/Body/JobInfo/JobInfo";
 
 export default function HeaderComponent() {
   let history = useHistory();
