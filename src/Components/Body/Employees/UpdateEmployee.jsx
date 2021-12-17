@@ -64,36 +64,22 @@ export default function UpdateEmployee() {
   const [branches, setBranches] = useState([]);
 
   const loadImage = (img) => {
-    axios
-      .get(
-        "https://0nnfo3mxbf.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_1111"
-      )
-      .then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
+    fetch(
+      "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+        img,
+      {
+        headers: {
+          "Content-Type": "image/jpeg",
+        },
+      }
+    )
+      .then((response) => response.blob())
+      .then((imageBlob) => {
+        // Then create a local URL for that image and print it
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setImageRef(imageObjectURL);
       });
 
-    /*
-    axios
-      .get(
-        "https://0nnfo3mxbf.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_1111",
-        { headers: { "Access-Control-Allow-Origin": "*" } },
-        { responseType: "blob" }
-      )
-      .then(function (response) {
-        console.log(response);
-        var reader = new window.FileReader();
-        reader.readAsDataURL(response.data);
-        reader.onload = function () {
-          var imageDataUrl = reader.result;
-          setImageRef(imageDataUrl);
-        };
-      });
-
-      */
     /*
     api
       .get("/imageupload/" + img, { responseType: "blob" })

@@ -109,10 +109,12 @@ export default function CreateEmployeeForm() {
     axios({
       method: "put",
       url:
-        "https://0nnfo3mxbf.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+        "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
         values.cnicnumber,
       data: imagefile,
-      headers: { "Content-Type": "multipart/binary" },
+      headers: {
+        "Content-Type": "image/*",
+      },
     })
       .then(function (response) {
         //handle success
