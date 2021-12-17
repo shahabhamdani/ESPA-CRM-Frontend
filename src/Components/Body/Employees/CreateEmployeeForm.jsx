@@ -128,9 +128,9 @@ export default function CreateEmployeeForm() {
     var imagefile = file;
 
     request.employeeImage = "dp_" + values.cnicnumber;
-    request.cnicFile = cnic.name + values.cnicnumber;
-    request.employmentLetterFile = empLetter.name + values.cnicnumber;
-    request.securityChequeFile = SecCheque.name + values.cnicnumber;
+    request.cnicFile = values.cnicnumber + cnic.name;
+    request.employmentLetterFile = values.cnicnumber + empLetter.name;
+    request.securityChequeFile = values.cnicnumber + SecCheque.name;
 
     // formData.append("files", imagefile);
     //formData.append("id", "" + values.cnicnumber);
@@ -160,8 +160,8 @@ export default function CreateEmployeeForm() {
             method: "put",
             url:
               "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
-              obj.f.name +
-              values.cnicnumber,
+              values.cnicnumber +
+              obj.f.name,
             data: obj.f,
             headers: {
               "Content-Type": "image/*",
