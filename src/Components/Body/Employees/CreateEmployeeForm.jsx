@@ -530,6 +530,16 @@ export default function CreateEmployeeForm() {
 
               <TextField
                 variant="outlined"
+                label="Mobile Number"
+                name="mobileNumber"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.mobileNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
                 label="Guardian Number"
                 name="guardianNumber"
                 size="small"
