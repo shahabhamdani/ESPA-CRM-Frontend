@@ -60,6 +60,8 @@ export default function CreateEmployeeForm() {
     cnicFile: "",
     employmentLetterFile: "",
     securityChequeFile: "",
+    emergencyNumber: "",
+    guardianNumber: "",
   };
 
   const [file, setFile] = useState([]);
@@ -514,6 +516,26 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Emergency Number"
+                name="emergencyNumber"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.emergencyNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Guardian Number"
+                name="guardianNumber"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.guardianNumber}
               ></TextField>
 
               <TextField
