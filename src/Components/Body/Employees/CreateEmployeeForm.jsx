@@ -572,11 +572,14 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
               ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Emergency Number"
                 name="emergencyNumber"
@@ -585,9 +588,14 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.emergencyNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Mobile Number"
                 name="mobileNumber"
@@ -596,9 +604,14 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.mobileNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Guardian Number"
                 type="tel"
@@ -607,7 +620,12 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.guardianNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
               <TextField
                 variant="outlined"
