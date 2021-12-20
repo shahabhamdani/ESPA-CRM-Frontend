@@ -3,6 +3,12 @@ import axios from "axios";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Btn from "@material-ui/core/Button";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import {
   FormControl,
   FormLabel,
@@ -18,6 +24,8 @@ import {
   IconButton,
   Icon,
 } from "@material-ui/core";
+
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
@@ -69,6 +77,21 @@ export default function CreateEmployeeForm() {
   const [values, setValues] = useState(initialFValues);
   const [companies, setCompany] = useState([]);
   const [branches, setBranches] = useState([]);
+
+  const [diagOpen, setDiagOpen] = React.useState(false);
+
+  const handleDiagClickOpen = () => {
+    setDiagOpen(true);
+  };
+
+  const handleDiagClickClose = () => {
+    setDiagOpen(false);
+  };
+
+  const handleDiagClickAgree = () => {
+    setDiagOpen(false);
+    createEmployee();
+  };
 
   const loadCompanies = async () => {
     const result = await api.get("/company");
@@ -224,6 +247,27 @@ export default function CreateEmployeeForm() {
   return (
     <div>
       <PageHeader label="Employee" pageTitle="Add Employee" />
+
+      <Dialog
+        open={diagOpen}
+        onClose={handleDiagClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Create Employee"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDiagClickClose}>Disagree</Button>
+          <Button onClick={handleDiagClickAgree} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <div Style="padding:10px;">
         <input
           accept="image/*"
@@ -311,7 +355,11 @@ export default function CreateEmployeeForm() {
       </div>
 
       <Paper className={classes.pageContent}>
-        <form className={classes.formStye}>
+        <ValidatorForm
+          onSubmit={handleDiagClickOpen}
+          className={classes.formStye}
+          onError={(errors) => console.log(errors)}
+        >
           <Grid container>
             <Grid item xs={12}></Grid>
             <Grid item xs={6}>
@@ -333,14 +381,16 @@ export default function CreateEmployeeForm() {
                 value={values.lastName}
               ></TextField>
 
-              <TextField
-                variant="outlined"
+              <TextValidator
                 label="Email"
-                name="email"
+                variant="outlined"
                 onChange={handleInputChange}
-                size="small"
+                name="email"
                 value={values.email}
-              ></TextField>
+                size="small"
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
+              />
 
               <TextField
                 variant="outlined"
@@ -396,6 +446,9 @@ export default function CreateEmployeeForm() {
                 name="dateOfBirth"
                 format="YYYY-MM-DD"
                 defaultValue={values.dateOfBirth}
+                InputProps={{
+                  inputProps: { min: "", max: date },
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -491,37 +544,43 @@ export default function CreateEmployeeForm() {
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
 
-                <Button variant="contained" onClick={createEmployee}>
+                <Button type="submit" variant="contained">
                   Create
                 </Button>
               </FormControl>
             </Grid>
 
             <Grid item xs={6}>
-              <TextField
-                variant="outlined"
+              <TextValidator
                 label="CNIC Number"
+                variant="outlined"
+                onChange={handleInputChange}
                 name="cnicnumber"
+                value={values.cnicnumber}
                 size="small"
                 inputProps={{ maxLength: 13 }}
-                onChange={handleInputChange}
-                value={values.cnicnumber}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Phone Number"
                 name="phoneNumber"
+                type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
               <TextField
                 variant="outlined"
                 label="Emergency Number"
                 name="emergencyNumber"
+                type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
@@ -532,6 +591,7 @@ export default function CreateEmployeeForm() {
                 variant="outlined"
                 label="Mobile Number"
                 name="mobileNumber"
+                type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
@@ -541,6 +601,7 @@ export default function CreateEmployeeForm() {
               <TextField
                 variant="outlined"
                 label="Guardian Number"
+                type="tel"
                 name="guardianNumber"
                 size="small"
                 inputProps={{ maxLength: 11 }}
@@ -581,6 +642,7 @@ export default function CreateEmployeeForm() {
                 label="BankAccountNumber"
                 name="bankAccountNumber"
                 size="small"
+                type="number"
                 inputProps={{ maxLength: 100 }}
                 onChange={handleInputChange}
                 value={values.bankAccountNumber}
@@ -618,7 +680,7 @@ export default function CreateEmployeeForm() {
               ></TextField>
             </Grid>
           </Grid>
-        </form>
+        </ValidatorForm>
       </Paper>
     </div>
   );

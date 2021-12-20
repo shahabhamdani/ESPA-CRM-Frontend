@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import {
   FormControl,
@@ -32,28 +35,30 @@ export default function UpdateEmployee() {
     firstName: "",
     lastName: "",
     email: "",
-    address: "",
-    employeeImage: "",
-    guardianName: "",
-    guardianRelation: "",
-    gender: "",
-    cnicnumber: "",
-    geoLocation: "",
-    dateOfBirth: "",
     phoneNumber: "",
+    companyId: 0,
+    branchId: 0,
+    enteredBy: "",
+    enteredOn: date,
+    address: "",
+    guardianRelation: "",
+    guardianName: "",
+    dateOfBirth: "",
+    gender: "",
+    mobileNumber: "",
+    cnicnumber: "",
+    employeeImage: "",
     employeeCode: "",
-    companyId: "",
-    branchId: "",
-    bankAccountNumber: "",
-    customerSupport: "",
-    landLineNumber: "",
     employeeNtn: "",
-    whatsappNumber: "",
+    bankAccountNumber: "",
     bankAccountTitle: "",
     bankName: "",
     active: "",
-    enteredBy: "",
-    enteredOn: "" + date,
+    cnicFile: "",
+    employmentLetterFile: "",
+    securityChequeFile: "",
+    emergencyNumber: "",
+    guardianNumber: "",
   };
 
   const [name, setName] = useState("");
@@ -103,6 +108,29 @@ export default function UpdateEmployee() {
     setBranches(result.data);
   };
 
+  const [empLetter, setEmpLetter] = useState();
+  const [SecCheque, setSecCheque] = useState();
+  const [cnic, setCnic] = useState();
+
+  const [SecChequeColor, setSecChequeColor] = useState("inherit");
+  const [empLetterColor, setEmpLetterColor] = useState("inherit");
+  const [cnicColor, setCnicColor] = useState("inherit");
+
+  const securityChequeChangeHandler = (event) => {
+    setSecCheque(event.target.files[0]);
+    setSecChequeColor("primary");
+  };
+
+  const empLetterChangeHandler = (event) => {
+    setEmpLetter(event.target.files[0]);
+    setEmpLetterColor("primary");
+  };
+
+  const cnicChangeHandler = (event) => {
+    setCnic(event.target.files[0]);
+    setCnicColor("primary");
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -124,48 +152,82 @@ export default function UpdateEmployee() {
   };
 
   const updateEmployee = async () => {
-    /*var formData = new FormData();
-    var imagefile = image;
+    if (cnic == null) {
+      alert("Please Attach cnic");
+    } else if (SecCheque == null) {
+      alert("Please Attach Security Cheque");
+    } else if (empLetter == null) {
+      alert("Please Attach employment Letter");
+    } else {
+      var imagefile = image;
 
-    request.employeeImage = "" + values.cnicnumber + imagefile.name;
-    alert(imagefile.name);
+      request.employeeImage = "dp_" + values.cnicnumber;
 
-    formData.append("files", imagefile);
-    formData.append("id", "" + values.cnicnumber);
+      request.cnicFile = values.cnicnumber + cnic.name;
+      request.employmentLetterFile = values.cnicnumber + empLetter.name;
+      request.securityChequeFile = values.cnicnumber + SecCheque.name;
 
-    api.post("/imageupload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+      putMultipleFiles(
+        {
+          f: cnic,
+        },
+        {
+          f: empLetter,
+        },
+        {
+          f: SecCheque,
+        }
+      );
 
-    */
-    var imagefile = image;
+      async function putMultipleFiles(...objectsToGet) {
+        await Promise.all(
+          objectsToGet.map((obj) =>
+            axios({
+              method: "put",
+              url:
+                "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+                values.cnicnumber +
+                obj.f.name,
+              data: obj.f,
+              headers: {
+                "Content-Type": "image/*",
+              },
+            })
+              .then(function (response) {
+                //handle success
+                console.log(response);
+              })
+              .catch(function (response) {
+                //handle error
+                console.log(response);
+              })
+          )
+        );
+      }
 
-    request.employeeImage = "dp_" + values.cnicnumber;
-
-    axios({
-      method: "put",
-      url:
-        "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
-        values.cnicnumber,
-      data: imagefile,
-      headers: {
-        "Content-Type": "image/*",
-      },
-    })
-      .then(function (response) {
-        //handle success
-        console.log(response);
+      axios({
+        method: "put",
+        url:
+          "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+          values.cnicnumber,
+        data: imagefile,
+        headers: {
+          "Content-Type": "image/*",
+        },
       })
-      .catch(function (response) {
-        //handle error
-        console.log(response);
-      });
+        .then(function (response) {
+          //handle success
+          console.log(response);
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response);
+        });
 
-    const response = await api.put("/employee/", request);
-    alert("" + response.statusText);
-    history.push("/employee");
+      const response = await api.put("/employee/", request);
+      alert("" + response.statusText);
+      history.push("/employee");
+    }
   };
 
   const loadEmployee = async () => {
@@ -182,7 +244,7 @@ export default function UpdateEmployee() {
 
   return (
     <div>
-      <PageHeader label="Employee" pageTitle="Add Employee" />
+      <PageHeader label="Employee" pageTitle="Update Employee" />
       <div Style="padding:10px;">
         <input
           accept="image/*"
@@ -191,6 +253,29 @@ export default function UpdateEmployee() {
           type="file"
           //value={image}
           onChange={oneImageUpload}
+        />
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="securityChequeBtn"
+          type="file"
+          onChange={securityChequeChangeHandler}
+        />
+
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="cnic"
+          type="file"
+          onChange={cnicChangeHandler}
+        />
+
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="empLetter"
+          type="file"
+          onChange={empLetterChangeHandler}
         />
 
         <div className={classes.imageUploadDiv}>
@@ -202,15 +287,56 @@ export default function UpdateEmployee() {
               size="small"
               color="primary"
               component="span"
+              startIcon={<CloudUploadIcon />}
             >
-              Upload
+              image
             </Button>
           </label>
         </div>
+
+        <label htmlFor="securityChequeBtn">
+          <Button
+            variant="contained"
+            size="small"
+            color={SecChequeColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Security Cheque
+          </Button>
+        </label>
+
+        <label htmlFor="empLetter">
+          <Button
+            variant="contained"
+            size="small"
+            color={empLetterColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Employment Letter
+          </Button>
+        </label>
+
+        <label htmlFor="cnic">
+          <Button
+            variant="contained"
+            size="small"
+            color={cnicColor}
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Cnic
+          </Button>
+        </label>
       </div>
 
       <Paper className={classes.pageContent}>
-        <form className={classes.formStye}>
+        <ValidatorForm
+          onSubmit={updateEmployee}
+          className={classes.formStye}
+          onError={(errors) => console.log(errors)}
+        >
           <Grid container>
             <Grid item xs={12}></Grid>
             <Grid item xs={6}>
@@ -232,14 +358,16 @@ export default function UpdateEmployee() {
                 value={values.lastName}
               ></TextField>
 
-              <TextField
-                variant="outlined"
+              <TextValidator
                 label="Email"
-                name="email"
+                variant="outlined"
                 onChange={handleInputChange}
-                size="small"
+                name="email"
                 value={values.email}
-              ></TextField>
+                size="small"
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
+              />
 
               <TextField
                 variant="outlined"
@@ -291,8 +419,13 @@ export default function UpdateEmployee() {
                 size="small"
                 variant="outlined"
                 type="date"
+                inputFormat="yyyy-MM-dd"
                 name="dateOfBirth"
+                format="YYYY-MM-DD"
                 defaultValue={values.dateOfBirth}
+                InputProps={{
+                  inputProps: { min: "", max: date },
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -388,31 +521,69 @@ export default function UpdateEmployee() {
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
 
-                <Button variant="contained" onClick={updateEmployee}>
-                  Update
+                <Button type="submit" variant="contained">
+                  Create
                 </Button>
               </FormControl>
             </Grid>
 
             <Grid item xs={6}>
-              <TextField
-                variant="outlined"
+              <TextValidator
                 label="CNIC Number"
+                variant="outlined"
+                onChange={handleInputChange}
                 name="cnicnumber"
+                value={values.cnicnumber}
                 size="small"
                 inputProps={{ maxLength: 13 }}
-                onChange={handleInputChange}
-                value={values.cnicnumber}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Phone Number"
                 name="phoneNumber"
+                type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
+
+              <TextField
+                variant="outlined"
+                label="Emergency Number"
+                name="emergencyNumber"
+                type="tel"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.emergencyNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Mobile Number"
+                name="mobileNumber"
+                type="tel"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.mobileNumber}
+              ></TextField>
+
+              <TextField
+                variant="outlined"
+                label="Guardian Number"
+                type="tel"
+                name="guardianNumber"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.guardianNumber}
               ></TextField>
 
               <TextField
@@ -448,6 +619,7 @@ export default function UpdateEmployee() {
                 label="BankAccountNumber"
                 name="bankAccountNumber"
                 size="small"
+                type="number"
                 inputProps={{ maxLength: 100 }}
                 onChange={handleInputChange}
                 value={values.bankAccountNumber}
@@ -467,6 +639,7 @@ export default function UpdateEmployee() {
                 label="EnteredOn"
                 size="small"
                 variant="outlined"
+                inputFormat="yyyy-MM-dd"
                 name="enteredOn"
                 value={values.enteredOn}
                 InputLabelProps={{
@@ -484,7 +657,7 @@ export default function UpdateEmployee() {
               ></TextField>
             </Grid>
           </Grid>
-        </form>
+        </ValidatorForm>
       </Paper>
     </div>
   );

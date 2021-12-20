@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
 } from "@material-ui/core";
+import { useHistory } from "react-router";
 
 export default function Profile() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,8 +19,21 @@ export default function Profile() {
     setAnchorEl(event.currentTarget);
   };
 
+  let history = useHistory();
+
+  function logout() {
+    localStorage.clear();
+    window.location.reload(false);
+    history.push("/");
+  }
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (index) => {
+    if (index == 1) {
+      logout();
+    }
   };
 
   const dropDownData = [
@@ -43,7 +57,11 @@ export default function Profile() {
         onClose={handleClose}
       >
         {dropDownData.map((item, i) => (
-          <MenuItem key={i} component={ListItem} onClick={handleClose}>
+          <MenuItem
+            key={i}
+            component={ListItem}
+            onClick={(event) => handleMenuItemClick(i)}
+          >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemIcon>{item.label}</ListItemIcon>
           </MenuItem>

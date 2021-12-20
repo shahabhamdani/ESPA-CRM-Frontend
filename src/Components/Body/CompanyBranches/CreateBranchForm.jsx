@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import {
   FormControl,
@@ -13,6 +14,11 @@ import {
   Radio,
   FormControlLabel,
 } from "@material-ui/core";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
@@ -22,10 +28,24 @@ export default function CreateBranchForm() {
   const classes = useStyles();
   let history = useHistory();
 
+  const [diagOpen, setDiagOpen] = React.useState(false);
+
+  const handleDiagClickOpen = () => {
+    setDiagOpen(true);
+  };
+
+  const handleDiagClickClose = () => {
+    setDiagOpen(false);
+  };
+
+  const handleDiagClickAgree = () => {
+    setDiagOpen(false);
+    createBranch();
+  };
   const initialFValues = {
     type: "",
     companyId: 0,
-    cityId: 0 ,
+    cityId: 0,
     branchName: "",
     branchEmail: "",
     landLineNumber: "",
@@ -34,7 +54,7 @@ export default function CreateBranchForm() {
     geoLocation: "",
     countryId: 0,
     provenceId: 0,
-    active: "",
+    active: "Y",
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -44,17 +64,14 @@ export default function CreateBranchForm() {
   const [provences, setProvences] = useState([]);
   const [countries, setCountries] = useState([]);
 
-
-
-
   const loadCompanies = async () => {
     const result = await api.get("/company");
     setCompany(result.data);
   };
-  
-  const loadCities = async () => {
-    const cityResult = await api.get("/city");
-    setCities(cityResult.data);
+
+  const loadCities = async (provId) => {
+    const cityResult = await api.get("/city/" + provId);
+    await setCities(cityResult.data);
   };
 
   const loadProvence = async () => {
@@ -67,9 +84,13 @@ export default function CreateBranchForm() {
     setCountries(countryResult.data);
   };
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name == "provenceId") {
+      loadCities(value);
+    }
+
     setValues({
       ...values,
       [name]: value,
@@ -88,18 +109,40 @@ export default function CreateBranchForm() {
 
   useEffect(() => {
     loadCompanies();
-    loadCities();
     loadCountries();
     loadProvence();
-
   }, []);
 
   return (
     <div>
       <PageHeader label="Branches" pageTitle="Add Branch" />
 
+      <Dialog
+        open={diagOpen}
+        onClose={handleDiagClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Create Branch"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDiagClickClose}>Disagree</Button>
+          <Button onClick={handleDiagClickAgree} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Paper className={classes.pageContent}>
-        <form className={classes.formStye}>
+        <ValidatorForm
+          onSubmit={handleDiagClickOpen}
+          className={classes.formStye}
+          onError={(errors) => console.log(errors)}
+        >
           <Grid container>
             <Grid item xs={6}>
               <TextField
@@ -110,17 +153,23 @@ export default function CreateBranchForm() {
                 size="small"
                 value={values.branchName}
               ></TextField>
-               <TextField
+
+              <TextValidator
                 variant="outlined"
+                onChange={handleInputChange}
                 label="Branch Email"
                 name="branchEmail"
-                type="email"
-                onChange={handleInputChange}
-                size="small"
                 value={values.branchEmail}
-              ></TextField>
-             
-              <FormControl size="small" variant="outlined" className={classes.formControl}>
+                size="small"
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
+              />
+
+              <FormControl
+                size="small"
+                variant="outlined"
+                className={classes.formControl}
+              >
                 <InputLabel id="demo-simple-select-outlined-label">
                   Branch Type
                 </InputLabel>
@@ -129,7 +178,6 @@ export default function CreateBranchForm() {
                   value={values.type}
                   onChange={handleInputChange}
                   size="small"
-
                   label="Branch Type"
                 >
                   <MenuItem value="">
@@ -140,15 +188,16 @@ export default function CreateBranchForm() {
                 </Select>
               </FormControl>
 
-              <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="companyId">
-                  Company
-                </InputLabel>
+              <FormControl
+                size="small"
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="companyId">Company</InputLabel>
                 <Select
                   name="companyId"
                   value={values.companyId}
                   size="small"
-
                   onChange={handleInputChange}
                   label="Company"
                 >
@@ -166,36 +215,12 @@ export default function CreateBranchForm() {
                 </Select>
               </FormControl>
 
-
-              <FormControl variant="outlined" size="small" className={classes.formControl}>
-                <InputLabel id="cityId">
-                  City
-                </InputLabel>
-                <Select
-                  name="cityId"
-                  value={values.cityId}
-                  onChange={handleInputChange}
-                  label="City"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-
-                  {cities.map((city) => {
-                    return (
-                      <MenuItem value={city.cityId}>
-                        {city.cityName}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl> 
-
-
-              <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="countryId">
-                  Country
-                </InputLabel>
+              <FormControl
+                size="small"
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="countryId">Country</InputLabel>
                 <Select
                   name="countryId"
                   value={values.countryId}
@@ -216,16 +241,17 @@ export default function CreateBranchForm() {
                 </Select>
               </FormControl>
 
-
-              <FormControl  size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="provenceId">
-                  Provence
-                </InputLabel>
+              <FormControl
+                size="small"
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="provenceId">Provence</InputLabel>
                 <Select
                   name="provenceId"
                   value={values.provenceId}
                   onChange={handleInputChange}
-                  label="ProvencE"
+                  label="Provence"
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -241,6 +267,30 @@ export default function CreateBranchForm() {
                 </Select>
               </FormControl>
 
+              <FormControl
+                variant="outlined"
+                size="small"
+                className={classes.formControl}
+              >
+                <InputLabel id="cityId">City</InputLabel>
+                <Select
+                  name="cityId"
+                  value={values.cityId}
+                  onChange={handleInputChange}
+                  label="City"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+
+                  {cities.map((city) => {
+                    return (
+                      <MenuItem value={city.cityId}>{city.cityName}</MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+
               <FormControl>
                 <FormLabel>Active</FormLabel>
                 <RadioGroup
@@ -249,65 +299,78 @@ export default function CreateBranchForm() {
                   onChange={handleInputChange}
                   value={values.active}
                 >
-                  <FormControlLabel value="Y" control={<Radio />} label="Yes" />
+                  <FormControlLabel
+                    selected
+                    value="Y"
+                    control={<Radio />}
+                    label="Yes"
+                  />
                   <FormControlLabel value="N" control={<Radio />} label="No" />
                 </RadioGroup>
 
-                <Button variant="contained" onClick={createBranch}>
+                <Button type="submit" variant="contained">
                   Create
                 </Button>
               </FormControl>
-
-              </Grid>
+            </Grid>
             <Grid item xs={6}>
-
-              
-            <TextField
+              <TextValidator
                 variant="outlined"
                 label="LandLine Number"
                 name="landLineNumber"
+                type="tel"
                 size="small"
-                inputProps={{ maxLength: 10 }} 
+                inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.landLineNumber}
-              ></TextField>
-
-              
-              <TextField
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
+              <TextValidator
                 variant="outlined"
                 label="Customer Support"
                 name="customerSupport"
+                type="tel"
                 size="small"
-                inputProps={{ maxLength: 10 }} 
+                inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.customerSupport}
-              ></TextField>
-
-              
-              <TextField
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
+              <TextValidator
                 variant="outlined"
                 label="Whatsapp Number"
                 name="whatsappNumber"
+                type="tel"
                 size="small"
-                inputProps={{ maxLength: 10 }} 
+                inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.whatsappNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
-<TextField
+              <TextField
                 variant="outlined"
                 label="GeoLocation"
                 name="geoLocation"
-                type="email"
                 onChange={handleInputChange}
                 size="small"
                 value={values.geoLocation}
               ></TextField>
-
-
             </Grid>
           </Grid>
-        </form>
+        </ValidatorForm>
       </Paper>
     </div>
   );

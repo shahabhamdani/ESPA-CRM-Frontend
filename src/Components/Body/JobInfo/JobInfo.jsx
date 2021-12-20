@@ -21,19 +21,16 @@ import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
-import * as moment  from 'moment';
-
+import * as moment from "moment";
 
 export default function JobInfo() {
   const classes = useStyles();
   let history = useHistory();
 
   const tableRef = React.createRef();
-  
 
   const temp = new Date().toLocaleDateString() + "";
-  const date = moment(temp.BeginDate_1).format('YYYY-MM-DD')
-
+  const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
 
   const { id } = useParams();
 
@@ -54,19 +51,19 @@ export default function JobInfo() {
   ];
 
   const initialFValues = {
-    jodInfoId:0,
+    jodInfoId: 0,
     joiningDate: "",
     salary: 0,
     jobType: "",
     expiryDate: "0000-00-00",
     enteredBy: "",
-    enteredOn:  date,
+    enteredOn: date,
     active: "",
     designationId: 0,
     departmentId: 0,
     companyId: 0,
     branchId: 0,
-    employeeId:  id,
+    employeeId: id,
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -84,7 +81,7 @@ export default function JobInfo() {
   };
 
   const loadSingleJobInfo = async (id) => {
-    const result = await api.get("/jobInfo/"+id);
+    const result = await api.get("/jobInfo/" + id);
     setValues(result.data);
   };
 
@@ -126,9 +123,15 @@ export default function JobInfo() {
   };
 
   const createJobInfo = async () => {
-    request.joiningDate =  moment(request.joiningDate.BeginDate_1).format('YYYY-MM-DD');
-    request.expiryDate =  moment(request.expiryDate.BeginDate_1).format('YYYY-MM-DD');
-    request.enteredOn =  moment(request.enteredOn.BeginDate_1).format('YYYY-MM-DD');
+    request.joiningDate = moment(request.joiningDate.BeginDate_1).format(
+      "YYYY-MM-DD"
+    );
+    request.expiryDate = moment(request.expiryDate.BeginDate_1).format(
+      "YYYY-MM-DD"
+    );
+    request.enteredOn = moment(request.enteredOn.BeginDate_1).format(
+      "YYYY-MM-DD"
+    );
     request.salary = parseInt(request.salary);
     request.employeeId = parseInt(request.employeeId);
     const response = await api.post("/jobInfo", request);
@@ -140,7 +143,6 @@ export default function JobInfo() {
     const response = await api.put("/jobInfo/", request);
     setValues(initialFValues);
     loadJobInfo();
-
   };
 
   useEffect(() => {
@@ -164,6 +166,9 @@ export default function JobInfo() {
                 size="small"
                 type="date"
                 variant="outlined"
+                InputProps={{
+                  inputProps: { min: "", max: date },
+                }}
                 name="joiningDate"
                 onChange={handleInputChange}
                 value={values.joiningDate}
@@ -274,24 +279,22 @@ export default function JobInfo() {
                 </RadioGroup>
 
                 <div>
-                <Button
-                  Style=" width:150px; margin-top:30px; margin:5px;"
-                  variant="contained"
-                  onClick={createJobInfo}
-                >
-                  Create
+                  <Button
+                    Style=" width:150px; margin-top:30px; margin:5px;"
+                    variant="contained"
+                    onClick={createJobInfo}
+                  >
+                    Create
                   </Button>
 
                   <Button
-                  Style=" color:white; background-color:green; width:150px; margin-top:30px; margin:5px;"
-                  variant="outlined"
-                  onClick={updateJobInfo}
-                >
-                  Update
-                </Button>
+                    Style=" color:white; background-color:green; width:150px; margin-top:30px; margin:5px;"
+                    variant="outlined"
+                    onClick={updateJobInfo}
+                  >
+                    Update
+                  </Button>
                 </div>
-
-       
               </FormControl>
             </Grid>
 
@@ -342,7 +345,9 @@ export default function JobInfo() {
 
                   {branches.map((branch) => {
                     return (
-                      <MenuItem value={branch.branchId}>{branch.branchName}</MenuItem>
+                      <MenuItem value={branch.branchId}>
+                        {branch.branchName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
@@ -368,8 +373,6 @@ export default function JobInfo() {
                 onChange={handleInputChange}
                 value={values.enteredBy}
               ></TextField>
-
-                
             </Grid>
           </Grid>
         </form>
@@ -395,7 +398,9 @@ export default function JobInfo() {
               icon: "edit",
               tooltip: "Edit Company",
 
-              onClick: (event, rowData) => {loadSingleJobInfo(rowData.jodInfoId)},
+              onClick: (event, rowData) => {
+                loadSingleJobInfo(rowData.jodInfoId);
+              },
             },
           ]}
           options={{
