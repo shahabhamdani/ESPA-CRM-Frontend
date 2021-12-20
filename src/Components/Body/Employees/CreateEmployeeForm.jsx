@@ -38,6 +38,8 @@ export default function CreateEmployeeForm() {
   const classes = useStyles();
   let history = useHistory();
 
+  var userData = JSON.parse(localStorage.getItem("user-info"));
+
   const temp = new Date().toLocaleDateString();
 
   const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
@@ -49,7 +51,7 @@ export default function CreateEmployeeForm() {
     phoneNumber: "",
     companyId: 1,
     branchId: 1,
-    enteredBy: "",
+    enteredBy: "" + userData.userName,
     enteredOn: date,
     address: "",
     guardianRelation: "",
@@ -689,6 +691,7 @@ export default function CreateEmployeeForm() {
               />
 
               <TextField
+                disabled
                 variant="outlined"
                 label="EnteredBy"
                 name="enteredBy"
