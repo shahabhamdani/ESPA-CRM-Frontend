@@ -131,6 +131,7 @@ export default function UpdateEmployee() {
       .then((response) => response.blob())
       .then((res) => {
         // Then create a local URL for that image and print it
+
         download(res, temp, "image/*");
       });
   };
@@ -216,19 +217,34 @@ export default function UpdateEmployee() {
     setImageRef(URL.createObjectURL(file));
   };
 
-  const updateEmployee = async () => {
+  function uploadImage() {
     var imagefile = image;
 
-    try {
-      request.employeeImage = "dp_" + values.cnicnumber;
-      request.cnicFile = values.cnicnumber + cnic.name;
-      request.employmentLetterFile = values.cnicnumber + empLetter.name;
-      request.securityChequeFile = values.cnicnumber + SecCheque.name;
-      request.guardianCnicFile = values.cnicnumber + guardianCnic.name;
-    } catch (e) {
-      alert(e);
-    }
+    axios({
+      method: "put",
+      url:
+        "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+        values.cnicnumber,
+      data: imagefile,
+      headers: {
+        "Content-Type": "image/*",
+      },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
+  }
 
+  function uploadFiles() {
+    request.cnicFile = values.cnicnumber + cnic.name;
+    request.employmentLetterFile = values.cnicnumber + empLetter.name;
+    request.securityChequeFile = values.cnicnumber + SecCheque.name;
+    request.guardianCnicFile = values.cnicnumber + guardianCnic.name;
     putMultipleFiles(
       {
         f: cnic,
@@ -268,30 +284,27 @@ export default function UpdateEmployee() {
             })
         )
       );
-
-      axios({
-        method: "put",
-        url:
-          "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
-          values.cnicnumber,
-        data: imagefile,
-        headers: {
-          "Content-Type": "image/*",
-        },
-      })
-        .then(function (response) {
-          //handle success
-          console.log(response);
-        })
-        .catch(function (response) {
-          //handle error
-          console.log(response);
-        });
-
-      const response = await api.put("/employee/", request);
-      alert("" + response.statusText);
-      history.push("/employee");
     }
+  }
+
+  const updateEmployee = async () => {
+    var imagefile = image;
+
+    try {
+      uploadFiles();
+    } catch (e) {
+      alert("Files Not Attached");
+    }
+
+    try {
+      uploadImage();
+    } catch (e) {
+      alert("Image Not Attached");
+    }
+
+    const response = await api.put("/employee/", request);
+    alert("" + response.statusText);
+    history.push("/employee");
   };
 
   const loadEmployee = async () => {
