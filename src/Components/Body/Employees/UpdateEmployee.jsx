@@ -1,6 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import download from "downloadjs";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
@@ -16,19 +24,30 @@ import {
   MenuItem,
   Radio,
   FormControlLabel,
+  Link,
 } from "@material-ui/core";
 import { useHistory, useParams } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
 import Button from "@mui/material/Button";
 import { useStyles } from "../BodyStyles";
 import api from "../../Api/Api";
+import { Box } from "@mui/system";
+import * as moment from "moment";
 
 export default function UpdateEmployee() {
   const classes = useStyles();
   let history = useHistory();
   const { id } = useParams();
 
-  const date = new Date().toLocaleDateString() + "";
+  const temp = new Date().toLocaleDateString() + "";
+  const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
+
+  const initialDownloadLinks = {
+    secChequeLink: "",
+    empLetterLink: "",
+    guardianCnicLink: "",
+    cnicLink: "",
+  };
 
   const initialFValues = {
     employeeId: "" + { id },
@@ -59,6 +78,7 @@ export default function UpdateEmployee() {
     securityChequeFile: "",
     emergencyNumber: "",
     guardianNumber: "",
+    guardianCnicFile: "",
   };
 
   const [name, setName] = useState("");
@@ -98,6 +118,23 @@ export default function UpdateEmployee() {
       });*/
   };
 
+  const downloadFile = (temp) => {
+    fetch(
+      "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+        temp,
+      {
+        headers: {
+          "Content-Type": "image/*",
+        },
+      }
+    )
+      .then((response) => response.blob())
+      .then((res) => {
+        // Then create a local URL for that image and print it
+        download(res, temp, "image/*");
+      });
+  };
+
   const loadCompanies = async () => {
     const result = await api.get("/company");
     setCompany(result.data);
@@ -108,14 +145,37 @@ export default function UpdateEmployee() {
     setBranches(result.data);
   };
 
+  const [downloadLinks, setDownloadLinks] = useState(initialDownloadLinks);
+
+  const [SecurityCheckBtnName, setSecurityChequeBtnName] = useState("");
+  const [empLetterBtnName, setEmpLetterBtnName] = useState("");
+  const [guardianCnicBtnName, setGuardianCnicBtnName] = useState("");
+  const [cnicBtnName, setCnicBtnName] = useState("");
+
   const [empLetter, setEmpLetter] = useState();
   const [SecCheque, setSecCheque] = useState();
   const [cnic, setCnic] = useState();
+  const [guardianCnic, setGuardianCnic] = useState();
 
   const [SecChequeColor, setSecChequeColor] = useState("inherit");
   const [empLetterColor, setEmpLetterColor] = useState("inherit");
   const [cnicColor, setCnicColor] = useState("inherit");
+  const [guardianCnicColor, setGuardianCnicColor] = useState("inherit");
 
+  const [diagOpen, setDiagOpen] = React.useState(false);
+
+  const handleDiagClickOpen = () => {
+    setDiagOpen(true);
+  };
+
+  const handleDiagClickClose = () => {
+    setDiagOpen(false);
+  };
+
+  const handleDiagClickAgree = () => {
+    setDiagOpen(false);
+    updateEmployee();
+  };
   const securityChequeChangeHandler = (event) => {
     setSecCheque(event.target.files[0]);
     setSecChequeColor("primary");
@@ -131,6 +191,11 @@ export default function UpdateEmployee() {
     setCnicColor("primary");
   };
 
+  const guardianCnicChangeHandler = (event) => {
+    setGuardianCnic(event.target.files[0]);
+    setGuardianCnicColor("primary");
+    setGuardianCnicBtnName(event.target.files[0].name);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -152,58 +217,57 @@ export default function UpdateEmployee() {
   };
 
   const updateEmployee = async () => {
-    if (cnic == null) {
-      alert("Please Attach cnic");
-    } else if (SecCheque == null) {
-      alert("Please Attach Security Cheque");
-    } else if (empLetter == null) {
-      alert("Please Attach employment Letter");
-    } else {
-      var imagefile = image;
+    var imagefile = image;
 
+    try {
       request.employeeImage = "dp_" + values.cnicnumber;
-
       request.cnicFile = values.cnicnumber + cnic.name;
       request.employmentLetterFile = values.cnicnumber + empLetter.name;
       request.securityChequeFile = values.cnicnumber + SecCheque.name;
+      request.guardianCnicFile = values.cnicnumber + guardianCnic.name;
+    } catch (e) {
+      alert(e);
+    }
 
-      putMultipleFiles(
-        {
-          f: cnic,
-        },
-        {
-          f: empLetter,
-        },
-        {
-          f: SecCheque,
-        }
-      );
-
-      async function putMultipleFiles(...objectsToGet) {
-        await Promise.all(
-          objectsToGet.map((obj) =>
-            axios({
-              method: "put",
-              url:
-                "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
-                values.cnicnumber +
-                obj.f.name,
-              data: obj.f,
-              headers: {
-                "Content-Type": "image/*",
-              },
-            })
-              .then(function (response) {
-                //handle success
-                console.log(response);
-              })
-              .catch(function (response) {
-                //handle error
-                console.log(response);
-              })
-          )
-        );
+    putMultipleFiles(
+      {
+        f: cnic,
+      },
+      {
+        f: empLetter,
+      },
+      {
+        f: SecCheque,
+      },
+      {
+        f: guardianCnic,
       }
+    );
+
+    async function putMultipleFiles(...objectsToGet) {
+      await Promise.all(
+        objectsToGet.map((obj) =>
+          axios({
+            method: "put",
+            url:
+              "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+              values.cnicnumber +
+              obj.f.name,
+            data: obj.f,
+            headers: {
+              "Content-Type": "image/*",
+            },
+          })
+            .then(function (response) {
+              //handle success
+              console.log(response);
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            })
+        )
+      );
 
       axios({
         method: "put",
@@ -245,7 +309,28 @@ export default function UpdateEmployee() {
   return (
     <div>
       <PageHeader label="Employee" pageTitle="Update Employee" />
-      <div Style="padding:10px;">
+
+      <Dialog
+        open={diagOpen}
+        onClose={handleDiagClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Update Employee"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDiagClickClose}>Disagree</Button>
+          <Button onClick={handleDiagClickAgree} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <div Style="padding:10px; display: flex;">
         <input
           accept="image/*"
           className={classes.uploadImage}
@@ -278,6 +363,14 @@ export default function UpdateEmployee() {
           onChange={empLetterChangeHandler}
         />
 
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="guardianCnic"
+          type="file"
+          onChange={guardianCnicChangeHandler}
+        />
+
         <div className={classes.imageUploadDiv}>
           <img alt="" src={imgRef} className={classes.companyCreateImage}></img>
 
@@ -298,23 +391,27 @@ export default function UpdateEmployee() {
           <Button
             variant="contained"
             size="small"
+            Style="margin:5px;     display: block;"
             color={SecChequeColor}
+            className={classes.filesUploadDiv}
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Security Cheque
+            Security Cheque {SecurityCheckBtnName}
           </Button>
         </label>
 
         <label htmlFor="empLetter">
           <Button
             variant="contained"
+            Style="margin:5px;     display: block;"
             size="small"
             color={empLetterColor}
+            className={classes.filesUploadDiv}
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Employment Letter
+            Employment Letter {empLetterBtnName}
           </Button>
         </label>
 
@@ -323,40 +420,118 @@ export default function UpdateEmployee() {
             variant="contained"
             size="small"
             color={cnicColor}
+            className={classes.filesUploadDiv}
+            Style="margin:5px;     display: block;"
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Cnic
+            CNIC {cnicBtnName}
+          </Button>
+        </label>
+
+        <label htmlFor="guardianCnic">
+          <Button
+            variant="contained"
+            size="small"
+            color={guardianCnicColor}
+            className={classes.filesUploadDiv}
+            Style="margin:5px;     display: block;"
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Guardian CNIC {guardianCnicBtnName}
           </Button>
         </label>
       </div>
 
+      <Box>
+        <Button
+          Style="font-size:11px;"
+          startIcon={<CloudDownloadIcon />}
+          onClick={function () {
+            if (values.securityChequeFile != null) {
+              downloadFile(values.securityChequeFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Security Cheque
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.guardianCnicFile != null) {
+              downloadFile(values.guardianCnicFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Guardian CNIC
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.employmentLetterFile != null) {
+              downloadFile(values.employmentLetterFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Employment Letter
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.cnicFile != null) {
+              downloadFile(values.cnicFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Cnic
+        </Button>
+      </Box>
+
       <Paper className={classes.pageContent}>
         <ValidatorForm
-          onSubmit={updateEmployee}
+          onSubmit={handleDiagClickOpen}
           className={classes.formStye}
           onError={(errors) => console.log(errors)}
         >
           <Grid container>
             <Grid item xs={12}></Grid>
             <Grid item xs={6}>
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Fist Name"
                 name="firstName"
                 onChange={handleInputChange}
                 size="small"
                 value={values.firstName}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Last Name"
                 name="lastName"
                 onChange={handleInputChange}
                 size="small"
                 value={values.lastName}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
               <TextValidator
                 label="Email"
@@ -369,7 +544,7 @@ export default function UpdateEmployee() {
                 errorMessages={["this field is required", "email is not valid"]}
               />
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Address"
                 name="address"
@@ -378,11 +553,13 @@ export default function UpdateEmployee() {
                 multiline
                 rows={4}
                 value={values.address}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
               <TextField
                 variant="outlined"
-                label="GuardianName"
+                label="Guardian Name"
                 name="guardianName"
                 onChange={handleInputChange}
                 size="small"
@@ -415,7 +592,7 @@ export default function UpdateEmployee() {
 
               <TextField
                 id="date"
-                label="DateOfBirth"
+                label="Date Of Birth"
                 size="small"
                 variant="outlined"
                 type="date"
@@ -459,7 +636,7 @@ export default function UpdateEmployee() {
                 variant="outlined"
                 className={classes.formControl}
               >
-                <InputLabel id="CompanyID">Company</InputLabel>
+                <InputLabel id="Company ID">Company</InputLabel>
                 <Select
                   name="companyId"
                   value={values.companyId}
@@ -522,7 +699,7 @@ export default function UpdateEmployee() {
                 </RadioGroup>
 
                 <Button type="submit" variant="contained">
-                  Create
+                  UpdateS
                 </Button>
               </FormControl>
             </Grid>
@@ -549,11 +726,14 @@ export default function UpdateEmployee() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
               ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Emergency Number"
                 name="emergencyNumber"
@@ -562,9 +742,14 @@ export default function UpdateEmployee() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.emergencyNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Mobile Number"
                 name="mobileNumber"
@@ -573,9 +758,14 @@ export default function UpdateEmployee() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.mobileNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Guardian Number"
                 type="tel"
@@ -584,7 +774,12 @@ export default function UpdateEmployee() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.guardianNumber}
-              ></TextField>
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
 
               <TextField
                 variant="outlined"
@@ -607,7 +802,7 @@ export default function UpdateEmployee() {
               ></TextField>
               <TextField
                 variant="outlined"
-                label="BankAccountTitle"
+                label="Bank Account Title"
                 name="bankAccountTitle"
                 onChange={handleInputChange}
                 size="small"
@@ -616,7 +811,7 @@ export default function UpdateEmployee() {
 
               <TextField
                 variant="outlined"
-                label="BankAccountNumber"
+                label="Bank Account Number"
                 name="bankAccountNumber"
                 size="small"
                 type="number"
@@ -627,7 +822,7 @@ export default function UpdateEmployee() {
 
               <TextField
                 variant="outlined"
-                label="BankName"
+                label="Bank Name"
                 name="bankName"
                 size="small"
                 onChange={handleInputChange}
@@ -636,7 +831,7 @@ export default function UpdateEmployee() {
 
               <TextField
                 disabled
-                label="EnteredOn"
+                label="Entered On"
                 size="small"
                 variant="outlined"
                 inputFormat="yyyy-MM-dd"
@@ -648,8 +843,9 @@ export default function UpdateEmployee() {
               />
 
               <TextField
+                disabled
                 variant="outlined"
-                label="EnteredBy"
+                label="Entered By"
                 name="enteredBy"
                 size="small"
                 onChange={handleInputChange}

@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Table from "material-table";
 import { Box } from "@mui/system";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import {
   FormControl,
@@ -50,13 +56,15 @@ export default function JobInfo() {
     { title: "EmployeeID", field: "employeeId" },
   ];
 
+  var userData = JSON.parse(localStorage.getItem("user-info"));
+
   const initialFValues = {
     jodInfoId: 0,
     joiningDate: "",
     salary: 0,
     jobType: "",
     expiryDate: "0000-00-00",
-    enteredBy: "",
+    enteredBy: userData.userName,
     enteredOn: date,
     active: "",
     designationId: 0,
@@ -102,6 +110,21 @@ export default function JobInfo() {
   const loadDesignations = async () => {
     const result = await api.get("/designation");
     setDesignations(result.data);
+  };
+
+  const [diagOpen, setDiagOpen] = React.useState(false);
+
+  const handleDiagClickOpen = () => {
+    setDiagOpen(true);
+  };
+
+  const handleDiagClickClose = () => {
+    setDiagOpen(false);
+  };
+
+  const handleDiagClickAgree = () => {
+    setDiagOpen(false);
+    createJobInfo();
   };
 
   const handleInputChange = (e) => {
@@ -157,11 +180,35 @@ export default function JobInfo() {
     <div>
       <PageHeader label="Employee" pageTitle="Job Information" />
 
+      <Dialog
+        open={diagOpen}
+        onClose={handleDiagClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Create Job Info"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDiagClickClose}>Disagree</Button>
+          <Button onClick={handleDiagClickAgree} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Paper className={classes.pageContent}>
-        <form className={classes.formStye}>
+        <ValidatorForm
+          onSubmit={handleDiagClickOpen}
+          className={classes.formStye}
+          onError={(errors) => console.log(errors)}
+        >
           <Grid container>
             <Grid item xs={6}>
-              <TextField
+              <TextValidator
                 label="JoiningDate"
                 size="small"
                 type="date"
@@ -175,6 +222,8 @@ export default function JobInfo() {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
               />
 
               <TextField
@@ -282,7 +331,7 @@ export default function JobInfo() {
                   <Button
                     Style=" width:150px; margin-top:30px; margin:5px;"
                     variant="contained"
-                    onClick={createJobInfo}
+                    type="submit"
                   >
                     Create
                   </Button>
@@ -366,6 +415,7 @@ export default function JobInfo() {
               />
 
               <TextField
+                disabled
                 variant="outlined"
                 label="EnteredBy"
                 name="enteredBy"
@@ -375,7 +425,7 @@ export default function JobInfo() {
               ></TextField>
             </Grid>
           </Grid>
-        </form>
+        </ValidatorForm>
       </Paper>
 
       <Box className={classes.tableLayout}>

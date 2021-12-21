@@ -25,6 +25,8 @@ export default function CreateUser() {
   const classes = useStyles();
   let history = useHistory();
 
+  var userData = JSON.parse(localStorage.getItem("user-info"));
+
   const temp = new Date().toLocaleDateString() + "";
   const date = moment(temp.BeginDate_1).format("YYYY-MM-DD");
 
@@ -37,9 +39,9 @@ export default function CreateUser() {
     branchId: 0,
     companyId: 0,
     userRolesId: 0,
-    enteredBy: "",
+    enteredBy: "" + userData.userName,
     enteredOn: date,
-    active: "",
+    active: "Y",
   };
 
   const [values, setValues] = useState(initialFValues);
@@ -217,7 +219,7 @@ export default function CreateUser() {
 
               <TextField
                 disabled
-                label="EnteredOn"
+                label="Entered On"
                 size="small"
                 variant="outlined"
                 name="enteredOn"
@@ -228,8 +230,9 @@ export default function CreateUser() {
               />
 
               <TextField
+                disabled
                 variant="outlined"
-                label="EnteredBy"
+                label="Entered By"
                 name="enteredBy"
                 size="small"
                 onChange={handleInputChange}

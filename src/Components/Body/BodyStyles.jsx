@@ -35,6 +35,11 @@ export const useStyles = makeStyles((theme) => ({
     width: "fit-content",
   },
 
+  filesUploadDiv: {
+    height: "125px",
+    width: "120px",
+  },
+
   companyCreateImage: {
     width: theme.spacing(15),
     height: theme.spacing(15),

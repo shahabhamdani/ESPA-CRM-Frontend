@@ -57,7 +57,7 @@ export default function CreateEmployeeForm() {
     guardianRelation: "",
     guardianName: "",
     dateOfBirth: "",
-    gender: "",
+    gender: "male",
     mobileNumber: "",
     cnicnumber: "",
     employeeImage: "",
@@ -66,13 +66,20 @@ export default function CreateEmployeeForm() {
     bankAccountNumber: "",
     bankAccountTitle: "",
     bankName: "",
-    active: "",
+    active: "Y",
     cnicFile: "",
     employmentLetterFile: "",
     securityChequeFile: "",
     emergencyNumber: "",
+    guardianCnicFile: "",
     guardianNumber: "",
   };
+
+  const [SecurityCheckBtnName, setSecurityChequeBtnName] = useState("");
+  const [empLetterBtnName, setEmpLetterBtnName] = useState("");
+  const [guardianCnicBtnName, setGuardianCnicBtnName] = useState("");
+
+  const [cnicBtnName, setCnicBtnName] = useState("");
 
   const [file, setFile] = useState([]);
 
@@ -106,10 +113,14 @@ export default function CreateEmployeeForm() {
   };
 
   const [empLetter, setEmpLetter] = useState();
+  const [guardianCnic, setGuardianCnic] = useState();
+
   const [SecCheque, setSecCheque] = useState();
   const [cnic, setCnic] = useState();
 
   const [SecChequeColor, setSecChequeColor] = useState("inherit");
+  const [guardianCnicColor, setGuardianCnicColor] = useState("inherit");
+
   const [empLetterColor, setEmpLetterColor] = useState("inherit");
   const [cnicColor, setCnicColor] = useState("inherit");
 
@@ -118,16 +129,25 @@ export default function CreateEmployeeForm() {
   const securityChequeChangeHandler = (event) => {
     setSecCheque(event.target.files[0]);
     setSecChequeColor("primary");
+    setSecurityChequeBtnName(event.target.files[0].name);
   };
 
   const empLetterChangeHandler = (event) => {
     setEmpLetter(event.target.files[0]);
     setEmpLetterColor("primary");
+    setEmpLetterBtnName(event.target.files[0].name);
+  };
+
+  const guardianCnicChangeHandler = (event) => {
+    setGuardianCnic(event.target.files[0]);
+    setGuardianCnicColor("primary");
+    setGuardianCnicBtnName(event.target.files[0].name);
   };
 
   const cnicChangeHandler = (event) => {
     setCnic(event.target.files[0]);
     setCnicColor("primary");
+    setCnicBtnName(event.target.files[0].name);
   };
 
   const handleInputChange = (e) => {
@@ -152,93 +172,110 @@ export default function CreateEmployeeForm() {
 
   const createEmployee = async () => {
     //var formData = new FormData();
-    var imagefile = file;
 
-    request.employeeImage = "dp_" + values.cnicnumber;
-    request.cnicFile = values.cnicnumber + cnic.name;
-    request.employmentLetterFile = values.cnicnumber + empLetter.name;
-    request.securityChequeFile = values.cnicnumber + SecCheque.name;
+    if (cnic == null) {
+      alert("Please Attach Cnic");
+    } else if (SecCheque == null) {
+      alert("Please Attach Security Cheque");
+    } else if (empLetter == null) {
+      alert("Please Attach Employment Letter");
+    } else if (guardianCnic == null) {
+      alert("Please Attach Guardian CNIC");
+    } else {
+      var imagefile = file;
 
-    // formData.append("files", imagefile);
-    //formData.append("id", "" + values.cnicnumber);
-    /*
+      request.employeeImage = "dp_" + values.cnicnumber;
+      request.cnicFile = values.cnicnumber + cnic.name;
+      request.employmentLetterFile = values.cnicnumber + empLetter.name;
+      request.securityChequeFile = values.cnicnumber + SecCheque.name;
+      request.guardianCnicFile = values.cnicnumber + guardianCnic.name;
+
+      // formData.append("files", imagefile);
+      //formData.append("id", "" + values.cnicnumber);
+      /*
     api.post("/imageupload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });*/
 
-    putMultipleFiles(
-      {
-        f: cnic,
-      },
-      {
-        f: empLetter,
-      },
-      {
-        f: SecCheque,
-      }
-    );
-
-    async function putMultipleFiles(...objectsToGet) {
-      await Promise.all(
-        objectsToGet.map((obj) =>
-          axios({
-            method: "put",
-            url:
-              "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
-              values.cnicnumber +
-              obj.f.name,
-            data: obj.f,
-            headers: {
-              "Content-Type": "image/*",
-            },
-          })
-            .then(function (response) {
-              //handle success
-              console.log(response);
-            })
-            .catch(function (response) {
-              //handle error
-              console.log(response);
-            })
-        )
+      putMultipleFiles(
+        {
+          f: cnic,
+        },
+        {
+          f: empLetter,
+        },
+        {
+          f: SecCheque,
+        },
+        {
+          f: guardianCnic,
+        }
       );
+
+      async function putMultipleFiles(...objectsToGet) {
+        await Promise.all(
+          objectsToGet.map((obj) =>
+            axios({
+              method: "put",
+              url:
+                "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+                values.cnicnumber +
+                obj.f.name,
+              data: obj.f,
+              headers: {
+                "Content-Type": "image/*",
+              },
+            })
+              .then(function (response) {
+                //handle success
+                console.log(response);
+              })
+              .catch(function (response) {
+                //handle error
+                console.log(response);
+              })
+          )
+        );
+      }
+
+      if (imagefile != null) {
+        axios({
+          method: "put",
+          url:
+            "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
+            values.cnicnumber,
+          data: imagefile,
+          headers: {
+            "Content-Type": "image/*",
+          },
+        })
+          .then(function (response) {
+            //handle success
+            console.log(response);
+          })
+          .catch(function (response) {
+            //handle error
+            console.log(response);
+          });
+      }
+
+      request.dateOfBirth = moment(request.dateOfBirth.BeginDate_1).format(
+        "YYYY-MM-DD"
+      );
+      const response = await api
+        .post("/employee", request)
+
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+
+      history.push("/employee");
     }
-
-    axios({
-      method: "put",
-      url:
-        "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/dp_" +
-        values.cnicnumber,
-      data: imagefile,
-      headers: {
-        "Content-Type": "image/*",
-      },
-    })
-      .then(function (response) {
-        //handle success
-        console.log(response);
-      })
-      .catch(function (response) {
-        //handle error
-        console.log(response);
-      });
-
-    request.dateOfBirth = moment(request.dateOfBirth.BeginDate_1).format(
-      "YYYY-MM-DD"
-    );
-    const response = await api
-      .post("/employee", request)
-
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-
-    history.push("/employee");
   };
 
   useEffect(() => {
@@ -270,7 +307,7 @@ export default function CreateEmployeeForm() {
         </DialogActions>
       </Dialog>
 
-      <div Style="padding:10px;">
+      <div Style="padding:10px; display: flex;">
         <input
           accept="image/*"
           className={classes.uploadImage}
@@ -303,6 +340,14 @@ export default function CreateEmployeeForm() {
           onChange={empLetterChangeHandler}
         />
 
+        <input
+          accept="file/*"
+          className={classes.uploadImage}
+          id="guardianCnic"
+          type="file"
+          onChange={guardianCnicChangeHandler}
+        />
+
         <div className={classes.imageUploadDiv}>
           <img alt="" src={imgRef} className={classes.companyCreateImage}></img>
 
@@ -323,23 +368,27 @@ export default function CreateEmployeeForm() {
           <Button
             variant="contained"
             size="small"
+            Style="margin:5px;     display: block;"
             color={SecChequeColor}
+            className={classes.filesUploadDiv}
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Security Cheque
+            Security Cheque {SecurityCheckBtnName}
           </Button>
         </label>
 
         <label htmlFor="empLetter">
           <Button
             variant="contained"
+            Style="margin:5px;     display: block;"
             size="small"
             color={empLetterColor}
+            className={classes.filesUploadDiv}
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Employment Letter
+            Employment Letter {empLetterBtnName}
           </Button>
         </label>
 
@@ -348,10 +397,26 @@ export default function CreateEmployeeForm() {
             variant="contained"
             size="small"
             color={cnicColor}
+            className={classes.filesUploadDiv}
+            Style="margin:5px;     display: block;"
             startIcon={<CloudUploadIcon />}
             component="span"
           >
-            Cnic
+            CNIC {cnicBtnName}
+          </Button>
+        </label>
+
+        <label htmlFor="guardianCnic">
+          <Button
+            variant="contained"
+            size="small"
+            color={guardianCnicColor}
+            className={classes.filesUploadDiv}
+            Style="margin:5px;     display: block;"
+            startIcon={<CloudUploadIcon />}
+            component="span"
+          >
+            Guardian CNIC {guardianCnicBtnName}
           </Button>
         </label>
       </div>
@@ -365,23 +430,27 @@ export default function CreateEmployeeForm() {
           <Grid container>
             <Grid item xs={12}></Grid>
             <Grid item xs={6}>
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Fist Name"
                 name="firstName"
                 onChange={handleInputChange}
                 size="small"
                 value={values.firstName}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Last Name"
                 name="lastName"
                 onChange={handleInputChange}
                 size="small"
                 value={values.lastName}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
               <TextValidator
                 label="Email"
@@ -394,7 +463,7 @@ export default function CreateEmployeeForm() {
                 errorMessages={["this field is required", "email is not valid"]}
               />
 
-              <TextField
+              <TextValidator
                 variant="outlined"
                 label="Address"
                 name="address"
@@ -403,11 +472,13 @@ export default function CreateEmployeeForm() {
                 multiline
                 rows={4}
                 value={values.address}
-              ></TextField>
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              ></TextValidator>
 
               <TextField
                 variant="outlined"
-                label="GuardianName"
+                label="Guardian Name"
                 name="guardianName"
                 onChange={handleInputChange}
                 size="small"
@@ -440,7 +511,7 @@ export default function CreateEmployeeForm() {
 
               <TextField
                 id="date"
-                label="DateOfBirth"
+                label="Date Of Birth"
                 size="small"
                 variant="outlined"
                 type="date"
@@ -650,7 +721,7 @@ export default function CreateEmployeeForm() {
               ></TextField>
               <TextField
                 variant="outlined"
-                label="BankAccountTitle"
+                label="Bank Account Title"
                 name="bankAccountTitle"
                 onChange={handleInputChange}
                 size="small"
@@ -659,7 +730,7 @@ export default function CreateEmployeeForm() {
 
               <TextField
                 variant="outlined"
-                label="BankAccountNumber"
+                label="Bank Account Number"
                 name="bankAccountNumber"
                 size="small"
                 type="number"
@@ -670,7 +741,7 @@ export default function CreateEmployeeForm() {
 
               <TextField
                 variant="outlined"
-                label="BankName"
+                label="Bank Name"
                 name="bankName"
                 size="small"
                 onChange={handleInputChange}
@@ -679,7 +750,7 @@ export default function CreateEmployeeForm() {
 
               <TextField
                 disabled
-                label="EnteredOn"
+                label="Entered On"
                 size="small"
                 variant="outlined"
                 inputFormat="yyyy-MM-dd"
@@ -693,7 +764,7 @@ export default function CreateEmployeeForm() {
               <TextField
                 disabled
                 variant="outlined"
-                label="EnteredBy"
+                label="Entered By"
                 name="enteredBy"
                 size="small"
                 onChange={handleInputChange}

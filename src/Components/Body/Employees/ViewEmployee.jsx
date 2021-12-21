@@ -3,37 +3,43 @@ import { Link, useParams } from "react-router-dom";
 import api from "../../Api/Api";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Button from "@mui/material/Button";
-import { IconButton, List, ListItem } from "@material-ui/core";
+import { Grid, IconButton, List, ListItem } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { PageHeader } from "../../Common/CommonComponent";
+import { Box } from "@mui/system";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import download from "downloadjs";
 
 const initialFValues = {
   employeeId: "",
   firstName: "",
   lastName: "",
   email: "",
-  address: "",
-  employeeImage: "",
-  guardianName: "",
-  guardianRelation: "",
-  gender: "",
-  cnicnumber: "",
-  geoLocation:"",
-  dateOfBirth: "",
   phoneNumber: "",
+  companyId: 1,
+  branchId: 1,
+  enteredBy: "",
+  enteredOn: "",
+  address: "",
+  guardianRelation: "",
+  guardianName: "",
+  dateOfBirth: "",
+  gender: "male",
+  mobileNumber: "",
+  cnicnumber: "",
+  employeeImage: "",
   employeeCode: "",
-  companyId: "",
-  branchId: "",
+  employeeNtn: "",
   bankAccountNumber: "",
-  customerSupport:"",
-  landLineNumber:"",
-  employeeNtn:"",
-  whatsappNumber:"",
   bankAccountTitle: "",
   bankName: "",
-  active: "",
-  enteredBy: "",
-  enteredOn: "" 
+  active: "Y",
+  cnicFile: "",
+  employmentLetterFile: "",
+  securityChequeFile: "",
+  emergencyNumber: "",
+  guardianCnicFile: "",
+  guardianNumber: "",
 };
 
 export default function ViewEmployee() {
@@ -49,6 +55,23 @@ export default function ViewEmployee() {
     loadEmployee();
   }, []);
 
+  const downloadFile = (temp) => {
+    fetch(
+      "https://ozurb6ve12.execute-api.ap-south-1.amazonaws.com/dev/espa-crm-files/" +
+        temp,
+      {
+        headers: {
+          "Content-Type": "image/*",
+        },
+      }
+    )
+      .then((response) => response.blob())
+      .then((res) => {
+        // Then create a local URL for that image and print it
+        download(res, temp, "image/*");
+      });
+  };
+
   return (
     <div>
       <div>
@@ -56,51 +79,105 @@ export default function ViewEmployee() {
           <ArrowBackIosIcon fontSize="small" />{" "}
         </IconButton>
         <h1>Employee ID: {values.employeeId}</h1>
+        <Button
+          Style="font-size:11px;"
+          startIcon={<CloudDownloadIcon />}
+          onClick={function () {
+            if (values.securityChequeFile != null) {
+              downloadFile(values.securityChequeFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Security Cheque
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.guardianCnicFile != null) {
+              downloadFile(values.guardianCnicFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Guardian CNIC
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.employmentLetterFile != null) {
+              downloadFile(values.employmentLetterFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Employment Letter
+        </Button>
+
+        <Button
+          startIcon={<CloudDownloadIcon />}
+          Style="font-size:11px;"
+          onClick={function () {
+            if (values.cnicFile != null) {
+              downloadFile(values.cnicFile);
+            } else {
+              alert("No Content");
+            }
+          }}
+        >
+          Cnic
+        </Button>
         <List>
-          <ListItem divider="true"> FirstName: {values.firstName}</ListItem>
-          <ListItem divider="true"> LastName : {values.lastName}</ListItem>
-          <ListItem divider="true"> Email : {values.email}</ListItem>
-          <ListItem divider="true"> Address : {values.address}</ListItem>
-          <ListItem divider="true">
-            {" "}
-            GuardianName : {values.guardianName}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            GuardianRelation : {values.guardianRelation}
-          </ListItem>
-          <ListItem divider="true"> Gender : {values.gender}</ListItem>
-          <ListItem divider="true"> CNICNumber : {values.cnicnumber}</ListItem>
-          <ListItem divider="true">
-            {" "}
-            DateOfBirth : {values.dateOfBirth}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            PhoneNumber : {values.phoneNumber}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            EmployeeCode : {values.employeeCode}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            EmployeeNTN : {values.employeeNtn}
-          </ListItem>
-          <ListItem divider="true"> CompanyID : {values.companyId}</ListItem>
-          <ListItem divider="true"> BranchID : {values.branchId}</ListItem>
-          <ListItem divider="true">
-            {" "}
-            BankAccountNumber: {values.bankAccountNumber}
-          </ListItem>
-          <ListItem divider="true">
-            {" "}
-            BankAccountTitle: {values.bankAccountTitle}
-          </ListItem>
-          <ListItem divider="true"> BankName: {values.bankName}</ListItem>
-          <ListItem divider="true"> Active: {values.active}</ListItem>
-          <ListItem divider="true"> EnteredBy: {values.enteredBy}</ListItem>
-          <ListItem divider="true">EnteredOn: {values.enteredOn}</ListItem>
+          <Grid container>
+            <Grid item xs={6}>
+              <ListItem> First Name: {values.firstName}</ListItem>
+              <ListItem> Last Name : {values.lastName}</ListItem>
+              <ListItem> Email : {values.email}</ListItem>
+              <ListItem> Address : {values.address}</ListItem>
+              <ListItem> Guardian Name : {values.guardianName}</ListItem>
+              <ListItem>
+                {" "}
+                Guardian Relation : {values.guardianRelation}
+              </ListItem>
+              <ListItem> Gender : {values.gender}</ListItem>
+              <ListItem> CNIC Number : {values.cnicnumber}</ListItem>
+              <ListItem> Date Of Birth : {values.dateOfBirth}</ListItem>
+              <ListItem> Phone Number : {values.phoneNumber}</ListItem>
+              <ListItem> Mobile Number : {values.mobileNumber}</ListItem>
+              <ListItem> Guardian Number : {values.guardianNumber}</ListItem>
+            </Grid>
+
+            <Grid item xs={6}>
+              <ListItem> Emergency Number : {values.emergencyNumber}</ListItem>
+
+              <ListItem> Employee NTN : {values.employeeNtn}</ListItem>
+              <ListItem> Employee Code : {values.employeeCode}</ListItem>
+
+              <ListItem> Company ID : {values.companyId}</ListItem>
+              <ListItem> Branch ID : {values.branchId}</ListItem>
+              <ListItem>
+                {" "}
+                BankAccount Number: {values.bankAccountNumber}
+              </ListItem>
+              <ListItem>
+                {" "}
+                Bank Account Title: {values.bankAccountTitle}
+              </ListItem>
+              <ListItem> Bank Name: {values.bankName}</ListItem>
+              <ListItem> Active: {values.active}</ListItem>
+              <ListItem> Entered By: {values.enteredBy}</ListItem>
+              <ListItem>Entered On: {values.enteredOn}</ListItem>
+
+              <Box></Box>
+            </Grid>
+          </Grid>
         </List>
       </div>{" "}
     </div>
