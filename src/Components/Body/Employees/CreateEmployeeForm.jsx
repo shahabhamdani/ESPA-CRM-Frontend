@@ -48,6 +48,7 @@ export default function CreateEmployeeForm() {
     firstName: "",
     lastName: "",
     email: "",
+    officialEmail: "",
     phoneNumber: "",
     companyId: 1,
     branchId: 1,
@@ -458,6 +459,17 @@ export default function CreateEmployeeForm() {
                 onChange={handleInputChange}
                 name="email"
                 value={values.email}
+                size="small"
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
+              />
+
+              <TextValidator
+                label="Official Email"
+                variant="outlined"
+                onChange={handleInputChange}
+                name="officialEmail"
+                value={values.officialEmail}
                 size="small"
                 validators={["required", "isEmail"]}
                 errorMessages={["this field is required", "email is not valid"]}
