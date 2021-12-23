@@ -63,7 +63,7 @@ export default function JobInfo() {
     joiningDate: "",
     salary: 0,
     jobType: "",
-    expiryDate: "0000-00-00",
+    expiryDate: "",
     enteredBy: userData.userName,
     enteredOn: date,
     active: "",
@@ -149,9 +149,13 @@ export default function JobInfo() {
     request.joiningDate = moment(request.joiningDate.BeginDate_1).format(
       "YYYY-MM-DD"
     );
-    request.expiryDate = moment(request.expiryDate.BeginDate_1).format(
-      "YYYY-MM-DD"
-    );
+
+    if (request.active == "N") {
+      request.expiryDate = moment(request.expiryDate.BeginDate_1).format(
+        "YYYY-MM-DD"
+      );
+    }
+
     request.enteredOn = moment(request.enteredOn.BeginDate_1).format(
       "YYYY-MM-DD"
     );

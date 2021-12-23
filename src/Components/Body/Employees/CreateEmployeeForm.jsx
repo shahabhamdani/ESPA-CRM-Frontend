@@ -432,7 +432,7 @@ export default function CreateEmployeeForm() {
             <Grid item xs={6}>
               <TextValidator
                 variant="outlined"
-                label="Fist Name"
+                label="First Name"
                 name="firstName"
                 onChange={handleInputChange}
                 size="small"
@@ -537,13 +537,13 @@ export default function CreateEmployeeForm() {
                   value={values.gender}
                 >
                   <FormControlLabel
-                    value="male"
+                    value="Male"
                     control={<Radio />}
                     label="Male"
                     Active
                   />
                   <FormControlLabel
-                    value="female"
+                    value="Female"
                     control={<Radio />}
                     label="Female"
                   />
