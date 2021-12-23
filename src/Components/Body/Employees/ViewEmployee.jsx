@@ -9,6 +9,20 @@ import { PageHeader } from "../../Common/CommonComponent";
 import { Box } from "@mui/system";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import download from "downloadjs";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: "absolute",
+    height: "80%",
+    width: "96%",
+
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(0, 0, 0),
+  },
+}));
 
 const initialFValues = {
   employeeId: "",
@@ -43,8 +57,35 @@ const initialFValues = {
 };
 
 export default function ViewEmployee() {
+  const classes = useStyles();
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  function getModalStyle() {
+    const top = 13;
+    const left = 14;
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const [modalStyle] = React.useState(getModalStyle);
+
   let history = useHistory();
   const [values, setValues] = useState(initialFValues);
+
+  const [pdfFile, setPdfFile] = useState();
+  const [text, setText] = useState();
 
   const loadEmployee = async () => {
     const result = await api.get("/employee/" + id);
@@ -61,19 +102,40 @@ export default function ViewEmployee() {
         temp,
       {
         headers: {
-          "Content-Type": "image/*",
+          "Content-Type": "image/pdf",
         },
       }
     )
       .then((response) => response.blob())
       .then((res) => {
         // Then create a local URL for that image and print it
-        download(res, temp, "image/*");
+        //download(res, temp, "image/*");
+
+        var file = new Blob([res], { type: "application/pdf" });
+        var fileURL = URL.createObjectURL(file);
+        setPdfFile(fileURL);
+
+        handleOpen();
       });
   };
 
   return (
     <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <embed
+            src={pdfFile}
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          />
+        </div>
+      </Modal>
       <div>
         <IconButton onClick={() => history.push("/employee")}>
           <ArrowBackIosIcon fontSize="small" />{" "}
