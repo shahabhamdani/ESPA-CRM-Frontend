@@ -53,6 +53,8 @@ export default function UpdateEmployee() {
     employeeId: "" + { id },
     firstName: "",
     lastName: "",
+    officialEmail: "",
+
     email: "",
     phoneNumber: "",
     companyId: 0,
@@ -558,6 +560,17 @@ export default function UpdateEmployee() {
               />
 
               <TextValidator
+                label="Official Email"
+                variant="outlined"
+                onChange={handleInputChange}
+                name="officialEmail"
+                value={values.officialEmail}
+                size="small"
+                validators={["required", "isEmail"]}
+                errorMessages={["this field is required", "email is not valid"]}
+              />
+
+              <TextValidator
                 variant="outlined"
                 label="Address"
                 name="address"
@@ -631,13 +644,13 @@ export default function UpdateEmployee() {
                   value={values.gender}
                 >
                   <FormControlLabel
-                    value="male"
+                    value="Male"
                     control={<Radio />}
                     label="Male"
                     Active
                   />
                   <FormControlLabel
-                    value="female"
+                    value="Female"
                     control={<Radio />}
                     label="Female"
                   />
@@ -729,16 +742,31 @@ export default function UpdateEmployee() {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               />
-
               <TextValidator
                 variant="outlined"
-                label="Phone Number"
+                label="Primary Mobile Number"
                 name="phoneNumber"
                 type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
+
+              <TextValidator
+                variant="outlined"
+                label="Secondary Mobile Number"
+                name="mobileNumber"
+                type="tel"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.mobileNumber}
                 validators={["required", "isNumber"]}
                 errorMessages={[
                   "this field is required",
@@ -764,22 +792,6 @@ export default function UpdateEmployee() {
 
               <TextValidator
                 variant="outlined"
-                label="Mobile Number"
-                name="mobileNumber"
-                type="tel"
-                size="small"
-                inputProps={{ maxLength: 11 }}
-                onChange={handleInputChange}
-                value={values.mobileNumber}
-                validators={["required", "isNumber"]}
-                errorMessages={[
-                  "this field is required",
-                  "number is not valid",
-                ]}
-              ></TextValidator>
-
-              <TextValidator
-                variant="outlined"
                 label="Guardian Number"
                 type="tel"
                 name="guardianNumber"
@@ -793,7 +805,6 @@ export default function UpdateEmployee() {
                   "number is not valid",
                 ]}
               ></TextValidator>
-
               <TextField
                 variant="outlined"
                 label="Employee Code"

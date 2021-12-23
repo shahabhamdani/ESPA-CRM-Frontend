@@ -650,13 +650,29 @@ export default function CreateEmployeeForm() {
 
               <TextValidator
                 variant="outlined"
-                label="Phone Number"
+                label="Primary Mobile Number"
                 name="phoneNumber"
                 type="tel"
                 size="small"
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.phoneNumber}
+                validators={["required", "isNumber"]}
+                errorMessages={[
+                  "this field is required",
+                  "number is not valid",
+                ]}
+              ></TextValidator>
+
+              <TextValidator
+                variant="outlined"
+                label="Secondary Mobile Number"
+                name="mobileNumber"
+                type="tel"
+                size="small"
+                inputProps={{ maxLength: 11 }}
+                onChange={handleInputChange}
+                value={values.mobileNumber}
                 validators={["required", "isNumber"]}
                 errorMessages={[
                   "this field is required",
@@ -673,22 +689,6 @@ export default function CreateEmployeeForm() {
                 inputProps={{ maxLength: 11 }}
                 onChange={handleInputChange}
                 value={values.emergencyNumber}
-                validators={["required", "isNumber"]}
-                errorMessages={[
-                  "this field is required",
-                  "number is not valid",
-                ]}
-              ></TextValidator>
-
-              <TextValidator
-                variant="outlined"
-                label="Mobile Number"
-                name="mobileNumber"
-                type="tel"
-                size="small"
-                inputProps={{ maxLength: 11 }}
-                onChange={handleInputChange}
-                value={values.mobileNumber}
                 validators={["required", "isNumber"]}
                 errorMessages={[
                   "this field is required",
