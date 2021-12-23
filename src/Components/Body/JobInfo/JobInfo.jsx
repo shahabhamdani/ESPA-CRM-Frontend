@@ -91,6 +91,9 @@ export default function JobInfo() {
   const loadSingleJobInfo = async (id) => {
     const result = await api.get("/jobInfo/" + id);
     setValues(result.data);
+
+    values.joiningDate = moment(result.data.joiningDate).format("YYYY-MM-DD");
+    alert(values.joiningDate);
   };
 
   const loadCompanies = async () => {
@@ -217,12 +220,12 @@ export default function JobInfo() {
                 size="small"
                 type="date"
                 variant="outlined"
+                name="joiningDate"
                 InputProps={{
                   inputProps: { min: "", max: date },
                 }}
-                name="joiningDate"
                 onChange={handleInputChange}
-                value={values.joiningDate}
+                value={moment(values.joiningDate).format("YYYY-MM-DD")}
                 InputLabelProps={{
                   shrink: true,
                 }}

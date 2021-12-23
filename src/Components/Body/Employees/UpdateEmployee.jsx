@@ -625,7 +625,7 @@ export default function UpdateEmployee() {
                 inputFormat="yyyy-MM-dd"
                 name="dateOfBirth"
                 format="YYYY-MM-DD"
-                defaultValue={values.dateOfBirth}
+                value={moment(values.dateOfBirth).format("YYYY-MM-DD")}
                 InputProps={{
                   inputProps: { min: "", max: date },
                 }}

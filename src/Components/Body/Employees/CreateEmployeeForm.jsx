@@ -58,7 +58,7 @@ export default function CreateEmployeeForm() {
     guardianRelation: "",
     guardianName: "",
     dateOfBirth: "",
-    gender: "male",
+    gender: "Male",
     mobileNumber: "",
     cnicnumber: "",
     employeeImage: "",
