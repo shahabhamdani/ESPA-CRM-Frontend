@@ -40,6 +40,16 @@ export const useStyles = makeStyles((theme) => ({
     width: "120px",
   },
 
+  paper: {
+    position: "absolute",
+    height: "80%",
+    width: "96%",
+
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(0, 0, 0),
+  },
+
   companyCreateImage: {
     width: theme.spacing(15),
     height: theme.spacing(15),

@@ -34,6 +34,9 @@ import api from "../../Api/Api";
 import { Box } from "@mui/system";
 import * as moment from "moment";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+
 export default function UpdateEmployee() {
   const classes = useStyles();
   let history = useHistory();
@@ -83,6 +86,30 @@ export default function UpdateEmployee() {
     guardianCnicFile: "",
   };
 
+  const [pdfFile, setPdfFile] = useState();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  function getModalStyle() {
+    const top = 13;
+    const left = 14;
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const [modalStyle] = React.useState(getModalStyle);
+
   const [name, setName] = useState("");
   const [image, setImage] = useState();
 
@@ -126,15 +153,20 @@ export default function UpdateEmployee() {
         temp,
       {
         headers: {
-          "Content-Type": "image/*",
+          "Content-Type": "image/pdf",
         },
       }
     )
       .then((response) => response.blob())
       .then((res) => {
         // Then create a local URL for that image and print it
+        //download(res, temp, "image/*");
 
-        download(res, temp, "image/*");
+        var file = new Blob([res], { type: "application/pdf" });
+        var fileURL = URL.createObjectURL(file);
+        setPdfFile(fileURL);
+
+        handleOpen();
       });
   };
 
@@ -324,6 +356,22 @@ export default function UpdateEmployee() {
   return (
     <div>
       <PageHeader label="Employee" pageTitle="Update Employee" />
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <embed
+            src={pdfFile}
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          />
+        </div>
+      </Modal>
 
       <Dialog
         open={diagOpen}
